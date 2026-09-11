@@ -4,21 +4,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * OMNIEL design system.
- * Glass, light, depth, air. Dark-first, luxury technology.
- * All colors in oklch. Never hardcode colors in components.
- */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -38,282 +29,118 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-
   --color-surface: var(--surface);
   --color-surface-strong: var(--surface-strong);
   --color-hairline: var(--hairline);
   --color-ion: var(--ion);
   --color-ember: var(--ember);
-
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-
   --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-
-  /* Nothing loops forever except the hero meridian, which is brand motion
-     (DESIGN.md, "Motion"). `drift` and `sheen` used to run permanently behind
-     content, costing battery and attention in exchange for nothing the
-     visitor could act on. */
-  --animate-rise: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 :root {
-  --radius: 0.875rem;
-
-  --background: oklch(0.145 0.012 260);
-  --foreground: oklch(0.965 0.004 250);
-  --card: oklch(0.19 0.014 260);
-  --card-foreground: oklch(0.965 0.004 250);
-  --popover: oklch(0.185 0.014 260);
-  --popover-foreground: oklch(0.965 0.004 250);
-  --primary: oklch(0.93 0.02 230);
-  --primary-foreground: oklch(0.17 0.014 260);
-  --secondary: oklch(0.26 0.016 260);
-  --secondary-foreground: oklch(0.95 0.004 250);
-  --muted: oklch(0.24 0.014 260);
-  --muted-foreground: oklch(0.72 0.014 255);
-  --accent: oklch(0.78 0.09 215);
-  --accent-foreground: oklch(0.16 0.014 260);
-  --destructive: oklch(0.62 0.19 25);
-  --destructive-foreground: oklch(0.97 0.004 250);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.78 0.09 215 / 60%);
-
-  /* The OMNIEL environment.
-     ------------------------------------------------------------------
-     Not a landscape and not a lavender dusk -- both of those belonged to the
-     reference material, not to this company. This is OMNIEL's own near-black,
-     opened up into depth: the base colour at altitude, lifting very slightly
-     toward the horizon, with a single restrained `ion` light low in the frame.
-
-     One accent, one light source, no second hue. The depth comes from value
-     and scale rather than from colour, which is what keeps it quiet enough to
-     sit behind body copy on every page of the site. */
-  --env-high: oklch(0.145 0.012 260);
-  --env-mid: oklch(0.175 0.015 253);
-  --env-low: oklch(0.215 0.021 243);
-  --env-horizon: oklch(0.27 0.032 232);
-  --env-glow: oklch(0.72 0.075 210 / 20%);
-  --ridge-far: oklch(0.23 0.022 243);
-  --ridge-mid: oklch(0.185 0.017 250);
-  --ridge-near: oklch(0.155 0.013 257);
-  --haze: oklch(0.5 0.04 225 / 14%);
-
-  --surface: oklch(1 0 0 / 4%);
-  --surface-strong: oklch(1 0 0 / 8%);
-  --hairline: oklch(1 0 0 / 12%);
-  --ion: oklch(0.82 0.1 205);
-  --ember: oklch(0.84 0.08 78);
-
-  --chart-1: oklch(0.78 0.09 215);
-  --chart-2: oklch(0.84 0.08 78);
-  --chart-3: oklch(0.7 0.07 300);
-  --chart-4: oklch(0.8 0.06 160);
-  --chart-5: oklch(0.6 0.02 260);
-
-  --sidebar: oklch(0.17 0.014 260);
-  --sidebar-foreground: oklch(0.95 0.004 250);
-  --sidebar-primary: oklch(0.78 0.09 215);
-  --sidebar-primary-foreground: oklch(0.16 0.014 260);
-  --sidebar-accent: oklch(0.24 0.014 260);
-  --sidebar-accent-foreground: oklch(0.95 0.004 250);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.78 0.09 215 / 50%);
-
-  --gradient-aurora: radial-gradient(
-      120% 90% at 50% -10%,
-      color-mix(in oklab, var(--ion) 22%, transparent),
-      transparent 60%
-    ),
-    radial-gradient(
-      80% 70% at 85% 20%,
-      color-mix(in oklab, var(--ember) 10%, transparent),
-      transparent 70%
-    );
-  --gradient-glass: linear-gradient(
-    145deg,
-    oklch(1 0 0 / 9%),
-    oklch(1 0 0 / 2%) 45%,
-    oklch(1 0 0 / 5%)
-  );
-  /* Motion scale. Components reference these rather than inlining their own
-     durations, so the whole site accelerates and decelerates together. */
+  --radius: 0.35rem;
+  --background: oklch(0.16 0.018 165);
+  --foreground: oklch(0.94 0.018 120);
+  --card: oklch(0.205 0.026 155);
+  --card-foreground: oklch(0.94 0.018 120);
+  --popover: oklch(0.205 0.026 155);
+  --popover-foreground: oklch(0.94 0.018 120);
+  --primary: oklch(0.92 0.025 120);
+  --primary-foreground: oklch(0.16 0.018 165);
+  --secondary: oklch(0.27 0.035 155);
+  --secondary-foreground: oklch(0.92 0.025 120);
+  --muted: oklch(0.24 0.03 155);
+  --muted-foreground: oklch(0.73 0.035 125);
+  --accent: oklch(0.73 0.09 125);
+  --accent-foreground: oklch(0.16 0.018 165);
+  --destructive: oklch(0.63 0.18 28);
+  --destructive-foreground: oklch(0.96 0.015 120);
+  --border: oklch(0.93 0.02 120 / 14%);
+  --input: oklch(0.93 0.02 120 / 18%);
+  --ring: oklch(0.73 0.09 125 / 70%);
+  --surface: oklch(0.205 0.026 155);
+  --surface-strong: oklch(0.245 0.035 155);
+  --hairline: oklch(0.93 0.02 120 / 12%);
+  --ion: oklch(0.73 0.09 125);
+  --ember: oklch(0.76 0.08 78);
   --motion-fast: 150ms;
   --motion-base: 300ms;
-  --motion-slow: 600ms;
+  --motion-slow: 700ms;
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-
-  --shadow-float: 0 30px 90px -40px oklch(0 0 0 / 85%);
-  --shadow-lift: 0 1px 0 0 oklch(1 0 0 / 8%) inset, 0 20px 60px -35px oklch(0 0 0 / 90%);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Light surface used by inverted sections (kept minimal and intentional). */
-.lux-light {
-  --background: oklch(0.975 0.003 250);
-  --foreground: oklch(0.19 0.014 260);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.19 0.014 260);
-  --muted: oklch(0.94 0.004 250);
-  --muted-foreground: oklch(0.45 0.012 258);
-  --border: oklch(0.2 0.01 260 / 12%);
-  --surface: oklch(0.2 0.01 260 / 4%);
-  --surface-strong: oklch(0.2 0.01 260 / 7%);
-  --hairline: oklch(0.2 0.01 260 / 12%);
-  --gradient-glass: linear-gradient(
-    145deg,
-    oklch(1 0 0 / 80%),
-    oklch(1 0 0 / 40%) 45%,
-    oklch(1 0 0 / 65%)
-  );
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 18px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* The only ambient loop on the site: the ground haze, slow enough to read as
-   air moving rather than as an animation. */
-@keyframes haze-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translate3d(-2%, -1.5%, 0);
-    opacity: 1;
-  }
-}
-
-/* Translucency is justified only where content actually scrolls behind an
-   element -- in practice, the fixed navigation. Every other former use was
-   texture, and each backdrop-filter forces its own compositing layer. Raised
-   content uses `panel` instead. */
-@utility glass {
-  background: var(--gradient-glass);
-  border: 1px solid var(--hairline);
-  backdrop-filter: blur(22px) saturate(150%);
-  box-shadow: var(--shadow-lift);
-}
-
-/* Raised content: solid, cheap, and legible over any background. */
-@utility panel {
-  background: var(--surface);
-  border: 1px solid var(--hairline);
-}
-
-@utility panel-strong {
-  background: var(--surface-strong);
-  border: 1px solid var(--hairline);
-}
-
-@utility aurora {
-  background-image: var(--gradient-aurora);
-}
-
-@utility text-balance-tight {
-  text-wrap: balance;
-  letter-spacing: -0.03em;
-}
-
-@utility hairline-t {
-  border-top: 1px solid var(--hairline);
 }
 
 @utility shell {
   width: 100%;
-  max-width: 84rem;
+  max-width: 88rem;
   margin-inline: auto;
   padding-inline: 1.25rem;
-  @media (min-width: 768px) {
-    padding-inline: 2rem;
-  }
+  @media (min-width: 768px) { padding-inline: 2.5rem; }
+  @media (min-width: 1280px) { padding-inline: 4rem; }
 }
 
 @utility eyebrow {
+  color: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.22em;
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  line-height: 1.4;
   text-transform: uppercase;
-  color: var(--muted-foreground);
+}
+
+@utility panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+}
+
+@utility panel-strong {
+  background: var(--color-surface-strong);
+  border: 1px solid var(--color-hairline);
+}
+
+@utility text-balance-tight {
+  text-wrap: balance;
+}
+
+@utility hairline-t {
+  border-top: 1px solid var(--color-hairline);
+}
+
+@utility lab-grid {
+  background-image: linear-gradient(to right, color-mix(in oklab, var(--color-foreground) 7%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--color-foreground) 7%, transparent) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+}
+
+@utility lab-rule {
+  position: relative;
+  &::before {
+    content: "";
+    display: block;
+    width: 2.25rem;
+    height: 1px;
+    margin-bottom: 1rem;
+    background: var(--color-accent);
+  }
 }
 
 @layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
-  html {
-    -webkit-font-smoothing: antialiased;
-    scroll-behavior: smooth;
-  }
-
+  * { border-color: var(--color-border); }
+  html { background: var(--color-background); scroll-behavior: smooth; }
   body {
-    background-color: var(--color-background);
+    min-width: 320px;
+    background: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    font-weight: 400;
   }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-display);
-    font-weight: 300;
-    letter-spacing: -0.035em;
-  }
-
-  ::selection {
-    background: color-mix(in oklab, var(--ion) 40%, transparent);
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 3px;
-    border-radius: 6px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001ms !important;
-      scroll-behavior: auto !important;
-    }
-  }
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 500; }
+  a, button, input, textarea, select { outline-color: var(--color-ring); }
+  :focus-visible { outline: 2px solid var(--color-ring); outline-offset: 4px; }
+  ::selection { background: var(--color-accent); color: var(--color-accent-foreground); }
 }
 
-/* Very faint technical grid used behind the neural field. */
-@utility grid-overlay {
-  background-image:
-    linear-gradient(to right, oklch(1 0 0 / 3%) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(1 0 0 / 3%) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(80% 60% at 50% 40%, black, transparent 78%);
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
