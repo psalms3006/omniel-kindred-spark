@@ -5,9 +5,10 @@
  * Two consumers read from it:
  *  - tool-handlers.ts, to know which tool-call names to accept from Vapi and
  *    to log invocations consistently.
- *  - You, manually, when configuring the assistant in the Vapi Dashboard —
- *    each `parameters` block below is a standard JSON-schema function
- *    definition and can be pasted in as-is.
+ *  - scripts/configure-vapi.ts, which pushes these definitions to the Vapi
+ *    account over the API. Do not configure tools by hand in the dashboard:
+ *    that is how the account ended up with a tool named "function_tool" that
+ *    nothing could ever dispatch. Edit this file, then run the script.
  *
  * Adding a tool later (client or server) means adding one entry here plus
  * one handler function — nothing about this file's shape needs to change,
@@ -23,10 +24,11 @@ export type JsonSchema = {
 export type ToolDefinition = {
   name: string;
   description: string;
-  /** Where the tool actually executes. Client tools run in-browser via tool-handlers.ts.
-   *  Server tools run on Vapi's infrastructure, configured with a serverUrl in the
-   *  Vapi Dashboard, hitting our backend directly — they are NOT dispatched from
-   *  the browser at all, so they don't appear in CLIENT_TOOL_NAMES below. */
+  /** Where the tool actually executes. Client tools run in-browser via
+   *  tool-handlers.ts and are given no server URL, which is what makes Vapi
+   *  deliver them to the Web SDK. Server tools carry their own server URL
+   *  pointing at /api/vapi/webhook and never reach the browser, so they do
+   *  not appear in CLIENT_TOOL_NAMES below. */
   executionLocation: "client" | "server";
   parameters: JsonSchema;
   requiresUserConfirmation: boolean;

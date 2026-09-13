@@ -7,11 +7,12 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/careers")({
   head: () =>
     pageHead({
-    path: "/careers",
-    title: "Careers: Build OMNIEL from the beginning",
-    description: "OMNIEL is an early-stage team in Nigeria. There are no formal openings listed yet, but you can register interest across engineering, AI, research, design, product and more.",
-    ogTitle: "Careers at OMNIEL",
-    ogDescription: "No formal openings listed yet. Register your interest in building OMNIEL.",
+      path: "/careers",
+      title: "Careers: Build OMNIEL from the beginning",
+      description:
+        "OMNIEL is an early-stage team in Nigeria. There are no formal openings listed yet, but you can register interest across engineering, AI, research, design, product and more.",
+      ogTitle: "Careers at OMNIEL",
+      ogDescription: "No formal openings listed yet. Register your interest in building OMNIEL.",
     }),
   component: Careers,
 });

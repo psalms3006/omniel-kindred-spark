@@ -7,11 +7,12 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/contact")({
   head: () =>
     pageHead({
-    path: "/contact",
-    title: "Contact OMNIEL: Partnership, investment and general enquiries",
-    description: "Reach OMNIEL about products, partnerships, or supporting what is being built. Based in Nigeria.",
-    ogTitle: "Contact OMNIEL",
-    ogDescription: "General, partnership and investment enquiries for OMNIEL, based in Nigeria.",
+      path: "/contact",
+      title: "Contact OMNIEL: Partnership, investment and general enquiries",
+      description:
+        "Reach OMNIEL about products, partnerships, or supporting what is being built. Based in Nigeria.",
+      ogTitle: "Contact OMNIEL",
+      ogDescription: "General, partnership and investment enquiries for OMNIEL, based in Nigeria.",
     }),
   component: Contact,
 });

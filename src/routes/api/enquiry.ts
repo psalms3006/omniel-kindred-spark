@@ -1,29 +1,42 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { contactEmail } from "@/lib/omniel";
-import { handleEnquiryRequest } from "@/lib/enquiry-handler";
+import { handleEnquiryRequest, type EnquiryDeps } from "@/lib/enquiry-handler";
+import { getConfig, getEnquiriesDb, getRemoteIp } from "@/lib/automation/runtime-env";
 
 /**
  * POST /api/enquiry
  *
- * Real submission backend for the site's InquiryForm instances, and the
- * target for the server-side Vapi `submit_enquiry` tool (configured in the
- * Vapi Dashboard with this endpoint's production URL — see the deliverable
- * report for the exact contract).
+ * The website form's submission endpoint. Browser-facing, so it is protected
+ * by Cloudflare Turnstile.
  *
- * All secrets are read from server-only env vars here, never from anything
+ * The voice assistant does NOT post here. It has its own endpoint at
+ * /api/vapi/tools, which speaks Vapi's tool-call envelope and authenticates
+ * with a shared secret instead of a browser challenge.
+ *
+ * All secrets are read from server-only config here, never from anything
  * VITE_-prefixed, and never returned in a response body.
  */
 export const Route = createFileRoute("/api/enquiry")({
   server: {
     handlers: {
       POST: ({ request }) => {
-        const deps: Parameters<typeof handleEnquiryRequest>[1] = {
-          toEmail: process.env["OMNIEL_ENQUIRY_EMAIL"] || contactEmail,
+        const deps: EnquiryDeps = {
+          toEmail: getConfig("OMNIEL_ENQUIRY_EMAIL") || contactEmail,
+          origin: "website",
         };
-        const resendApiKey = process.env["RESEND_API_KEY"];
+
+        const resendApiKey = getConfig("RESEND_API_KEY");
         if (resendApiKey) deps.resendApiKey = resendApiKey;
-        const fromEmail = process.env["RESEND_FROM_EMAIL"];
+        const fromEmail = getConfig("RESEND_FROM_EMAIL");
         if (fromEmail) deps.fromEmail = fromEmail;
+        const turnstileSecretKey = getConfig("TURNSTILE_SECRET_KEY");
+        if (turnstileSecretKey) deps.turnstileSecretKey = turnstileSecretKey;
+
+        const db = getEnquiriesDb();
+        if (db) deps.db = db;
+        const remoteIp = getRemoteIp(request);
+        if (remoteIp) deps.remoteIp = remoteIp;
+
         return handleEnquiryRequest(request, deps);
       },
     },

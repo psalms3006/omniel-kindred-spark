@@ -7,10 +7,9 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
 import { VapiWidget } from "@/components/site/vapi-widget";
@@ -98,14 +97,12 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
+  // The console is the only reporting surface here on purpose. Client errors
+  // used to be forwarded to a third-party editor's telemetry endpoint; that
+  // has been removed along with the rest of that vendor's code. Server-side
+  // failures are still captured properly by src/lib/error-capture.ts.
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    // Narrowed inside the effect: doing it in the render body created a new
-    // Error identity on every render, which would re-fire the report.
-    const err = error instanceof Error ? error : new Error(String(error));
-    reportLovableError(err, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">

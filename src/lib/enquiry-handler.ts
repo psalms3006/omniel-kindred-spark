@@ -1,4 +1,16 @@
-import { ENQUIRY_FORM_LABELS, enquirySchema } from "./enquiry-schema";
+import { enquirySchema, type EnquiryInput } from "./enquiry-schema";
+import { verifyTurnstile } from "./turnstile";
+import { createResendChannel, type NotificationChannel } from "./automation/notify";
+import { acknowledgement, adminNotification, sanitizeLine } from "./automation/templates";
+import {
+  generateEnquiryId,
+  isDuplicate,
+  recordDelivery,
+  saveEnquiry,
+  type D1Database,
+  type EnquiryOrigin,
+  type EnquiryRecord,
+} from "./automation/store";
 
 export type EnquiryDeps = {
   /** Server-only secret. Must never be read from a VITE_-prefixed var. */
@@ -7,39 +19,28 @@ export type EnquiryDeps = {
   fromEmail?: string;
   /** Approved OMNIEL receiving address. Never invent this — fail closed if absent. */
   toEmail?: string;
+  /** D1 binding. Absent in local dev without wrangler, and in unit tests. */
+  db?: D1Database;
+  /** Turnstile secret. Server-only; the site key is the public half. */
+  turnstileSecretKey?: string;
+  /** Visitor IP when the platform provides one. Improves Turnstile scoring. */
+  remoteIp?: string;
+  /** Where this submission came from. Decides whether a Turnstile token is required. */
+  origin?: EnquiryOrigin;
+  /**
+   * Extra notification channels (Telegram, WhatsApp, Slack). Empty today.
+   * Constructed by the caller only when their credentials exist, so an
+   * unconfigured channel is absent rather than silently failing.
+   */
+  extraChannels?: NotificationChannel[];
   /** Injectable for tests; defaults to global fetch at call time. */
   fetchImpl?: typeof fetch;
 };
 
-/**
- * Best-effort, in-process de-duplication only.
- *
- * This is NOT a durable guarantee: Cloudflare Workers (and most edge
- * runtimes) can run multiple isolates concurrently, each with its own copy of
- * this Map, so a determined duplicate or a request landing on a different
- * isolate will not be caught. It only protects against the common case of a
- * double-click or a Vapi tool call firing twice in quick succession on the
- * same isolate. A real guarantee needs Workers KV, D1, or another shared
- * store — explicitly out of scope per the "no database at this stage"
- * decision, so this limitation is intentional and should be revisited if
- * duplicate submissions become a real problem.
- */
-const recentSubmissions = new Map<string, number>();
-const DEDUPE_WINDOW_MS = 60_000;
-
-function escapeHtml(input: string): string {
-  return input
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-/** Strips characters that could be used to smuggle extra headers/lines into the outgoing email. */
-function sanitizeLine(input: string): string {
-  return input.replace(/[\r\n]/g, " ").trim();
-}
+export type EnquiryOutcome = {
+  status: number;
+  body: Record<string, unknown>;
+};
 
 function jsonResponse(body: Record<string, unknown>, status: number): Response {
   return new Response(JSON.stringify(body), {
@@ -48,6 +49,150 @@ function jsonResponse(body: Record<string, unknown>, status: number): Response {
   });
 }
 
+/**
+ * Runs one validated enquiry through the full pipeline.
+ *
+ * Order matters: spam check, then durable storage, then notifications. The
+ * enquiry is persisted before anyone is told about it, so a notification
+ * failure leaves a recoverable row rather than losing the enquiry entirely.
+ *
+ * Success is reported only when at least one durable thing actually happened
+ * (the row was written, or the team was emailed). If both fail, the caller is
+ * told it failed, because it did.
+ */
+export async function processEnquiry(
+  input: EnquiryInput,
+  deps: EnquiryDeps,
+): Promise<EnquiryOutcome> {
+  const origin: EnquiryOrigin = deps.origin ?? "website";
+
+  if (!deps.resendApiKey) {
+    console.error("MISSING REQUIRED CONFIGURATION: RESEND_API_KEY");
+    return { status: 503, body: { ok: false, error: "Enquiry service is not configured yet." } };
+  }
+  if (!deps.fromEmail) {
+    console.error("MISSING REQUIRED CONFIGURATION: RESEND_FROM_EMAIL");
+    return { status: 503, body: { ok: false, error: "Enquiry service is not configured yet." } };
+  }
+  if (!deps.toEmail) {
+    console.error("MISSING REQUIRED CONFIGURATION: OMNIEL ENQUIRY RECEIVING ADDRESS");
+    return { status: 503, body: { ok: false, error: "Enquiry service is not configured yet." } };
+  }
+
+  // Turnstile applies to browser submissions only. The assistant has no
+  // browser to solve a challenge; its route authenticates with a shared
+  // secret before it ever reaches this function.
+  if (origin === "website" && deps.turnstileSecretKey) {
+    const check = await verifyTurnstile(input.turnstileToken, {
+      secretKey: deps.turnstileSecretKey,
+      ...(deps.remoteIp ? { remoteIp: deps.remoteIp } : {}),
+      ...(deps.fetchImpl ? { fetchImpl: deps.fetchImpl } : {}),
+    });
+    if (!check.ok) {
+      console.warn("[enquiry] turnstile rejected", check.reason, check.codes ?? "");
+      return {
+        status: 403,
+        body: { ok: false, error: "Could not verify that you are human. Please try again." },
+      };
+    }
+  }
+
+  const record: EnquiryRecord = {
+    id: generateEnquiryId(),
+    formId: input.formId,
+    name: sanitizeLine(input.name),
+    email: sanitizeLine(input.email),
+    phone: sanitizeLine(input.phone ?? ""),
+    category: sanitizeLine(input.category ?? ""),
+    message: input.message,
+    source: sanitizeLine(input.source ?? ""),
+    origin,
+    createdAt: new Date().toISOString(),
+  };
+
+  let stored = false;
+  if (deps.db) {
+    if (await isDuplicate(deps.db, record)) {
+      return { status: 409, body: { ok: false, error: "That message has already been sent." } };
+    }
+    const result = await saveEnquiry(deps.db, record);
+    stored = result.ok;
+    if (!result.ok) {
+      // Not fatal on its own. The notification below is still attempted so the
+      // enquiry is not lost, and the failure is logged for follow-up.
+      console.error("[enquiry] storage failed, continuing to notify", result.error);
+    }
+  } else {
+    console.error(
+      "MISSING REQUIRED CONFIGURATION: D1 binding ENQUIRIES_DB — enquiry not persisted, notification only",
+    );
+  }
+
+  const channel = createResendChannel({
+    apiKey: deps.resendApiKey,
+    from: deps.fromEmail,
+    ...(deps.fetchImpl ? { fetchImpl: deps.fetchImpl } : {}),
+  });
+  const channels: NotificationChannel[] = [channel, ...(deps.extraChannels ?? [])];
+
+  const admin = adminNotification(record);
+  const adminResults = await Promise.all(
+    channels.map((c) =>
+      c.send({
+        to: deps.toEmail as string,
+        subject: admin.subject,
+        html: admin.html,
+        text: admin.text,
+        replyTo: record.email,
+      }),
+    ),
+  );
+  const notified = adminResults.some((r) => r.ok);
+  const notifyError = adminResults.find((r) => !r.ok);
+
+  // Nothing durable happened. Do not tell the visitor it worked.
+  if (!stored && !notified) {
+    return {
+      status: 502,
+      body: { ok: false, error: "We could not record your message. Please try again." },
+    };
+  }
+
+  // Acknowledgement is best effort by design. The enquiry is already safe at
+  // this point, and failing the whole request because a courtesy email
+  // bounced would make the visitor resubmit for no reason.
+  const ack = acknowledgement(record);
+  const ackResult = await channel.send({
+    to: record.email,
+    subject: ack.subject,
+    html: ack.html,
+    text: ack.text,
+    replyTo: deps.toEmail,
+  });
+
+  if (deps.db && stored) {
+    await recordDelivery(deps.db, record.id, {
+      adminNotified: notified,
+      acknowledged: ackResult.ok,
+      ...(notifyError && !notifyError.ok ? { error: notifyError.error } : {}),
+    });
+  }
+
+  if (!notified) {
+    console.error(
+      "[enquiry] stored but nobody was notified. Replay with: SELECT * FROM enquiries WHERE admin_notified = 0",
+    );
+  }
+
+  return { status: 200, body: { ok: true, formId: record.formId, reference: record.id } };
+}
+
+/**
+ * POST /api/enquiry — the browser form's endpoint.
+ *
+ * Untrusted input. The schema is re-checked here regardless of what the
+ * client claims, and every field is sanitised before it reaches an email.
+ */
 export async function handleEnquiryRequest(request: Request, deps: EnquiryDeps): Promise<Response> {
   let raw: unknown;
   try {
@@ -63,78 +208,7 @@ export async function handleEnquiryRequest(request: Request, deps: EnquiryDeps):
       400,
     );
   }
-  const data = parsed.data;
 
-  if (!deps.resendApiKey) {
-    console.error("MISSING REQUIRED CONFIGURATION: RESEND_API_KEY");
-    return jsonResponse({ ok: false, error: "Enquiry service is not configured yet." }, 503);
-  }
-  if (!deps.fromEmail) {
-    console.error("MISSING REQUIRED CONFIGURATION: RESEND_FROM_EMAIL");
-    return jsonResponse({ ok: false, error: "Enquiry service is not configured yet." }, 503);
-  }
-  if (!deps.toEmail) {
-    console.error("MISSING REQUIRED CONFIGURATION: OMNIEL ENQUIRY RECEIVING ADDRESS");
-    return jsonResponse({ ok: false, error: "Enquiry service is not configured yet." }, 503);
-  }
-
-  const dedupeKey = `${data.formId}:${data.email.toLowerCase()}:${data.message.slice(0, 80)}`;
-  const now = Date.now();
-  const last = recentSubmissions.get(dedupeKey);
-  if (last && now - last < DEDUPE_WINDOW_MS) {
-    return jsonResponse({ ok: false, error: "Duplicate submission ignored." }, 409);
-  }
-  recentSubmissions.set(dedupeKey, now);
-
-  const name = sanitizeLine(data.name);
-  const email = sanitizeLine(data.email);
-  const category = sanitizeLine(data.category ?? "");
-  const label = ENQUIRY_FORM_LABELS[data.formId];
-  const subject = sanitizeLine(`[OMNIEL] ${label}${category ? ` — ${category}` : ""}`);
-  const timestamp = new Date().toISOString();
-
-  const html = [
-    `<p><strong>Type:</strong> ${escapeHtml(label)}</p>`,
-    `<p><strong>Name:</strong> ${escapeHtml(name)}</p>`,
-    `<p><strong>Email:</strong> ${escapeHtml(email)}</p>`,
-    category ? `<p><strong>Category:</strong> ${escapeHtml(category)}</p>` : "",
-    `<p><strong>Message:</strong></p><p>${escapeHtml(data.message).replace(/\n/g, "<br />")}</p>`,
-    `<p><strong>Submitted:</strong> ${escapeHtml(timestamp)}</p>`,
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  const doFetch = deps.fetchImpl ?? fetch;
-  try {
-    const res = await doFetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${deps.resendApiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: deps.fromEmail,
-        to: [deps.toEmail],
-        reply_to: email,
-        subject,
-        html,
-      }),
-    });
-
-    if (!res.ok) {
-      const body = await res.text().catch(() => "");
-      console.error("Resend delivery failed", res.status, body);
-      return jsonResponse({ ok: false, error: "Email delivery failed." }, 502);
-    }
-  } catch (err) {
-    console.error("Resend request threw", err);
-    return jsonResponse({ ok: false, error: "Email delivery failed." }, 502);
-  }
-
-  return jsonResponse({ ok: true, formId: data.formId }, 200);
-}
-
-/** Test-only escape hatch so cases don't bleed into each other via the dedupe window. */
-export function __resetDedupeForTests(): void {
-  recentSubmissions.clear();
+  const outcome = await processEnquiry(parsed.data, deps);
+  return jsonResponse(outcome.body, outcome.status);
 }

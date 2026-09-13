@@ -8,11 +8,13 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/about")({
   head: () =>
     pageHead({
-    path: "/about",
-    title: "About OMNIEL: An AI ecosystem being built from Nigeria",
-    description: "OMNIEL is an early-stage AI and technology initiative based in Nigeria, built by a sole founder toward a global frontier AI company.",
-    ogTitle: "About OMNIEL",
-    ogDescription: "Early-stage, Nigeria-based, and building toward a global frontier AI company.",
+      path: "/about",
+      title: "About OMNIEL: An AI ecosystem being built from Nigeria",
+      description:
+        "OMNIEL is an early-stage AI and technology initiative based in Nigeria, built by a sole founder toward a global frontier AI company.",
+      ogTitle: "About OMNIEL",
+      ogDescription:
+        "Early-stage, Nigeria-based, and building toward a global frontier AI company.",
     }),
   component: About,
 });

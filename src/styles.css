@@ -41,16 +41,31 @@
 
 :root {
   --radius: 0.35rem;
+
+  /* OMNIEL off-white.
+     ------------------------------------------------------------------
+     Every large light surface resolves to this, never to white and never to
+     the cool green-white it used to be. It is a warm beige: enough yellow in
+     it to read as a material, low enough in chroma not to look tinted.
+
+     Against graphite and lichen it behaves like paper or bone next to stone,
+     which is the relationship the design wants. A pure white panel in the
+     middle of a near-black page reads as a hole punched through it.
+
+     Change this one value and every light surface moves with it: the belief
+     section, the primary buttons, and anything else on `bg-primary`. */
+  --offwhite: oklch(0.928 0.028 88);
+
   --background: oklch(0.16 0.018 165);
   --foreground: oklch(0.94 0.018 120);
   --card: oklch(0.205 0.026 155);
   --card-foreground: oklch(0.94 0.018 120);
   --popover: oklch(0.205 0.026 155);
   --popover-foreground: oklch(0.94 0.018 120);
-  --primary: oklch(0.92 0.025 120);
+  --primary: var(--offwhite);
   --primary-foreground: oklch(0.16 0.018 165);
   --secondary: oklch(0.27 0.035 155);
-  --secondary-foreground: oklch(0.92 0.025 120);
+  --secondary-foreground: var(--offwhite);
   --muted: oklch(0.24 0.03 155);
   --muted-foreground: oklch(0.73 0.035 125);
   --accent: oklch(0.73 0.09 125);
@@ -72,13 +87,37 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* The OMNIEL wordmark, as brushed silver rather than flat white.
+   ------------------------------------------------------------------
+   This replaces `brightness-0 invert`, which was doing real damage: it
+   collapses every pixel to black and then inverts it, so the asset's chrome
+   gradient is destroyed and the logotype paints as solid #fff. The mark is
+   silver by design; that filter threw the metal away.
+
+   The source PNG is already a gradient, but its bright half dominates:
+   measured across its opaque pixels, 59% sit above luminance 200 and a third
+   above 230. So it is not enough to simply drop the filter. This pulls the
+   whole range down and re-separates it, darkening midtones while the specular
+   highlights survive, and adds two shadows: a tight contact shadow to seat it
+   on the surface, and a soft one for depth.
+
+   Measured result: median luminance 214 -> 163, with nothing above 230. */
+.mark-silver {
+  filter: brightness(0.86) contrast(1.16) drop-shadow(0 1px 0 oklch(0 0 0 / 0.5))
+    drop-shadow(0 6px 14px oklch(0 0 0 / 0.45));
+}
+
 @utility shell {
   width: 100%;
   max-width: 88rem;
   margin-inline: auto;
   padding-inline: 1.25rem;
-  @media (min-width: 768px) { padding-inline: 2.5rem; }
-  @media (min-width: 1280px) { padding-inline: 4rem; }
+  @media (min-width: 768px) {
+    padding-inline: 2.5rem;
+  }
+  @media (min-width: 1280px) {
+    padding-inline: 4rem;
+  }
 }
 
 @utility eyebrow {
@@ -109,7 +148,17 @@
 }
 
 @utility lab-grid {
-  background-image: linear-gradient(to right, color-mix(in oklab, var(--color-foreground) 7%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--color-foreground) 7%, transparent) 1px, transparent 1px);
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--color-foreground) 7%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-foreground) 7%, transparent) 1px,
+      transparent 1px
+    );
   background-size: 4rem 4rem;
 }
 
@@ -126,8 +175,13 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html { background: var(--color-background); scroll-behavior: smooth; }
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    background: var(--color-background);
+    scroll-behavior: smooth;
+  }
   body {
     min-width: 320px;
     background: var(--color-background);
@@ -135,12 +189,39 @@
     font-family: var(--font-sans);
     font-weight: 400;
   }
-  h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 500; }
-  a, button, input, textarea, select { outline-color: var(--color-ring); }
-  :focus-visible { outline: 2px solid var(--color-ring); outline-offset: 4px; }
-  ::selection { background: var(--color-accent); color: var(--color-accent-foreground); }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    outline-color: var(--color-ring);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 4px;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-foreground);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

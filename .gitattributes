@@ -1,0 +1,6 @@
+# Keep line endings identical on every machine. The repo is LF; a CRLF
+# checkout makes Prettier flag every single line in every file.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ico binary

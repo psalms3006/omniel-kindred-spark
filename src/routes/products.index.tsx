@@ -15,11 +15,12 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/products/")({
   head: () =>
     pageHead({
-    path: "/products",
-    title: "Products: NOVA and the OMNIEL roadmap | OMNIEL",
-    description: "NOVA is OMNIEL's flagship product, in active development. VYREN, ARVO and KIWI are the wider roadmap.",
-    ogTitle: "OMNIEL products",
-    ogDescription: "NOVA first. The rest of the OMNIEL ecosystem follows.",
+      path: "/products",
+      title: "Products: NOVA and the OMNIEL roadmap | OMNIEL",
+      description:
+        "NOVA is OMNIEL's flagship product, in active development. VYREN, ARVO and KIWI are the wider roadmap.",
+      ogTitle: "OMNIEL products",
+      ogDescription: "NOVA first. The rest of the OMNIEL ecosystem follows.",
     }),
   component: ProductsIndex,
 });

@@ -1,6 +1,7 @@
 import { useId, useState, type FormEvent } from "react";
 import { contactEmail } from "@/lib/omniel";
 import { cn } from "@/lib/utils";
+import { TurnstileField } from "./turnstile-field";
 
 type Props = {
   /**
@@ -33,12 +34,14 @@ type Status = "idle" | "sending" | "sent" | "failed";
  */
 function failureCopy(status: number | null): string {
   if (status === 503)
-    return "Our enquiry service isn't accepting messages right now. Nothing was sent — please email us directly and we'll pick it up.";
+    return "Our enquiry service isn't accepting messages right now. Nothing was sent, so please email us directly and we'll pick it up.";
   if (status === 502)
-    return "We received your message but couldn't deliver it onward. Please try again, or email us directly.";
+    return "We couldn't record your message. Please try again, or email us directly.";
+  if (status === 403)
+    return "We couldn't confirm you're human. Wait a moment for the check to finish, then try again.";
   if (status === 429)
     return "That's a few messages in quick succession. Wait a moment and try again.";
-  if (status === 409) return "That message has already been sent — no need to send it twice.";
+  if (status === 409) return "That message has already been sent. No need to send it twice.";
   if (status === 400)
     return "Something in the form wasn't accepted. Check the details and try again.";
   if (status === null)
@@ -83,6 +86,9 @@ export function InquiryForm({
   const uid = useId();
   const [status, setStatus] = useState<Status>("idle");
   const [failureStatus, setFailureStatus] = useState<number | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  // Bumped after every submit so Turnstile issues a fresh single-use token.
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const [lastDraft, setLastDraft] = useState<{
     name: string;
     email: string;
@@ -107,8 +113,20 @@ export function InquiryForm({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // Clicking Send is the user's explicit confirmation.
-        body: JSON.stringify({ formId: id, name, email, category, message, confirmation: true }),
+        body: JSON.stringify({
+          formId: id,
+          name,
+          email,
+          category,
+          message,
+          confirmation: true,
+          // Which page the enquiry came from. Operational context for whoever
+          // reads it, never used for anything security-related.
+          source: typeof window === "undefined" ? "" : window.location.pathname,
+          ...(turnstileToken ? { turnstileToken } : {}),
+        }),
       });
+      setTurnstileResetKey((k) => k + 1);
       if (res.ok) {
         setStatus("sent");
         setFailureStatus(null);
@@ -119,6 +137,7 @@ export function InquiryForm({
     } catch {
       // Network-level failure: no response at all, so there is no status code.
       setFailureStatus(null);
+      setTurnstileResetKey((k) => k + 1);
     }
 
     // Deliberately no navigation here. The form keeps what was typed, and the
@@ -195,6 +214,8 @@ export function InquiryForm({
         </div>
 
         <div className="grid gap-4 sm:col-span-2">
+          <TurnstileField onToken={setTurnstileToken} resetKey={turnstileResetKey} />
+
           <div className="flex flex-wrap items-center gap-4">
             <button
               type="submit"
@@ -227,7 +248,8 @@ export function InquiryForm({
             )}
             aria-live="polite"
           >
-            {status === "sent" && "Sent. Thank you, we'll be in touch."}
+            {status === "sent" &&
+              "Received. We've emailed you a copy, and someone at OMNIEL will read it."}
             {status === "sending" && "Sending…"}
             {status === "failed" && (
               <>
@@ -239,7 +261,7 @@ export function InquiryForm({
               </>
             )}
             {status === "idle" &&
-              "Submissions go straight to OMNIEL. Nothing you type here is stored anywhere else."}
+              "Submissions go to OMNIEL by email and are stored so we can answer them. Nothing is shared with anyone else."}
           </p>
         </div>
       </form>

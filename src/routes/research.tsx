@@ -13,11 +13,12 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/research")({
   head: () =>
     pageHead({
-    path: "/research",
-    title: "Research and future direction | OMNIEL",
-    description: "OMNIEL's long-term ambitions: frontier AI, research, robotics, games, enterprise and consumer technology, agents and AI infrastructure.",
-    ogTitle: "OMNIEL research and future direction",
-    ogDescription: "Long-term ambitions, clearly separated from what exists today.",
+      path: "/research",
+      title: "Research and future direction | OMNIEL",
+      description:
+        "OMNIEL's long-term ambitions: frontier AI, research, robotics, games, enterprise and consumer technology, agents and AI infrastructure.",
+      ogTitle: "OMNIEL research and future direction",
+      ogDescription: "Long-term ambitions, clearly separated from what exists today.",
     }),
   component: Research,
 });

@@ -37,18 +37,18 @@ const processors = [
   },
   {
     name: "Vapi",
-    what: "Your voice, and a transcript of what you say",
-    why: "Only if you start the voice assistant. It asks for microphone permission first, and audio is streamed to Vapi (and its WebRTC provider) to be understood and answered. Closing the assistant ends it.",
+    what: "Your voice, a transcript of what you say, and a written summary of the conversation",
+    why: "Only if you start the voice assistant. It asks for microphone permission first, and audio is streamed to Vapi (and its WebRTC provider) to be understood and answered. When a conversation ends, Vapi writes a short summary of it and sends that to us by email. Closing the assistant ends it.",
   },
   {
     name: "Resend",
-    what: "Your name, email address and message",
-    why: "Delivers form submissions to OMNIEL as email. It is the postal service, not a mailing list.",
+    what: "Your name, email address, phone number if you gave one, and your message",
+    why: "Delivers enquiries to OMNIEL as email, and sends you the acknowledgement confirming we received it. It is the postal service, not a mailing list.",
   },
   {
     name: "Cloudflare",
-    what: "Standard request data, including your IP address",
-    why: "Hosts and serves the site. Any web host necessarily sees this in order to send you a page.",
+    what: "Standard request data including your IP address, and the enquiry you submit",
+    why: "Hosts and serves the site, so it necessarily sees this in order to send you a page. It also runs the anti-spam check on our forms (Turnstile), and stores submitted enquiries in a database we control, so that a message to us cannot be lost by an email going astray.",
   },
 ];
 
@@ -76,13 +76,24 @@ function Privacy() {
         <SectionHeading eyebrow="02" title="What we collect" />
         <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
           What you choose to give us: your name, email address, and whatever you write when you use
-          a form on this site or email {contactEmail} directly.
+          a form on this site or email {contactEmail} directly. If you talk to the voice assistant
+          and give it a phone number, we get that too.
+        </p>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          Enquiries are stored in a database we control, as well as emailed to us. We keep them so
+          that a message cannot quietly disappear because an email went astray. Each stored enquiry
+          holds what you submitted, the page you submitted it from, and the time.
         </p>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
           If you start the voice assistant, it records your voice while the conversation is running,
           because that is the only way it can hear you. It asks your browser for microphone
-          permission first, and you can refuse or close it at any point. We don't keep the
-          recordings.
+          permission first, and you can refuse or close it at any point. We do not keep the audio.
+          When the conversation ends, a written summary of it is emailed to us, including any
+          contact details you gave and anything you asked us to follow up on.
+        </p>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          Our forms run an anti-spam check (Cloudflare Turnstile) when you submit them. It looks at
+          your browser and network, not at what you typed, and most people never see it do anything.
         </p>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
           Beyond that, we run no analytics and set no cookies. Our host records ordinary server
@@ -93,9 +104,15 @@ function Privacy() {
       <Section id="use" className="border-t border-hairline">
         <SectionHeading eyebrow="03" title="How it's used" />
         <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
-          Solely to read your message and reply to you. Form submissions send directly to us; if
-          that fails, your own email client opens as a fallback so your message isn't lost either
-          way. We keep it only for as long as it takes to have that conversation.
+          Solely to read your message and reply to you. We do not sell it, and we do not add you to
+          a mailing list. Submitting a form sends the enquiry to us and sends you an acknowledgement
+          confirming we received it; if the submission fails, the form says so plainly and offers
+          you a link to email us instead, rather than pretending it worked.
+        </p>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          Stored enquiries are kept while they are still relevant to answering you. If you want
+          yours deleted, email {contactEmail} and ask. There is no automated deletion schedule yet,
+          and we would rather say that than invent one.
         </p>
       </Section>
 
