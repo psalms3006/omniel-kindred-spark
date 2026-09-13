@@ -1,6 +1,5 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "//name": "Deliberately not renamed to match this repository. This is the Worker that omniel.com.ng is already bound to as a custom domain; renaming it would create a second Worker and leave the live domain pointing at the old one.",
   "name": "omniel-evolve",
   "main": ".output/server/index.mjs",
   "compatibility_date": "2026-09-11",
@@ -20,7 +19,7 @@
     {
       "binding": "ENQUIRIES_DB",
       "database_name": "omniel-enquiries",
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "database_id": "d408764f-7928-47b7-86f2-06f75f86ed5a",
       "migrations_dir": "migrations"
     }
   ],
