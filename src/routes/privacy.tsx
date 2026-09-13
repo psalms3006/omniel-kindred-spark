@@ -48,7 +48,7 @@ const processors = [
   {
     name: "Cloudflare",
     what: "Standard request data including your IP address, and the enquiry you submit",
-    why: "Hosts and serves the site, so it necessarily sees this in order to send you a page. It also runs the anti-spam check on our forms (Turnstile), and stores submitted enquiries in a database we control, so that a message to us cannot be lost by an email going astray.",
+    why: "Hosts and serves the site, so it necessarily sees this in order to send you a page. It also runs the anti-spam check on our forms (Turnstile), counts page visits without cookies (Web Analytics), and stores submitted enquiries in a database we control, so that a message to us cannot be lost by an email going astray.",
   },
 ];
 
@@ -96,8 +96,14 @@ function Privacy() {
           your browser and network, not at what you typed, and most people never see it do anything.
         </p>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
-          Beyond that, we run no analytics and set no cookies. Our host records ordinary server
-          logs, including your IP address, as every web server does.
+          We use Cloudflare Web Analytics to see which pages people visit and roughly where they
+          come from. It sets no cookies, does not follow you to other websites, and does not build
+          a profile of you, which is why this site has no cookie banner. We cannot identify you
+          from it.
+        </p>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          Beyond that we set no cookies and run no advertising or tracking scripts. Our host records
+          ordinary server logs, including your IP address, as every web server does.
         </p>
       </Section>
 
