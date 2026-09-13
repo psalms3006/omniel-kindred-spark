@@ -26,6 +26,9 @@ export const Route = createFileRoute("/api/vapi/webhook")({
         const deps: VapiServerDeps = {
           toEmail: getConfig("OMNIEL_ENQUIRY_EMAIL") || contactEmail,
           origin: "assistant",
+          // Read the site this Worker is actually serving, so a preview
+          // deployment reads itself rather than production.
+          siteOrigin: new URL(request.url).origin,
         };
 
         const serverSecret = getConfig("VAPI_SERVER_SECRET");

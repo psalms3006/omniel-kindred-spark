@@ -2,6 +2,7 @@ import { enquirySchema } from "../enquiry-schema";
 import { processEnquiry, type EnquiryDeps } from "../enquiry-handler";
 import { createResendChannel } from "../automation/notify";
 import { callSummaryNotification, type CallSummaryData } from "../automation/templates";
+import { loadedPageCount, readSitePage, searchSite } from "../site-content";
 
 /**
  * Vapi's server webhook.
@@ -25,6 +26,12 @@ export type VapiServerDeps = EnquiryDeps & {
   serverSecret?: string;
   /** Where conversation summaries are emailed. Falls back to the enquiry address. */
   summaryToEmail?: string;
+  /**
+   * Origin the live-content tool reads from, e.g. https://omniel.com.ng.
+   * Taken from the inbound request so preview deployments read themselves
+   * rather than production.
+   */
+  siteOrigin?: string;
 };
 
 type ToolCall = {
@@ -66,6 +73,57 @@ function parseArguments(raw: unknown): Record<string, unknown> | undefined {
   return undefined;
 }
 
+/**
+ * Answers a live-content lookup against the published website.
+ *
+ * The returned string is spoken-answer material, not JSON: it is fed straight
+ * back into the model, so it says what was found and, crucially, what to do
+ * when nothing was. The "not publicly available" instruction lives here rather
+ * than only in the prompt, because this is the moment the model is deciding
+ * whether to invent something.
+ */
+async function runSiteLookup(
+  args: Record<string, unknown> | undefined,
+  _deps: VapiServerDeps,
+): Promise<string> {
+  const query = typeof args?.["query"] === "string" ? (args["query"] as string).trim() : "";
+  const page = typeof args?.["page"] === "string" ? (args["page"] as string) : undefined;
+
+  try {
+    if (page) {
+      const found = readSitePage(page);
+      if (found) {
+        return `From the OMNIEL website page ${found.path} ("${found.title}"):
+
+${found.text}`;
+      }
+    }
+
+    if (!query) {
+      return "No search terms were given, so nothing was looked up. Ask the visitor to be more specific.";
+    }
+
+    const hits = searchSite(query);
+    if (hits.length === 0) {
+      console.log(`[vapi] site lookup miss for "${query}" (pages indexed: ${loadedPageCount()})`);
+      return `The OMNIEL website has nothing about "${query}". Check your knowledge base next. If it is not there either, tell the visitor plainly that this is not publicly available information and offer to pass their question to the OMNIEL team. Do not guess.`;
+    }
+
+    const body = hits
+      .map(
+        (h) => `PAGE ${h.path} ("${h.title}")
+${h.excerpt}`,
+      )
+      .join("\n\n---\n\n");
+    return `Current content from the OMNIEL website. Answer only from this, in two or three sentences, and offer to open the page:
+
+${body}`;
+  } catch (err) {
+    console.error("[vapi] site lookup failed", err);
+    return "The website could not be read just now. Use your knowledge base, and if the answer is not there, say the information is not publicly available.";
+  }
+}
+
 async function handleToolCalls(
   toolCalls: ToolCall[],
   deps: VapiServerDeps,
@@ -75,6 +133,14 @@ async function handleToolCalls(
   for (const call of toolCalls) {
     const toolCallId = call.id ?? "";
     const name = call.function?.name;
+
+    if (name === "search_website") {
+      results.push({
+        toolCallId,
+        result: await runSiteLookup(parseArguments(call.function?.arguments), deps),
+      });
+      continue;
+    }
 
     if (name !== "submit_enquiry") {
       // Client-side tools are dispatched in the browser and should never

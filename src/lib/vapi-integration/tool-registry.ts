@@ -200,6 +200,44 @@ export const TOOL_REGISTRY: readonly ToolDefinition[] = [
       required: ["formId", "name", "email", "message", "confirmation"],
     },
   },
+  {
+    name: "search_website",
+    description:
+      "Read what the OMNIEL website says right now. USE THIS FIRST, before answering from memory, for any question about OMNIEL's people and team members, products (NOVA, VYREN, ARVO, KIWI), technology, research, careers, or contact details. The website is the newest source and may describe people or details added after your knowledge base was written. Answer order is strict: (1) call this tool and answer from what it returns; (2) if it returns nothing relevant, use your knowledge base; (3) if neither has the answer, say plainly that the information is not publicly available and offer to pass the question to OMNIEL. Never fill a gap with a guess. Keep spoken answers to two or three sentences and offer to open the page.",
+    executionLocation: "server",
+    requiresUserConfirmation: false,
+    parameters: {
+      type: "object",
+      properties: {
+        query: {
+          type: "string",
+          description:
+            "What to look up, in the visitor's own words. For a person, use their name. For a topic, use the key words, e.g. 'offline capability' or 'open roles'.",
+        },
+        page: {
+          type: "string",
+          description:
+            "Optional. Restrict the lookup to one page when the visitor names it explicitly.",
+          enum: [
+            "/",
+            "/about",
+            "/products",
+            "/products/nova",
+            "/products/vyren",
+            "/products/arvo",
+            "/products/kiwi",
+            "/technology",
+            "/research",
+            "/careers",
+            "/contact",
+            "/privacy",
+            "/terms",
+          ],
+        },
+      },
+      required: ["query"],
+    },
+  },
 ] as const;
 
 export const CLIENT_TOOL_NAMES = TOOL_REGISTRY.filter((t) => t.executionLocation === "client").map(
