@@ -20,7 +20,8 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ApiEnquiryRouteImport } from './routes/api/enquiry'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
-import { Route as ApiVapiWebhookRouteImport } from './routes/api/vapi/webhook'
+import { Route as ApiAgentToolsRouteImport } from './routes/api/agent/tools'
+import { Route as ApiLivekitTokenRouteImport } from './routes/api/livekit/token'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -77,9 +78,14 @@ const ProductsSlugRoute = ProductsSlugRouteImport.update({
   path: '/products/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiVapiWebhookRoute = ApiVapiWebhookRouteImport.update({
-  id: '/api/vapi/webhook',
-  path: '/api/vapi/webhook',
+const ApiAgentToolsRoute = ApiAgentToolsRouteImport.update({
+  id: '/api/agent/tools',
+  path: '/api/agent/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLivekitTokenRoute = ApiLivekitTokenRouteImport.update({
+  id: '/api/livekit/token',
+  path: '/api/livekit/token',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -95,7 +101,8 @@ export interface FileRoutesByFullPath {
   '/api/enquiry': typeof ApiEnquiryRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products/': typeof ProductsIndexRoute
-  '/api/vapi/webhook': typeof ApiVapiWebhookRoute
+  '/api/agent/tools': typeof ApiAgentToolsRoute
+  '/api/livekit/token': typeof ApiLivekitTokenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -109,7 +116,8 @@ export interface FileRoutesByTo {
   '/api/enquiry': typeof ApiEnquiryRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products': typeof ProductsIndexRoute
-  '/api/vapi/webhook': typeof ApiVapiWebhookRoute
+  '/api/agent/tools': typeof ApiAgentToolsRoute
+  '/api/livekit/token': typeof ApiLivekitTokenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -124,7 +132,8 @@ export interface FileRoutesById {
   '/api/enquiry': typeof ApiEnquiryRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products/': typeof ProductsIndexRoute
-  '/api/vapi/webhook': typeof ApiVapiWebhookRoute
+  '/api/agent/tools': typeof ApiAgentToolsRoute
+  '/api/livekit/token': typeof ApiLivekitTokenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -140,7 +149,8 @@ export interface FileRouteTypes {
     | '/api/enquiry'
     | '/products/$slug'
     | '/products/'
-    | '/api/vapi/webhook'
+    | '/api/agent/tools'
+    | '/api/livekit/token'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -154,7 +164,8 @@ export interface FileRouteTypes {
     | '/api/enquiry'
     | '/products/$slug'
     | '/products'
-    | '/api/vapi/webhook'
+    | '/api/agent/tools'
+    | '/api/livekit/token'
   id:
     | '__root__'
     | '/'
@@ -168,7 +179,8 @@ export interface FileRouteTypes {
     | '/api/enquiry'
     | '/products/$slug'
     | '/products/'
-    | '/api/vapi/webhook'
+    | '/api/agent/tools'
+    | '/api/livekit/token'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -183,7 +195,8 @@ export interface RootRouteChildren {
   ApiEnquiryRoute: typeof ApiEnquiryRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
-  ApiVapiWebhookRoute: typeof ApiVapiWebhookRoute
+  ApiAgentToolsRoute: typeof ApiAgentToolsRoute
+  ApiLivekitTokenRoute: typeof ApiLivekitTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -265,11 +278,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/vapi/webhook': {
-      id: '/api/vapi/webhook'
-      path: '/api/vapi/webhook'
-      fullPath: '/api/vapi/webhook'
-      preLoaderRoute: typeof ApiVapiWebhookRouteImport
+    '/api/agent/tools': {
+      id: '/api/agent/tools'
+      path: '/api/agent/tools'
+      fullPath: '/api/agent/tools'
+      preLoaderRoute: typeof ApiAgentToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/livekit/token': {
+      id: '/api/livekit/token'
+      path: '/api/livekit/token'
+      fullPath: '/api/livekit/token'
+      preLoaderRoute: typeof ApiLivekitTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -287,7 +307,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiEnquiryRoute: ApiEnquiryRoute,
   ProductsSlugRoute: ProductsSlugRoute,
   ProductsIndexRoute: ProductsIndexRoute,
-  ApiVapiWebhookRoute: ApiVapiWebhookRoute,
+  ApiAgentToolsRoute: ApiAgentToolsRoute,
+  ApiLivekitTokenRoute: ApiLivekitTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

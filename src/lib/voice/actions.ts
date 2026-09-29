@@ -1,10 +1,10 @@
 /**
  * OMNIEL action dispatcher.
  *
- * Deliberately independent of Vapi — it only knows about the TanStack Router
- * instance and the DOM. This is the layer any trigger (Vapi tool calls today,
- * something else tomorrow) should call through, so Vapi-specific code never
- * has to touch routing or form internals directly.
+ * Deliberately independent of any voice provider — it only knows about the
+ * TanStack Router instance and the DOM. The voice agent reaches it through
+ * rpc-bridge.ts, so provider-specific code never has to touch routing or form
+ * internals directly.
  */
 import type { AnyRouter } from "@tanstack/react-router";
 

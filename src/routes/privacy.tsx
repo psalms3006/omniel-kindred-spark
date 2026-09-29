@@ -28,7 +28,8 @@ const dontDo = [
    Audited 2026-09-10 against the source, not assumed. An earlier draft of
    this notice said "no tracking scripts of any kind" and listed name, email
    and message as "the entire list" -- both were wrong: the site loads fonts
-   from Google on every page, and the voice assistant sends audio to Vapi. */
+   from Google on every page, and the voice assistant sends audio to its
+   provider (LiveKit since 2026-09-26; Vapi before that). */
 const processors = [
   {
     name: "Google Fonts",
@@ -36,9 +37,9 @@ const processors = [
     why: "The site's typefaces are loaded from Google's font servers on every page, so Google receives a request from your browser. No cookie is set and we receive nothing back.",
   },
   {
-    name: "Vapi",
-    what: "Your voice, a transcript of what you say, and a written summary of the conversation",
-    why: "Only if you start the voice assistant. It asks for microphone permission first, and audio is streamed to Vapi (and its WebRTC provider) to be understood and answered. When a conversation ends, Vapi writes a short summary of it and sends that to us by email. Closing the assistant ends it.",
+    name: "LiveKit",
+    what: "Your voice and a transcript of what you say",
+    why: "Only if you press Talk to OMNIEL. Your browser asks for microphone permission first, then audio is streamed to LiveKit, which carries the call and passes it to the speech-recognition, language-model and voice services it runs for us (Deepgram, OpenAI and Cartesia) so the assistant can understand and answer. If you ask it to send an enquiry, that goes through the same path as the form below. Ending the call ends it.",
   },
   {
     name: "Resend",

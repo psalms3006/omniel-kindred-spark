@@ -25,5 +25,9 @@
   ],
   "observability": {
     "enabled": true
+  },
+  "vars": {
+    "OMNIEL_ENQUIRY_EMAIL": "hello@omniel.com.ng",
+    "RESEND_FROM_EMAIL": "OMNIEL <noreply@omniel.com.ng>"
   }
 }

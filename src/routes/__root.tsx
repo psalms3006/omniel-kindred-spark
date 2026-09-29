@@ -12,7 +12,7 @@ import { type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
-import { VapiWidget } from "@/components/site/vapi-widget";
+import { LiveKitWidget } from "@/components/site/livekit-widget";
 import { siteUrl } from "@/lib/omniel";
 import { Atmosphere } from "@/components/site/atmosphere";
 
@@ -209,7 +209,7 @@ function RootComponent() {
         <Outlet />
       </main>
       <SiteFooter />
-      <VapiWidget />
+      <LiveKitWidget />
     </QueryClientProvider>
   );
 }

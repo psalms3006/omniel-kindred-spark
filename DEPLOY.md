@@ -51,11 +51,16 @@ these once:
 
 ```sh
 npx wrangler secret put RESEND_API_KEY
-npx wrangler secret put RESEND_FROM_EMAIL
-npx wrangler secret put OMNIEL_ENQUIRY_EMAIL
 npx wrangler secret put TURNSTILE_SECRET_KEY
-npx wrangler secret put VAPI_SERVER_SECRET
+npx wrangler secret put LIVEKIT_URL
+npx wrangler secret put LIVEKIT_API_KEY
+npx wrangler secret put LIVEKIT_API_SECRET
+npx wrangler secret put AGENT_SHARED_SECRET
 ```
+
+The voice agent is not part of this Worker. It is a separate Node service in
+`agent/`, deployed to LiveKit Cloud; see `agent/README.md`. Until it is
+running, "Talk to OMNIEL" connects but nobody answers.
 
 `VITE_`-prefixed values are compiled into the bundle at build time and are not
 secrets, so they belong in `.env`, not here.
@@ -71,8 +76,9 @@ npx wrangler deploy
 ```
 
 `wrangler deploy` preserves existing secrets. It does replace plain-text vars
-with whatever is in `wrangler.json`, which is why every piece of runtime
-configuration here is a secret rather than a var.
+with whatever is in `wrangler.json`. So anything sensitive is a secret, and the
+two non-sensitive values (`OMNIEL_ENQUIRY_EMAIL`, `RESEND_FROM_EMAIL`) are
+plain vars kept in `wrangler.json` itself, where a deploy cannot lose them.
 
 ## Configuring the voice assistant
 

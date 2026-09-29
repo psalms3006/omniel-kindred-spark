@@ -1,0 +1,25 @@
+{
+  "name": "omniel-voice-agent",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@livekit/agents": "^1.9.1",
+    "@livekit/rtc-node": "^1.1.0",
+    "dotenv": "^18.0.4",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "scripts": {
+    "dev": "tsx src/main.ts dev",
+    "build": "tsc -p .",
+    "start": "node dist/main.js start",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
