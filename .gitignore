@@ -35,3 +35,12 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# brag video build leftovers
+brag-output/**/node_modules/
+brag-output/**/snapshots/
+brag-output/**/*render*.mp4
+brag-output/**/render-check.jpg
+brag-output/**/check.txt
+brag-output/**/render.txt
+brag-output/**/contact-sheet.jpg

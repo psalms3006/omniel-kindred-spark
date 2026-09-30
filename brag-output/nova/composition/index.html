@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>NOVA — Coming online</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/space-grotesk-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/space-grotesk-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+
+      /* NOVA's default theme: Warm Graphite (desk/ui/src/theme/themes.ts) */
+      :root {
+        --bg: #101012;
+        --elevated: #17171a;
+        --glass: rgba(24, 23, 27, 0.68);
+        --glass-border: rgba(235, 215, 185, 0.1);
+        --text: #faf8f5;
+        --text-2: #d5cfc7;
+        --muted: #878077;
+        --accent: #dfc096;
+        --accent-muted: #a38d70;
+        --accent-border: rgba(223, 192, 150, 0.32);
+        --live: #34d399;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+      #root {
+        position: relative; width: 100%; height: 100%; overflow: hidden;
+        background: var(--bg); color: var(--text);
+        font-family: "Space Grotesk", system-ui, sans-serif;
+      }
+      .clip { position: absolute; inset: 0; }
+      .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+      .body { font-family: "Inter", system-ui, sans-serif; }
+      .glass {
+        background: var(--glass); border: 1px solid var(--glass-border);
+        box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(250, 235, 215, 0.06);
+      }
+      .dot { display: block; width: 10px; height: 10px; border-radius: 50%; flex: none; }
+      .stack { position: relative; display: block; }
+      .stack > span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+
+      #three-layer { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+      #vignette {
+        background: radial-gradient(70% 70% at 50% 45%, transparent 55%, rgba(8, 8, 10, 0.7) 100%);
+        pointer-events: none;
+      }
+
+      /* Scene 1 — corner label */
+      #coming { position: absolute; left: 80px; top: 64px; font-size: 16px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+
+      /* Top HUD (the app's TopHud) */
+      #hud { position: absolute; left: 80px; right: 80px; top: 44px; height: 40px; display: flex; align-items: center; justify-content: space-between; font-size: 17px; color: var(--muted); }
+      #hud-left { display: flex; align-items: center; gap: 16px; }
+      #hud-nova { color: var(--text); letter-spacing: 0.2em; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+      #hud-center { position: absolute; left: 50%; top: 10px; width: 420px; margin-left: -210px; display: flex; justify-content: center; }
+      #hud-phase { width: 300px; height: 22px; color: var(--text-2); }
+      #hud-phase > span { display: flex; align-items: center; gap: 10px; width: 300px; justify-content: center; }
+      #hud-right { font-size: 15px; }
+
+      /* State pill under the orb */
+      #pill { position: absolute; left: 50%; top: 718px; width: 300px; margin-left: -150px; height: 50px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
+      #pill-labels { width: 240px; height: 22px; font-size: 18px; letter-spacing: 0.02em; }
+      #pill-labels > span { display: flex; align-items: center; justify-content: center; gap: 10px; width: 240px; }
+
+      /* Transcript */
+      #transcript { position: absolute; left: 50%; top: 782px; width: 760px; margin-left: -380px; display: flex; flex-direction: column; gap: 14px; }
+      .bubble { max-width: 85%; padding: 16px 24px; border-radius: 26px; font-size: 26px; line-height: 1.35; }
+      #b-user { align-self: flex-end; background: var(--elevated); border: 1px solid var(--glass-border); color: var(--text-2); }
+      #b-nova { align-self: flex-start; background: var(--glass); border: 1px solid var(--accent-border); color: var(--text); }
+      .w { display: inline-block; }
+
+      /* It sees — the screen being read */
+      #screen { position: absolute; left: 150px; top: 250px; width: 470px; height: 330px; border-radius: 22px; overflow: hidden; }
+      #screen-bar { height: 44px; border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; gap: 9px; padding: 0 18px; }
+      #screen-bar i { display: block; width: 11px; height: 11px; border-radius: 50%; background: rgba(250, 248, 245, 0.16); }
+      #screen-body { padding: 26px 28px; display: flex; flex-direction: column; gap: 16px; }
+      .ln { height: 12px; border-radius: 6px; background: rgba(250, 248, 245, 0.12); }
+      #scan { position: absolute; left: 0; right: 0; top: 44px; height: 70px; background: linear-gradient(to bottom, transparent, rgba(223, 192, 150, 0.22) 60%, rgba(223, 192, 150, 0.55) 100%); border-bottom: 1px solid rgba(223, 192, 150, 0.8); }
+      #screen-tag { position: absolute; left: 150px; top: 600px; font-size: 15px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+
+      /* Activity card (right) */
+      #activity { position: absolute; right: 150px; top: 250px; width: 450px; border-radius: 26px; padding: 24px; }
+      .card-head { display: flex; justify-content: space-between; align-items: center; font-size: 15px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-2); margin-bottom: 18px; }
+      .live { display: flex; align-items: center; gap: 8px; color: var(--live); letter-spacing: 0.08em; }
+      .entry { border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px 18px; margin-top: 12px; background: rgba(16, 16, 18, 0.5); }
+      .entry-top { display: flex; justify-content: space-between; font-size: 14px; color: var(--accent); }
+      .entry-top span:last-child { color: var(--muted); }
+      .entry-text { margin-top: 8px; font-size: 20px; line-height: 1.35; color: var(--text); }
+
+      /* Agents panel (left) */
+      #agents { position: absolute; left: 150px; top: 330px; width: 450px; border-radius: 26px; padding: 24px; }
+      .agent { display: flex; justify-content: space-between; align-items: center; padding: 14px 4px; border-top: 1px solid var(--glass-border); }
+      .agent-name { font-size: 20px; letter-spacing: 0.1em; font-weight: 500; }
+      .agent-state { display: block; margin-top: 4px; font-size: 16px; color: var(--muted); width: 300px; height: 20px; }
+      .agent-state > span { position: absolute; }
+      .agent .dot { background: rgba(250, 248, 245, 0.25); }
+      .agent .dot-on { position: absolute; inset: 0; background: var(--accent); border-radius: 50%; }
+      .agent .dotwrap { position: relative; width: 10px; height: 10px; }
+      #running { width: 130px; height: 18px; text-align: right; }
+      #running > span { right: 0; left: auto; }
+
+      /* Status card + chrome (the whole interface, scene 7) */
+      #status { position: absolute; left: 150px; top: 130px; width: 450px; border-radius: 26px; padding: 20px 24px; font-size: 16px; }
+      .srow { display: flex; justify-content: space-between; margin-top: 10px; color: var(--text-2); }
+      .srow b { font-weight: 400; color: var(--text); }
+      #rail { position: absolute; left: 48px; top: 330px; width: 58px; height: 330px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: space-around; padding: 18px 0; }
+      #rail i { display: block; width: 18px; height: 18px; border-radius: 5px; border: 2px solid rgba(250, 248, 245, 0.35); }
+      #input { position: absolute; left: 50%; top: 978px; width: 760px; margin-left: -380px; height: 64px; border-radius: 999px; display: flex; align-items: center; gap: 18px; padding: 0 12px; }
+      #mic { width: 44px; height: 44px; border-radius: 50%; background: var(--live); flex: none; }
+      #input-text { flex: 1; font-size: 20px; color: var(--muted); }
+      #kbd { font-size: 14px; color: var(--muted); border: 1px solid var(--glass-border); border-radius: 8px; padding: 4px 9px; margin-right: 8px; }
+      #footer { position: absolute; left: 80px; right: 80px; bottom: 18px; display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); letter-spacing: 0.08em; }
+
+      /* Final reveal */
+      #reveal { display: flex; flex-direction: column; align-items: center; }
+      #rv-icon { position: absolute; left: 50%; top: 505px; width: 120px; height: 120px; margin-left: -60px; display: block; }
+      #rv-name { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font-size: 150px; font-weight: 500; letter-spacing: 0.14em; line-height: 1; padding-left: 0.14em; }
+      #rv-status { position: absolute; left: 0; right: 0; top: 820px; display: flex; justify-content: center; align-items: center; gap: 14px; font-size: 20px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); }
+      #rv-dot { background: var(--accent); width: 12px; height: 12px; }
+      #rv-sign { position: absolute; left: 0; right: 0; top: 920px; display: flex; justify-content: center; align-items: center; gap: 22px; font-size: 16px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+      #rv-sign img { height: 22px; width: auto; display: block; filter: brightness(1.2); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="25.5" data-width="1920" data-height="1080">
+      <!-- NOVA's orb: a deterministic port of desk/ui/src/components/three/SpatialCanvas.tsx -->
+      <div id="orb" class="clip" data-start="0" data-duration="25.5" data-track-index="0">
+        <canvas id="three-layer"></canvas>
+      </div>
+      <div id="vignette" class="clip" data-start="0" data-duration="25.5" data-track-index="1"></div>
+
+      <!-- Scene 1: the only text while she wakes -->
+      <div id="s-coming" class="clip" data-start="0" data-duration="3.4" data-track-index="2">
+        <p id="coming" class="mono">NOVA · Coming online</p>
+      </div>
+
+      <!-- The interface: scenes 2-7 -->
+      <div id="ui" class="clip" data-start="3" data-duration="18.6" data-track-index="3" data-layout-allow-overlap>
+        <div id="ui-inner" class="clip" data-layout-allow-overlap>
+          <div id="hud" class="mono">
+            <div id="hud-left">
+              <span id="hud-nova"><span class="dot" style="background: var(--accent)"></span>NOVA</span>
+              <span>/</span>
+              <span style="display: flex; align-items: center; gap: 8px"><span class="dot" style="width: 8px; height: 8px; background: var(--live)"></span>Connected</span>
+              <span style="opacity: 0.55">Presence</span>
+            </div>
+            <div id="hud-center">
+              <span id="hud-phase" class="stack" data-layout-allow-overlap>
+                <span id="ph-ready"><span class="dot" style="width: 8px; height: 8px; background: var(--accent)"></span>Ready</span>
+                <span id="ph-hearing"><span class="dot" style="width: 8px; height: 8px; background: var(--live)"></span>Hearing you</span>
+                <span id="ph-looking"><span class="dot" style="width: 8px; height: 8px; background: var(--accent)"></span>Looking at the screen</span>
+                <span id="ph-thinking"><span class="dot" style="width: 8px; height: 8px; background: var(--accent)"></span>Thinking</span>
+                <span id="ph-working"><span class="dot" style="width: 8px; height: 8px; background: var(--accent)"></span>Working</span>
+              </span>
+            </div>
+            <span id="hud-right">NOVA 1.0.0</span>
+          </div>
+
+          <div id="rail" class="glass"><i></i><i></i><i></i><i></i><i></i></div>
+
+          <div id="status" class="glass mono">
+            <div style="display: flex; justify-content: space-between; color: var(--accent); letter-spacing: 0.12em">
+              <span>NOVA</span><span style="color: var(--muted)">cloud · local fallback</span>
+            </div>
+            <div class="srow"><span>Tools available</span><b>ready</b></div>
+            <div class="srow"><span>Memory</span><b>on</b></div>
+          </div>
+
+          <div id="screen" class="glass" data-layout-allow-overlap>
+            <div id="screen-bar"><i></i><i></i><i></i></div>
+            <div id="screen-body">
+              <div class="ln" style="width: 62%"></div>
+              <div class="ln" style="width: 88%"></div>
+              <div class="ln" style="width: 74%"></div>
+              <div class="ln" style="width: 40%; background: rgba(223, 192, 150, 0.35)"></div>
+              <div class="ln" style="width: 82%"></div>
+              <div class="ln" style="width: 56%"></div>
+            </div>
+            <div id="scan"></div>
+          </div>
+          <p id="screen-tag" class="mono">look_at_screen</p>
+
+          <div id="agents" class="glass mono">
+            <div class="card-head">
+              <span>Agents</span>
+              <span id="running" class="stack" data-layout-allow-overlap>
+                <span id="run-0">0 running</span><span id="run-1">1 running</span><span id="run-2">2 running</span><span id="run-3">3 running</span>
+              </span>
+            </div>
+            <div class="agent"><div><span class="agent-name">NOVA</span><span class="agent-state stack body"><span>orchestrating</span></span></div><div class="dotwrap"><span class="dot"></span><span id="on-nova" class="dot-on"></span></div></div>
+            <div class="agent"><div><span class="agent-name">RESEARCH</span><span class="agent-state stack body" data-layout-allow-overlap><span id="st-r0">standby</span><span id="st-r1">Searching the web</span></span></div><div class="dotwrap"><span class="dot"></span><span id="on-r" class="dot-on"></span></div></div>
+            <div class="agent"><div><span class="agent-name">BROWSER</span><span class="agent-state stack body" data-layout-allow-overlap><span id="st-b0">standby</span><span id="st-b1">Opening a page</span></span></div><div class="dotwrap"><span class="dot"></span><span id="on-b" class="dot-on"></span></div></div>
+            <div class="agent"><div><span class="agent-name">COMPUTER</span><span class="agent-state stack body" data-layout-allow-overlap><span id="st-c0">standby</span><span id="st-c1">Working with files</span></span></div><div class="dotwrap"><span class="dot"></span><span id="on-c" class="dot-on"></span></div></div>
+            <div class="agent"><div><span class="agent-name">CREATIVE</span><span class="agent-state stack body"><span>standby</span></span></div><div class="dotwrap"><span class="dot"></span></div></div>
+          </div>
+
+          <div id="activity" class="glass mono">
+            <div class="card-head"><span>Activity</span><span class="live"><span class="dot" style="width: 8px; height: 8px; background: var(--live)"></span>live</span></div>
+            <div id="ev-task" class="entry"><div class="entry-top"><span>task</span><span>now</span></div><p class="entry-text body">Planning a task</p></div>
+            <div id="ev-mem" class="entry"><div class="entry-top"><span>memory</span><span>now</span></div><p class="entry-text body">Recalling — you like plans before 9am.</p></div>
+          </div>
+
+          <div id="pill" class="glass" data-layout-allow-overlap>
+            <span id="pill-labels" class="stack" data-layout-allow-overlap>
+              <span id="pl-present"><span class="dot" style="background: var(--accent)"></span>Present</span>
+              <span id="pl-listening"><span class="dot" style="background: var(--live)"></span>Listening</span>
+              <span id="pl-looking"><span class="dot" style="background: var(--accent)"></span>Looking</span>
+              <span id="pl-recalling"><span class="dot" style="background: var(--accent)"></span>Recalling</span>
+              <span id="pl-working"><span class="dot" style="background: var(--accent)"></span>Working</span>
+            </span>
+          </div>
+
+          <div id="transcript" class="body">
+            <p id="b-user" class="bubble"><span class="w">Can</span> <span class="w">you</span> <span class="w">look</span> <span class="w">at</span> <span class="w">my</span> <span class="w">screen?</span></p>
+            <p id="b-nova" class="bubble">I can see it.</p>
+          </div>
+
+          <div id="input" class="glass body">
+            <span id="mic"></span><span id="input-text">Type to NOVA and press Enter…</span><span id="kbd" class="mono">Ctrl K</span>
+          </div>
+          <div id="footer" class="mono"><span>NOVA 1.0.0 · online</span><span>OMNIEL</span></div>
+        </div>
+      </div>
+
+      <!-- Scene 8: the reveal -->
+      <div id="reveal" class="clip" data-start="21.3" data-duration="4.2" data-track-index="4">
+        <img id="rv-icon" src="assets/img/nova-mark.png" alt="NOVA" />
+        <h1 id="rv-name">NOVA</h1>
+        <p id="rv-status" class="mono"><span id="rv-dot" class="dot"></span>Coming online</p>
+        <div id="rv-sign" class="mono"><span>In development · An</span><img src="assets/img/omniel-wordmark.png" alt="OMNIEL" /><span>product</span></div>
+      </div>
+
+      <!-- Audio -->
+      <audio id="bed" src="assets/music/nova-bed.wav" data-start="0" data-duration="25.5" data-volume="1" data-track-index="10"></audio>
+      <audio id="sfx-pill1" src="assets/sfx/click_003.ogg" data-start="5.5" data-duration="0.02" data-volume="0.5" data-track-index="11"></audio>
+      <audio id="sfx-pill2" src="assets/sfx/click_003.ogg" data-start="8.8" data-duration="0.02" data-volume="0.5" data-track-index="11"></audio>
+      <audio id="sfx-pill3" src="assets/sfx/click_003.ogg" data-start="14.3" data-duration="0.02" data-volume="0.5" data-track-index="11"></audio>
+      <audio id="sfx-mem" src="assets/sfx/bong_001.ogg" data-start="12.0" data-duration="0.13" data-volume="0.45" data-track-index="12"></audio>
+      <audio id="sfx-a1" src="assets/sfx/rollover2.ogg" data-start="15.02" data-duration="0.06" data-volume="0.35" data-track-index="13"></audio>
+      <audio id="sfx-a2" src="assets/sfx/rollover2.ogg" data-start="16.02" data-duration="0.06" data-volume="0.35" data-track-index="13"></audio>
+      <audio id="sfx-a3" src="assets/sfx/rollover2.ogg" data-start="17.02" data-duration="0.06" data-volume="0.35" data-track-index="13"></audio>
+      <audio id="sfx-reveal" src="assets/sfx/impactSoft_medium_001.ogg" data-start="22.0" data-duration="0.19" data-volume="0.55" data-track-index="14"></audio>
+    </div>
+
+    <!-- GSAP: interface choreography -->
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const soft = "power3.out";
+      const swap = (outSel, inSel, at) => {
+        if (outSel) tl.to(outSel, { opacity: 0, y: -6, duration: 0.25, ease: "power1.in" }, at);
+        tl.fromTo(inSel, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.3, ease: soft }, at + 0.1);
+      };
+      const hideAll = (sels) => sels.forEach((s) => tl.set(s, { opacity: 0 }, 0));
+
+      hideAll(["#ph-ready", "#ph-hearing", "#ph-looking", "#ph-thinking", "#ph-working",
+        "#pl-present", "#pl-listening", "#pl-looking", "#pl-recalling", "#pl-working",
+        "#run-1", "#run-2", "#run-3", "#st-r1", "#st-b1", "#st-c1"]);
+
+      // Scene 1 — corner label while she wakes
+      tl.fromTo("#coming", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power1.out" }, 0.5);
+      tl.to("#coming", { opacity: 0, duration: 0.4 }, 2.9);
+
+      // Scene 2 — Present
+      tl.fromTo("#hud", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, 3.0);
+      tl.fromTo("#pill", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: soft }, 3.2);
+      swap(null, "#ph-ready", 3.2);
+      swap(null, "#pl-present", 3.3);
+
+      // Scene 3 — It listens
+      swap("#ph-ready", "#ph-hearing", 5.5);
+      swap("#pl-present", "#pl-listening", 5.5);
+      tl.fromTo("#b-user", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: soft }, 5.85);
+      gsap.utils.toArray("#b-user .w").forEach((w, i) => {
+        tl.fromTo(w, { opacity: 0.12 }, { opacity: 1, duration: 0.18, ease: "power1.out" }, 5.95 + i * 0.22);
+      });
+      tl.set("#b-nova", { opacity: 0 }, 0);
+
+      // Scene 4 — It sees
+      swap("#ph-hearing", "#ph-looking", 8.8);
+      swap("#pl-listening", "#pl-looking", 8.8);
+      tl.fromTo("#screen", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.6, ease: soft }, 8.9);
+      tl.fromTo("#screen-tag", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 9.2);
+      tl.fromTo("#scan", { y: -80 }, { y: 250, duration: 1.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 9.1);
+      tl.fromTo("#b-nova", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, ease: soft }, 10.7);
+      tl.to(["#screen", "#screen-tag"], { opacity: 0, x: -30, duration: 0.4, ease: "power1.in" }, 11.8);
+
+      // Scene 5 — It remembers
+      swap("#ph-looking", "#ph-thinking", 11.8);
+      swap("#pl-looking", "#pl-recalling", 11.8);
+      tl.fromTo("#activity", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.6, ease: soft }, 11.9);
+      tl.set("#ev-task", { opacity: 0 }, 0);
+      tl.fromTo("#ev-mem", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: soft }, 12.0);
+
+      // Scene 6 — It works
+      swap("#ph-thinking", "#ph-working", 14.3);
+      swap("#pl-recalling", "#pl-working", 14.3);
+      tl.fromTo("#agents", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.6, ease: soft }, 14.3);
+      tl.fromTo("#ev-task", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: soft }, 14.5);
+      tl.fromTo("#on-nova", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 14.5);
+      // beat-grid: agents start at 15.02, 16.02, 17.02 (every other beat)
+      [["#st-r0", "#st-r1", "#on-r", "#run-0", "#run-1", 15.02],
+       ["#st-b0", "#st-b1", "#on-b", "#run-1", "#run-2", 16.02],
+       ["#st-c0", "#st-c1", "#on-c", "#run-2", "#run-3", 17.02]].forEach(([o, n, dot, ro, rn, at]) => {
+        tl.to(o, { opacity: 0, duration: 0.2 }, at);
+        tl.fromTo(n, { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.35, ease: soft }, at + 0.05);
+        tl.fromTo(dot, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, at);
+        tl.to(ro, { opacity: 0, duration: 0.15 }, at);
+        tl.fromTo(rn, { opacity: 0 }, { opacity: 1, duration: 0.25 }, at + 0.05);
+      });
+      tl.set(["#on-r", "#on-b", "#on-c", "#on-nova"], { opacity: 0 }, 0);
+
+      // Scene 7 — the whole interface, together (pull back)
+      tl.fromTo("#ui-inner", { scale: 1.06 }, { scale: 1, duration: 2.2, ease: "power2.inOut", transformOrigin: "50% 45%" }, 18.8);
+      tl.fromTo(["#status", "#rail"], { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power1.out" }, 18.9);
+      tl.fromTo(["#input", "#footer"], { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: soft }, 19.0);
+      tl.to("#ui-inner", { opacity: 0, duration: 0.6, ease: "power1.in" }, 21.0);
+
+      // Scene 8 — reveal
+      tl.fromTo("#rv-icon", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.9, ease: soft }, 21.7);
+      tl.fromTo("#rv-name", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.9, ease: soft }, 22.0);
+      tl.fromTo("#rv-status", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 22.6);
+      tl.fromTo("#rv-dot", { opacity: 1 }, { opacity: 0.3, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 3 }, 22.8);
+      // beat-locked: 23.02s
+      tl.fromTo("#rv-sign", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, ease: soft }, 23.02);
+
+      window.__timelines["main"] = tl;
+    </script>
+
+    <!-- Three.js: NOVA's orb, rendered from HyperFrames time -->
+    <script type="module">
+      import * as THREE from "./assets/vendor/three.module.js";
+
+      const W = 1920, H = 1080, FOV = 45;
+      const canvas = document.getElementById("three-layer");
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setSize(W, H, false);
+      renderer.setPixelRatio(1);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(FOV, W / H, 0.1, 2000);
+
+      // Warm Graphite palette, as in SpatialCanvas
+      const primary = new THREE.Color("#dfc096");
+      const secondary = new THREE.Color("#b89972");
+      const accent = new THREE.Color("#dfc096");
+      const ringBase = new THREE.Color("#b89972");
+
+      // Seeded random: every render of every frame is identical.
+      let seed = 1790650003;
+      const rand = () => { seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+
+      const master = new THREE.Group();
+      scene.add(master);
+      const count = 9000, radius = 35;
+      const positions = new Float32Array(count * 3), originals = new Float32Array(count * 3), colors = new Float32Array(count * 3);
+      const mixed = new THREE.Color();
+      for (let i = 0; i < count; i++) {
+        const phi = Math.acos(1 - (2 * (i + 0.5)) / count);
+        const th = Math.PI * (1 + Math.sqrt(5)) * (i + 0.5);
+        const r = radius + (rand() - 0.5) * 3.5;
+        const x = r * Math.sin(phi) * Math.cos(th), y = r * Math.sin(phi) * Math.sin(th), z = r * Math.cos(phi);
+        positions.set([x, y, z], i * 3); originals.set([x, y, z], i * 3);
+        mixed.copy(primary).lerp(secondary, rand() * 0.5);
+        colors.set([mixed.r, mixed.g, mixed.b], i * 3);
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+      const sprite = document.createElement("canvas");
+      sprite.width = sprite.height = 64;
+      const sctx = sprite.getContext("2d");
+      const g = sctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      g.addColorStop(0, "rgba(255,255,255,1)"); g.addColorStop(0.25, "rgba(255,255,255,0.7)");
+      g.addColorStop(0.65, "rgba(255,255,255,0.15)"); g.addColorStop(1, "rgba(255,255,255,0)");
+      sctx.fillStyle = g; sctx.fillRect(0, 0, 64, 64);
+      const baseOpacity = 0.85;
+      const mat = new THREE.PointsMaterial({ size: 1.5, vertexColors: true, map: new THREE.CanvasTexture(sprite), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: baseOpacity });
+      const orb = new THREE.Group();
+      orb.add(new THREE.Points(geo, mat));
+      const ringMat = new THREE.MeshBasicMaterial({ color: primary, side: THREE.DoubleSide, transparent: true, opacity: 0.12 });
+      const ring = new THREE.Mesh(new THREE.RingGeometry(43, 43.4, 128), ringMat);
+      orb.add(ring);
+      master.add(orb);
+
+      // NOVA's state targets (desk/ui/src/nova/visual.ts)
+      const BASE = { energy: 0.25, focus: 0, think: 0, tool: 0, vision: 0, listenRings: 0, speakRings: 0, sleep: 0 };
+      const T = {
+        SLEEPING: { energy: 0.08, sleep: 1 },
+        AWAKENING: { energy: 0.55 },
+        IDLE: {},
+        LISTENING: { energy: 0.4, focus: 0.85, listenRings: 1 },
+        VISION: { energy: 0.45, focus: 0.55, vision: 1, tool: 0.6 },
+        SPEAKING: { energy: 0.55, speakRings: 1 },
+        MEMORY_RETRIEVAL: { energy: 0.35, focus: 0.5, think: 0.5 },
+        TOOL_EXECUTION: { energy: 0.5, focus: 0.35, think: 0.55, tool: 1 },
+        SUCCESS: { energy: 0.5 },
+      };
+      const schedule = [
+        [0, "SLEEPING"], [1.0, "AWAKENING"], [3.0, "IDLE"], [5.5, "LISTENING"], [8.8, "VISION"],
+        [10.6, "SPEAKING"], [11.8, "MEMORY_RETRIEVAL"], [14.3, "TOOL_EXECUTION"], [19.2, "SUCCESS"], [21.3, "IDLE"],
+      ];
+      const full = (s) => ({ ...BASE, ...T[s] });
+      const smooth = (x) => { const c = Math.min(1, Math.max(0, x)); return c * c * (3 - 2 * c); };
+      function paramsAt(t) {
+        let p = full(schedule[0][1]);
+        for (let i = 1; i < schedule.length; i++) {
+          const [at, s] = schedule[i];
+          if (t < at) break;
+          const k = smooth((t - at) / 0.7);
+          const next = full(s);
+          const out = {};
+          for (const key in p) out[key] = p[key] + (next[key] - p[key]) * k;
+          p = out;
+        }
+        return p;
+      }
+      // Voices: the visitor while the transcript writes on; NOVA while she answers.
+      const win = (t, a, b, f) => (t > a && t < b ? Math.min(1, (t - a) / 0.2, (b - t) / 0.2) * (0.55 + 0.45 * Math.abs(Math.sin(t * f))) : 0);
+      const userAudio = (t) => win(t, 5.9, 7.4, 11);
+      const novaAudio = (t) => win(t, 10.7, 11.6, 13) * 0.8;
+
+      // Integrate the rotation rates so a state change never makes the orb jump.
+      const STEP = 1 / 120, DUR = 25.5;
+      const rotY = [0], ringZ = [0], phase = [0];
+      for (let i = 1; i <= Math.ceil(DUR / STEP) + 1; i++) {
+        const p = paramsAt(i * STEP);
+        rotY.push(rotY[i - 1] + STEP * (0.06 + p.energy * 0.12 + p.think * 0.1));
+        ringZ.push(ringZ[i - 1] + STEP * (0.05 + p.tool * 0.3 + p.vision * 1.2));
+        phase.push(phase[i - 1] + STEP * (2 + p.think * 2));
+      }
+      const lookup = (arr, t) => { const x = Math.max(0, t) / STEP; const i = Math.floor(x); const f = x - i; return arr[Math.min(i, arr.length - 2)] * (1 - f) + arr[Math.min(i + 1, arr.length - 1)] * f; };
+
+      // Framing: orb radius on screen (px) and vertical centre (px), per scene.
+      const frames = [
+        [0, 210, 470], [18.8, 210, 470], [20.8, 150, 480], [21.3, 150, 480], [22.3, 100, 385], [25.5, 100, 385],
+      ];
+      function framingAt(t) {
+        for (let i = 1; i < frames.length; i++) {
+          const [a, ra, ya] = frames[i - 1], [b, rb, yb] = frames[i];
+          if (t <= b) { const k = smooth((t - a) / (b - a)); return [ra + (rb - ra) * k, ya + (yb - ya) * k]; }
+        }
+        const l = frames[frames.length - 1]; return [l[1], l[2]];
+      }
+
+      const tint = new THREE.Color();
+      function renderAt(time) {
+        const t = Math.max(0, Math.min(DUR, time));
+        const p = paramsAt(t);
+        const na = novaAudio(t), ua = userAudio(t);
+
+        const [rPx, yPx] = framingAt(t);
+        const unitsPerPx = radius / rPx;
+        const visibleH = H * unitsPerPx;
+        camera.position.set(0, 0, visibleH / 2 / Math.tan((FOV * Math.PI) / 360));
+        camera.updateProjectionMatrix();
+        master.position.y = (H / 2 - yPx) * unitsPerPx;
+
+        tint.copy(primary).lerp(accent, Math.min(1, p.think * 0.35 + p.tool * 0.5 + p.vision * 0.7));
+        orb.rotation.y = lookup(rotY, t);
+        orb.rotation.x = Math.sin(t * 0.08) * 0.08;
+        ring.rotation.z = lookup(ringZ, t);
+        ring.rotation.x = Math.PI * (0.42 - p.vision * 0.3);
+        ring.scale.setScalar(1 - p.listenRings * 0.06 + p.speakRings * 0.08 * (0.5 + na));
+        const wake = smooth(t / 1.6);
+        ringMat.opacity = (0.1 + p.listenRings * 0.12 + p.speakRings * 0.1 + p.vision * 0.35) * wake;
+        ringMat.color.copy(ringBase);
+
+        const pulse = 1 + na * 0.22 + ua * 0.1 + Math.sin(t * 1.8) * 0.015;
+        const amp = 0.5 + p.energy * 1.2 + p.think * 0.8 + na * 2.5 + 0.05;
+        const ph = lookup(phase, t);
+        const arr = geo.attributes.position.array;
+        for (let i = 0; i < count; i++) {
+          const j = i * 3, ox = originals[j], oy = originals[j + 1], oz = originals[j + 2];
+          const d = Math.sqrt(ox * ox + oy * oy + oz * oz);
+          const k = pulse + (Math.sin(d * 0.22 + ph + ox * 0.06) * amp) / radius;
+          arr[j] = ox * k; arr[j + 1] = oy * k; arr[j + 2] = oz * k;
+        }
+        geo.attributes.position.needsUpdate = true;
+        mat.color.copy(tint);
+        mat.opacity = baseOpacity * (1 - p.sleep * 0.5) * wake;
+        renderer.render(scene, camera);
+      }
+
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      renderAt(window.__hfThreeTime || 0);
+    </script>
+  </body>
+</html>
