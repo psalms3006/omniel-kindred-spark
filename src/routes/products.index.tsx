@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Atmosphere } from "@/components/site/atmosphere";
+import { AppIcon } from "@/components/site/app-icon";
 import {
   ActionLink,
   Eyebrow,
@@ -45,11 +46,9 @@ function ProductsIndex() {
               <div className="relative h-48 border-b border-hairline lg:h-full lg:border-b-0 lg:border-r">
                 <Atmosphere variant="band" intensity={0.9} />
                 {nova.icon && (
-                  <img
-                    src={nova.icon}
-                    alt=""
-                    className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2"
-                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <AppIcon src={nova.icon} className="w-28" />
+                  </div>
                 )}
               </div>
               <div className="p-8 md:p-10">

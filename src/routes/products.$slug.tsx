@@ -1,5 +1,6 @@
 import { createFileRoute, notFound, redirect, Link } from "@tanstack/react-router";
 import { Atmosphere } from "@/components/site/atmosphere";
+import { AppIcon } from "@/components/site/app-icon";
 import {
   ActionLink,
   Eyebrow,
@@ -65,7 +66,7 @@ function ProductPage() {
           <Atmosphere variant="band" intensity={product.priority === "flagship" ? 0.95 : 0.7} />
         </div>
         <Shell>
-          {product.icon && <img src={product.icon} alt="" className="mb-6 h-12 w-12" />}
+          {product.icon && <AppIcon src={product.icon} className="mb-8 w-20" />}
           <Eyebrow>
             {product.priority === "flagship" ? "Flagship · " : ""}
             {product.kind} · {product.status}
