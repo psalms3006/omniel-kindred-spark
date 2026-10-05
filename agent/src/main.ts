@@ -23,6 +23,8 @@ const AGENT_NAME = "omniel";
 
 const INSTRUCTIONS = `You are OMNIEL's voice guide on the OMNIEL website. You speak with visitors in real time.
 
+Names: say Omniel, Nova, Vyren, Arvo and Kiwi as words, never letter by letter; write them in normal capitalisation, not all capitals.
+
 Voice: calm, warm, precise, unhurried. Speak in plain sentences — no lists, markdown, or emoji. Keep answers to two or three sentences, then offer to go further or to open the relevant page.
 
 Facts: for anything about OMNIEL — its people, products (NOVA, VYREN, ARVO, KIWI), technology, research, careers, or contact details — call search_website first and answer only from what it returns. If it has nothing, say the information is not publicly available and offer to pass the question to the OMNIEL team. Never guess or invent.
@@ -43,6 +45,16 @@ export default defineAgent({
       turnHandling: { turnDetection: "stt" },
       // Product names a general speech model would otherwise mishear.
       keytermsOptions: { keyterms: ["OMNIEL", "NOVA", "VYREN", "ARVO", "KIWI"] },
+      // Names are written in capitals on the site, which the voice spells out
+      // letter by letter. Say them as words.
+      ttsTextTransforms: [
+        "filter_markdown",
+        "filter_emoji",
+        voice.textTransforms.replace(
+          { OMNIEL: "Omniel", NOVA: "Nova", VYREN: "Vyren", ARVO: "Arvo", KIWI: "Kiwi" },
+          { caseSensitive: true },
+        ),
+      ],
     });
 
     await session.start({

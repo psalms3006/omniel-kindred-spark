@@ -39,6 +39,24 @@ function describeMicError(err: unknown): string | null {
   return null;
 }
 
+const SILENT_WAV =
+  "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=";
+
+/** Call synchronously inside a tap: unlocks audio playback on mobile browsers. */
+function unlockAudio() {
+  try {
+    const Ctx =
+      window.AudioContext ??
+      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (Ctx) void new Ctx().resume();
+  } catch {
+    /* not available */
+  }
+  const el = new Audio(SILENT_WAV);
+  el.setAttribute("playsinline", "");
+  void el.play().catch(() => undefined);
+}
+
 export function LiveKitWidget() {
   const router = useRouter();
   const dispatcher = useMemo(() => createActionDispatcher(router), [router]);
@@ -46,6 +64,7 @@ export function LiveKitWidget() {
   const audioHostRef = useRef<HTMLDivElement | null>(null);
   const [state, setState] = useState<CallState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [audioBlocked, setAudioBlocked] = useState(false);
 
   // Leave the room if the widget unmounts mid-call (e.g. a full reload).
   useEffect(() => () => void roomRef.current?.disconnect(), []);
@@ -53,6 +72,11 @@ export function LiveKitWidget() {
   async function start() {
     setState("connecting");
     setErrorMessage(null);
+    setAudioBlocked(false);
+    // Mobile browsers only allow audio started during the tap itself; the
+    // awaits below (token, import, connect) outlive that window. Unlock
+    // playback now, synchronously, so the agent's voice can play later.
+    unlockAudio();
 
     try {
       const response = await fetch("/api/livekit/token", { method: "POST" });
@@ -94,16 +118,22 @@ export function LiveKitWidget() {
 
       room.registerRpcMethod(AGENT_ACTION_RPC, (data) => runAgentAction(data.payload, dispatcher));
 
-      await room.connect(body.serverUrl, body.token);
-      // Inside the click's user gesture, so browsers allow the agent's audio to play.
-      await room.startAudio();
+      room.on(RoomEvent.AudioPlaybackStatusChanged, () => {
+        setAudioBlocked(!room.canPlaybackAudio);
+      });
 
+      await room.connect(body.serverUrl, body.token);
+
+      // Microphone first: on phones, opening the mic switches the audio
+      // session, which can silence playback that was started before it.
       try {
         await room.localParticipant.setMicrophoneEnabled(true);
       } catch (err) {
         await room.disconnect();
         throw new Error(describeMicError(err) ?? "The microphone could not be started.");
       }
+      await room.startAudio().catch(() => undefined);
+      setAudioBlocked(!room.canPlaybackAudio);
 
       setState("listening");
     } catch (err) {
@@ -136,6 +166,19 @@ export function LiveKitWidget() {
       <p className="sr-only" role="status" aria-live="polite">
         {isLive ? liveLabel : state === "connecting" ? "Connecting" : "Talk to OMNIEL"}
       </p>
+
+      {audioBlocked && isLive && (
+        <button
+          type="button"
+          onClick={() => {
+            unlockAudio();
+            void roomRef.current?.startAudio().then(() => setAudioBlocked(false));
+          }}
+          className="glass rounded-full px-4 py-2 text-xs text-foreground"
+        >
+          Tap to hear OMNIEL
+        </button>
+      )}
 
       {errorMessage && (
         <p className="panel max-w-[15rem] rounded-2xl px-4 py-3 text-right text-xs leading-relaxed text-muted-foreground">
