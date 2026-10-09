@@ -9,6 +9,7 @@ import {
   SectionHeading,
   Shell,
 } from "@/components/site/primitives";
+import { WaitlistForm } from "@/components/site/waitlist-form";
 import { productBySlug, products } from "@/lib/omniel";
 import { pageHead } from "@/lib/seo";
 
@@ -147,6 +148,19 @@ function ProductPage() {
           </p>
         )}
       </Section>
+
+      {product.slug === "nova" ? (
+        <Section id="waitlist" className="border-t border-hairline">
+          <SectionHeading
+            eyebrow="Early access"
+            title="Want to use NOVA first?"
+            lede="NOVA is in development. Join the waitlist and we'll email you when there is something to try — no newsletters in between."
+          />
+          <div className="mt-12 max-w-2xl">
+            <WaitlistForm />
+          </div>
+        </Section>
+      ) : null}
 
       <Section className="border-t border-hairline">
         <Eyebrow>Elsewhere in the ecosystem</Eyebrow>

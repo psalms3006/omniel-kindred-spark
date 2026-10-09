@@ -43,8 +43,8 @@ const processors = [
   },
   {
     name: "Resend",
-    what: "Your name, email address and message",
-    why: "Delivers form submissions to OMNIEL as email. It is the postal service, not a mailing list.",
+    what: "Your name, email address and message, and any NOVA waitlist details",
+    why: "Delivers form submissions to OMNIEL as email, stores the NOVA waitlist, and sends its confirmation emails.",
   },
   {
     name: "Cloudflare",
@@ -86,6 +86,12 @@ function Privacy() {
           recordings.
         </p>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          If you join the NOVA waitlist, we store your email address, your name, and anything you
+          tell us you'd want to use NOVA for, so we can confirm your interest and contact you when
+          NOVA is available. We keep that until you ask us to remove it, and you can leave the list
+          at any time.
+        </p>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
           We also count page views with Cloudflare Web Analytics. It sets no cookies, stores
           nothing on your device, and does not fingerprint you or follow you to other sites. It
           reports how many people visited which pages and how quickly they loaded, not who they
@@ -103,6 +109,9 @@ function Privacy() {
           Solely to read your message and reply to you. Form submissions send directly to us; if
           that fails, your own email client opens as a fallback so your message isn't lost either
           way. We keep it only for as long as it takes to have that conversation.
+        </p>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          Waitlist details are used only to confirm your interest and to contact you about NOVA.
         </p>
       </Section>
 

@@ -17,7 +17,11 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as TechnologyRouteImport } from './routes/technology'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as WaitlistRouteImport } from './routes/waitlist'
+import { Route as WaitlistConfirmRouteImport } from './routes/waitlist-confirm'
 import { Route as ApiEnquiryRouteImport } from './routes/api/enquiry'
+import { Route as ApiWaitlistRouteImport } from './routes/api/waitlist'
+import { Route as ApiWaitlistConfirmRouteImport } from './routes/api/waitlist-confirm'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
 
@@ -61,9 +65,29 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WaitlistRoute = WaitlistRouteImport.update({
+  id: '/waitlist',
+  path: '/waitlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WaitlistConfirmRoute = WaitlistConfirmRouteImport.update({
+  id: '/waitlist-confirm',
+  path: '/waitlist-confirm',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiEnquiryRoute = ApiEnquiryRouteImport.update({
   id: '/api/enquiry',
   path: '/api/enquiry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWaitlistRoute = ApiWaitlistRouteImport.update({
+  id: '/api/waitlist',
+  path: '/api/waitlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWaitlistConfirmRoute = ApiWaitlistConfirmRouteImport.update({
+  id: '/api/waitlist-confirm',
+  path: '/api/waitlist-confirm',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsIndexRoute = ProductsIndexRouteImport.update({
@@ -86,7 +110,11 @@ export interface FileRoutesByFullPath {
   '/research': typeof ResearchRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
+  '/waitlist': typeof WaitlistRoute
+  '/waitlist-confirm': typeof WaitlistConfirmRoute
   '/api/enquiry': typeof ApiEnquiryRoute
+  '/api/waitlist': typeof ApiWaitlistRoute
+  '/api/waitlist-confirm': typeof ApiWaitlistConfirmRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products/': typeof ProductsIndexRoute
 }
@@ -99,7 +127,11 @@ export interface FileRoutesByTo {
   '/research': typeof ResearchRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
+  '/waitlist': typeof WaitlistRoute
+  '/waitlist-confirm': typeof WaitlistConfirmRoute
   '/api/enquiry': typeof ApiEnquiryRoute
+  '/api/waitlist': typeof ApiWaitlistRoute
+  '/api/waitlist-confirm': typeof ApiWaitlistConfirmRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products': typeof ProductsIndexRoute
 }
@@ -113,7 +145,11 @@ export interface FileRoutesById {
   '/research': typeof ResearchRoute
   '/technology': typeof TechnologyRoute
   '/terms': typeof TermsRoute
+  '/waitlist': typeof WaitlistRoute
+  '/waitlist-confirm': typeof WaitlistConfirmRoute
   '/api/enquiry': typeof ApiEnquiryRoute
+  '/api/waitlist': typeof ApiWaitlistRoute
+  '/api/waitlist-confirm': typeof ApiWaitlistConfirmRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products/': typeof ProductsIndexRoute
 }
@@ -128,7 +164,11 @@ export interface FileRouteTypes {
     | '/research'
     | '/technology'
     | '/terms'
+    | '/waitlist'
+    | '/waitlist-confirm'
     | '/api/enquiry'
+    | '/api/waitlist'
+    | '/api/waitlist-confirm'
     | '/products/$slug'
     | '/products/'
   fileRoutesByTo: FileRoutesByTo
@@ -141,7 +181,11 @@ export interface FileRouteTypes {
     | '/research'
     | '/technology'
     | '/terms'
+    | '/waitlist'
+    | '/waitlist-confirm'
     | '/api/enquiry'
+    | '/api/waitlist'
+    | '/api/waitlist-confirm'
     | '/products/$slug'
     | '/products'
   id:
@@ -154,7 +198,11 @@ export interface FileRouteTypes {
     | '/research'
     | '/technology'
     | '/terms'
+    | '/waitlist'
+    | '/waitlist-confirm'
     | '/api/enquiry'
+    | '/api/waitlist'
+    | '/api/waitlist-confirm'
     | '/products/$slug'
     | '/products/'
   fileRoutesById: FileRoutesById
@@ -168,7 +216,11 @@ export interface RootRouteChildren {
   ResearchRoute: typeof ResearchRoute
   TechnologyRoute: typeof TechnologyRoute
   TermsRoute: typeof TermsRoute
+  WaitlistRoute: typeof WaitlistRoute
+  WaitlistConfirmRoute: typeof WaitlistConfirmRoute
   ApiEnquiryRoute: typeof ApiEnquiryRoute
+  ApiWaitlistRoute: typeof ApiWaitlistRoute
+  ApiWaitlistConfirmRoute: typeof ApiWaitlistConfirmRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
 }
@@ -231,11 +283,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/waitlist': {
+      id: '/waitlist'
+      path: '/waitlist'
+      fullPath: '/waitlist'
+      preLoaderRoute: typeof WaitlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/waitlist-confirm': {
+      id: '/waitlist-confirm'
+      path: '/waitlist-confirm'
+      fullPath: '/waitlist-confirm'
+      preLoaderRoute: typeof WaitlistConfirmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/enquiry': {
       id: '/api/enquiry'
       path: '/api/enquiry'
       fullPath: '/api/enquiry'
       preLoaderRoute: typeof ApiEnquiryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/waitlist': {
+      id: '/api/waitlist'
+      path: '/api/waitlist'
+      fullPath: '/api/waitlist'
+      preLoaderRoute: typeof ApiWaitlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/waitlist-confirm': {
+      id: '/api/waitlist-confirm'
+      path: '/api/waitlist-confirm'
+      fullPath: '/api/waitlist-confirm'
+      preLoaderRoute: typeof ApiWaitlistConfirmRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/': {
@@ -264,7 +344,11 @@ const rootRouteChildren: RootRouteChildren = {
   ResearchRoute: ResearchRoute,
   TechnologyRoute: TechnologyRoute,
   TermsRoute: TermsRoute,
+  WaitlistRoute: WaitlistRoute,
+  WaitlistConfirmRoute: WaitlistConfirmRoute,
   ApiEnquiryRoute: ApiEnquiryRoute,
+  ApiWaitlistRoute: ApiWaitlistRoute,
+  ApiWaitlistConfirmRoute: ApiWaitlistConfirmRoute,
   ProductsSlugRoute: ProductsSlugRoute,
   ProductsIndexRoute: ProductsIndexRoute,
 }
