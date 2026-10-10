@@ -18,7 +18,8 @@ export const Route = createFileRoute("/privacy")({
 
 const dontDo = [
   "We don't run accounts, logins or user profiles on this site.",
-  "We don't set cookies, and we don't run analytics or advertising trackers.",
+  "We don't set cookies, and we don't use advertising or cross-site trackers.",
+  "We don't use analytics that identify you. The page-view counts described below are anonymous and cookieless.",
   "We don't sell or rent your information to anyone.",
   "We don't use anything you send us to train any AI model.",
   "We don't show ads or work with advertising networks.",
@@ -42,13 +43,13 @@ const processors = [
   },
   {
     name: "Resend",
-    what: "Your name, email address and message",
-    why: "Delivers form submissions to OMNIEL as email. It is the postal service, not a mailing list.",
+    what: "Your name, email address and message, and any NOVA waitlist details",
+    why: "Delivers form submissions to OMNIEL as email, stores the NOVA waitlist, and sends its confirmation emails.",
   },
   {
     name: "Cloudflare",
-    what: "Standard request data, including your IP address",
-    why: "Hosts and serves the site. Any web host necessarily sees this in order to send you a page.",
+    what: "Standard request data (including your IP address), and anonymous, cookieless page-view and performance metrics",
+    why: "Hosts and serves the site, and provides our analytics through Cloudflare Web Analytics. It sets no cookies and does not track you across sites. Any web host necessarily sees request data in order to send you a page.",
   },
 ];
 
@@ -85,8 +86,20 @@ function Privacy() {
           recordings.
         </p>
         <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
-          Beyond that, we run no analytics and set no cookies. Our host records ordinary server
-          logs, including your IP address, as every web server does.
+          If you join the NOVA waitlist, we store your email address, your name, and anything you
+          tell us you'd want to use NOVA for, so we can confirm your interest and contact you when
+          NOVA is available. We keep that until you ask us to remove it, and you can leave the list
+          at any time.
+        </p>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          We also count page views with Cloudflare Web Analytics. It sets no cookies, stores
+          nothing on your device, and does not fingerprint you or follow you to other sites. It
+          reports how many people visited which pages and how quickly they loaded, not who they
+          were. That is the only analytics on this site.
+        </p>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          Our host also records ordinary server logs, including your IP address, as every web
+          server does.
         </p>
       </Section>
 
@@ -96,6 +109,9 @@ function Privacy() {
           Solely to read your message and reply to you. Form submissions send directly to us; if
           that fails, your own email client opens as a fallback so your message isn't lost either
           way. We keep it only for as long as it takes to have that conversation.
+        </p>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          Waitlist details are used only to confirm your interest and to contact you about NOVA.
         </p>
       </Section>
 
@@ -128,8 +144,8 @@ function Privacy() {
           ))}
         </ul>
         <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          If any of this changes (analytics, hosted forms, product accounts) it will be described
-          here, updated, before it's introduced.
+          If any of this changes (new third parties, hosted forms, product accounts), it will be
+          described here, and this notice updated, before it's introduced.
         </p>
       </Section>
 
@@ -151,7 +167,7 @@ function Privacy() {
         <SectionHeading eyebrow="07" title="Changes to this notice" />
         <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
           As OMNIEL's actual practices change, this page will change with them, not the other way
-          around. Last updated September 2026.
+          around. Last updated October 2026.
         </p>
       </Section>
 

@@ -138,7 +138,10 @@ function NovaStage() {
             </div>
           </div>
         </div>
-        <div className="mt-10"><ActionLink to="/products/$slug" params={{ slug: "nova" }} variant="ghost">Read about NOVA</ActionLink></div>
+        <div className="mt-10 flex flex-wrap gap-3">
+          <ActionLink to="/products/$slug" params={{ slug: "nova" }} variant="ghost">Read about NOVA</ActionLink>
+          <ActionLink to="/waitlist">Join the NOVA waitlist</ActionLink>
+        </div>
       </Shell>
     </section>
   );
