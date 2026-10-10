@@ -14,7 +14,6 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
 import { VapiWidget } from "@/components/site/vapi-widget";
-import { CloudflareAnalytics } from "@/components/site/analytics";
 import { siteUrl } from "@/lib/omniel";
 import { Atmosphere } from "@/components/site/atmosphere";
 
@@ -188,9 +187,6 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
-        {/* Cloudflare Web Analytics. Rendered only in production with a
-            configured VITE_CF_BEACON_TOKEN; a no-op otherwise. */}
-        <CloudflareAnalytics />
         <script
           type="application/ld+json"
           // Static, developer-authored JSON only — never user input.

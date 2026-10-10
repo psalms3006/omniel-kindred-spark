@@ -1,208 +1,611 @@
-# OMNIEL
+# OMNIEL: The Intelligence Ecosystem
 
-<div align="center">
+I'd actually push this further.
 
-**Building intelligence without borders.**
+Don't ask the AI to build "an Anthropic/OpenAI website."
 
-The official web platform and intelligence ecosystem showcase for [OMNIEL](https://omniel.com.ng) — an early-stage frontier AI and technology initiative being built from Nigeria for a global audience.
+Ask it to build the website that every other AI company will copy in five years.
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-19.2-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
-[![TanStack Start](https://img.shields.io/badge/TanStack-Start-FF4154?style=flat-square)](https://tanstack.com/start)
-[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.2-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Vitest](https://img.shields.io/badge/Tests-54_passing-brightgreen?style=flat-square&logo=vitest&logoColor=white)](https://vitest.dev/)
+Here's a prompt I'd confidently hand to Claude Code, Gemini CLI, or any coding agent.
 
-[Overview](#overview) •
-[Products](#product-ecosystem) •
-[Architecture](#architecture--tech-stack) •
-[Getting Started](#getting-started) •
-[Environment Configuration](#environment-configuration) •
-[Project Structure](#project-structure) •
-[Design System](#design-system)
+OMNIEL — Flagship Website Creative & Engineering Brief
 
-</div>
+You are an elite multidisciplinary team consisting of:
 
----
+Creative Director
 
-## Overview
+Brand Strategist
 
-OMNIEL was founded on the conviction that Africa shouldn't only participate in the technologies shaping the future — it should help define them.
+Senior Product Designer
 
-This repository powers **omniel.com.ng**, delivering a calm, precise, and high-performance digital presence. 
-### Key Capabilities
+Motion Designer
 
-- **Full-Stack SSR & Streaming**: Powered by [TanStack Start](https://tanstack.com/start) and [Nitro](https://nitro.unjs.io/) for near-instant first paint, file-based routing, and SEO optimization.
-- **Interactive Vapi Voice Integration**: On-site voice agent widget with custom client-side tool execution (`open_product`, `fill_form`, automated navigation, and live assistance).
-- **The Meridian Design System**: Bespoke, performant SVG orbital geometry symbolizing global reach without battery-draining canvas loops.
-- **Fail-Closed Enquiry Pipeline**: Robust enquiry ingestion route (`/api/enquiry`) backed by schema validation (Zod) and verified Resend delivery.
-- **Accessibility & Motion Discipline**: Built with Radix UI headless primitives, full `:focus-visible` compliance, strict `prefers-reduced-motion` fallbacks, and tokenized spring animations.
+3D Artist
 
----
+Frontend Architect
 
-## Product Ecosystem
+Three.js Engineer
 
-OMNIEL structures its systems around distinct problem spaces, led by its flagship personal intelligence assistant:
+React Engineer
 
-| Product | Focus | Role | Status |
-|---|---|---|---|
-| **NOVA** *(Flagship)* | Generalist Intelligence | Productivity, computer automation, vision, voice/text, persistent context, and offline operation | In development |
-| **VYREN** | Specialist Intelligence | Deep technical reasoning, code comprehension, systems engineering, and voice-first technical dialogue | In development |
-| **ARVO** | Voice-First Intelligence | Hands-busy workflows, conversational memory, screen understanding, file control, and tool use / MCP | In development |
-| **KIWI** | Emerging Exploration | Early-stage research initiative; specifications intentionally guarded until production validation | Emerging project |
+Accessibility Expert
 
-> **Content Integrity Rule**: All capabilities are represented accurately as in-development ambitions. The repository strictly excludes speculative benchmarks, unverified launch dates, or artificial partner claims.
+Performance Engineer
 
----
+Your task is to design and build the official website for OMNIEL.
 
-## Architecture & Tech Stack
+Do not imitate OpenAI, Anthropic, Apple, Adobe, NVIDIA, or Stripe.
 
+Study why those companies feel timeless, then create something original that could stand beside them.
+
+The objective is for visitors to think:
+
+"This company feels like it already exists ten years in the future."
+
+Company
+
+Parent Company:
+
+OMNIEL
+
+Products:
+
+NOVA
+
+VYREN
+
+Future products should be easy to add without redesigning the architecture.
+
+The website should feel like the beginning of a technology ecosystem, not a startup landing page.
+
+Brand Personality
+
+Elegant.
+
+Calm.
+
+Confident.
+
+Minimal.
+
+Sophisticated.
+
+Visionary.
+
+Scientific.
+
+Human.
+
+Premium.
+
+Never flashy.
+
+Never gimmicky.
+
+Never crypto-like.
+
+Never cyberpunk.
+
+Never gaming.
+
+Never look like an AI template.
+
+Design Philosophy
+
+Take inspiration from principles behind:
+
+Apple
+
+Anthropic
+
+OpenAI
+
+Adobe
+
+Stripe
+
+Linear
+
+Vercel
+
+Notion
+
+Arc Browser
+
+Nothing
+
+—not their appearance.
+
+Borrow their design thinking:
+
+clarity
+
+confidence
+
+breathing room
+
+motion
+
+hierarchy
+
+craftsmanship
+
+Visual Direction
+
+The interface should feel like:
+
+glass
+
+light
+
+depth
+
+air
+
+space
+
+precision
+
+Use:
+
+Glassmorphism
+
+Soft volumetric lighting
+
+Layered translucent surfaces
+
+Dynamic reflections
+
+Smooth gradients
+
+Floating panels
+
+Ambient particles
+
+Depth-of-field
+
+Real-time lighting
+
+No neon.
+
+No glowing hacker aesthetics.
+
+Luxury technology.
+
+3D
+
+Build meaningful 3D.
+
+Do NOT add spinning cubes.
+
+Ideas:
+
+An evolving intelligence core.
+
+Floating constellation network.
+
+Neural structures.
+
+Living particle systems.
+
+Orbital data visualization.
+
+Generative geometry.
+
+Interactive globe.
+
+Dynamic topology.
+
+Energy fields.
+
+Everything should react smoothly to:
+
+mouse
+
+touch
+
+scroll
+
+device orientation
+
+Motion
+
+Motion should be as refined as Apple Vision Pro demos.
+
+Everything has purpose.
+
+Micro interactions everywhere.
+
+Physics-based animations.
+
+Spring transitions.
+
+Layer reveals.
+
+Parallax.
+
+Depth.
+
+Scroll choreography.
+
+Smooth camera movement.
+
+Animated typography.
+
+Interactive hover states.
+
+Zero jank.
+
+Experience
+
+The website should tell a story.
+
+Section by section.
+
+Visitors should feel they are discovering OMNIEL.
+
+Not reading marketing copy.
+
+Landing Hero
+
+Massive cinematic hero.
+
+Interactive.
+
+3D.
+
+Minimal copy.
+
+One statement.
+
+One CTA.
+
+One secondary action.
+
+Everything else hidden until scroll.
+
+Website Structure
+
+Home
+
+Technology
+
+Products
+
+Research
+
+Developers
+
+Company
+
+Careers
+
+News
+
+Contact
+
+Every page should exist.
+
+Every page should function.
+
+No placeholders.
+
+Products
+
+Present products similarly to how major AI companies present model families.
+
+Example hierarchy:
+
+OMNIEL
+
+↓
+
+Products
+
+• NOVA
+
+Personal Intelligence
+
+• VYREN
+
+Autonomous Intelligence
+
+Future products should fit naturally.
+
+Each product should have:
+
+identity
+
+description
+
+animations
+
+feature page
+
+demo page
+
+technology page
+
+Technology
+
+Explain:
+
+Foundation models
+
+Memory
+
+Reasoning
+
+Voice
+
+Vision
+
+Agents
+
+Robotics
+
+Operating System
+
+Cloud
+
+Developer Platform
+
+Future Hardware
+
+Interactive diagrams.
+
+Animated architecture.
+
+Developers
+
+Beautiful documentation landing page.
+
+SDK cards.
+
+API previews.
+
+Code examples.
+
+CLI.
+
+GitHub.
+
+Playground.
+
+Everything should feel authentic.
+
+Research
+
+Research papers.
+
+Publications.
+
+Benchmarks.
+
+Roadmap.
+
+Safety.
+
+Open science.
+
+Interactive timelines.
+
+Careers
+
+World-class recruiting page.
+
+Mission.
+
+Culture.
+
+Benefits.
+
+Open positions.
+
+Office locations.
+
+Interactive hiring process.
+
+Company
+
+Mission.
+
+Vision.
+
+Timeline.
+
+Leadership placeholders.
+
+Global offices.
+
+Manifesto.
+
+Footer
+
+Beautiful.
+
+Minimal.
+
+Elegant.
+
+Everything linked.
+
+Every link functional.
+
+Technical Stack
+
+React
+
+Next.js
+
+TypeScript
+
+Tailwind CSS
+
+Framer Motion
+
+Three.js
+
+React Three Fiber
+
+GSAP (where appropriate)
+
+Lenis smooth scrolling
+
+Motion One if useful
+
+Spline if beneficial
+
+Shader effects
+
+WebGL
+
+Use modern architecture.
+
+Component driven.
+
+Scalable.
+
+Maintainable.
+
+Production ready.
+
+Performance
+
+100 Lighthouse where realistic.
+
+SSR.
+
+SEO.
+
+Accessibility.
+
+Keyboard navigation.
+
+Reduced motion support.
+
+Responsive.
+
+Mobile-first.
+
+Tablet.
+
+Desktop.
+
+Ultrawide.
+
+Retina.
+
+No layout shifts.
+
+No blocking animations.
+
+Responsiveness
+
+Every section must be fully responsive.
+
+No horizontal scrolling.
+
+No broken layouts.
+
+No overlapping content.
+
+Perfect on:
+
+phones
+
+tablets
+
+laptops
+
+4K monitors
+
+Interactions
+
+Every button works.
+
+Every menu works.
+
+Every animation works.
+
+Every card expands.
+
+Every modal functions.
+
+Every page exists.
+
+Every route loads.
+
+Nothing fake.
+
+Copywriting
+
+Avoid clichés.
+
+Never say:
+
+"Revolutionizing AI."
+
+"Empowering innovation."
+
+"The future is here."
+
+Instead write copy with the confidence and restraint of Apple or Anthropic.
+
+Goal
+
+This should not look like another AI website.
+
+It should establish OMNIEL as a company capable of building intelligence infrastructure for decades.
+
+The final result should be of a quality suitable for public launch and should feel like a billion-dollar technology company from day one.
+
+One suggestion I'd add
+
+Don't make NOVA and VYREN equivalent to "frontier models."
+
+Since your vision is broader than a model company, I'd present them as products within the OMNIEL ecosystem.
+
+For example:
+
+OMNIEL
+│
+├── NOVA
+│   Personal AI Operating System
+│
+├── VYREN
+│   Autonomous AI Agent Platform
+│
+├── OMNIEL Research
+│
+├── OMNIEL Cloud
+│
+├── OMNIEL Studio
+│
+└── OMNIEL Robotics
+
+
+That architecture gives you room to grow from today's software into tomorrow's hardware, cloud, and robotics without the naming system becoming limiting.
+
+This project was built with [Lovable](https://lovable.dev).
+
+**Live app**: https://omniel-evolve.lovable.app
+
+## Build with Lovable
+
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/ab9ddb94-5458-4633-b205-48a2c8de2c82).
+
+- **Ship faster**: describe what you want to build and Lovable handles the code.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+
+## Development
+
+Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+
+```sh
+git clone <this-repository-url>
+cd <repository-name>
+npm i
+npm run dev
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                       Browser Client                        │
-│   React 19  •  TanStack Router  •  Tailwind v4  •  Motion   │
-└──────────────┬──────────────────────────────┬───────────────┘
-               │                              │
-     HTTP / SSR Stream             WebRTC / WebSocket
-               │                              │
-               ▼                              ▼
-┌──────────────────────────────┐  ┌───────────────────────────┐
-│        Nitro Server          │  │      Vapi AI Voice        │
-│  - File routes & SSR engine  │  │  - Interactive assistant  │
-│  - /api/enquiry handler      │  │  - Browser tool dispatcher│
-│  - Resend email transport    │  │    (navigation, form fill)│
-└──────────────────────────────┘  └───────────────────────────┘
-```
-
-### Core Technologies
-
-- **Runtime & Framework**: [React 19](https://react.dev/), [TanStack Start](https://tanstack.com/start), [TanStack Router](https://tanstack.com/router), [TanStack Query](https://tanstack.com/query)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) with native OKLCH design tokens (`@theme inline`), [Motion](https://motion.dev/) (Framer Motion v12)
-- **UI Primitives**: Headless [Radix UI](https://www.radix-ui.com/) components, [Lucide React](https://lucide.dev/)
-- **Voice Intelligence**: [@vapi-ai/web](https://vapi.ai/) with client-side function dispatching
-- **Validation & Forms**: [Zod](https://zod.dev/), [React Hook Form](https://react-hook-form.com/)
-- **Testing & Quality**: [Vitest](https://vitest.dev/), [Testing Library](https://testing-library.com/), [ESLint 9](https://eslint.org/), [Prettier](https://prettier.io/)
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- **Node.js** `>= 20.0.0` (or [Bun](https://bun.sh/) `>= 1.1`)
-- **npm** or **bun**
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/omniel-kindred-spark.git
-   cd omniel-kindred-spark
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   # or with bun
-   bun install
-   ```
-
-3. **Configure environment variables:**
-   ```bash
-   cp .env.example .env
-   ```
-   *(See [Environment Configuration](#environment-configuration) for required keys).*
-
-4. **Launch development server:**
-   ```bash
-   npm run dev
-   ```
-   The site will be running locally at `http://localhost:3000` (or the port indicated in your console).
-
----
-
-## Available Scripts
-
-| Command | Action |
-|---|---|
-| `npm run dev` | Starts Vite dev server with hot module replacement (HMR) |
-| `npm run build` | Compiles the production server and client assets with Nitro |
-| `npm run preview` | Previews the compiled production build locally |
-| `npm test` | Runs the full Vitest suite (SEO, enquiry pipeline, Vapi tools) |
-| `npm run lint` | Runs ESLint 9 checks across the codebase |
-| `npm run format` | Formats all source files with Prettier |
-
----
-
-## Environment Configuration
-
-Configure your `.env` file based on `.env.example`:
-
-### Client Variables (Inlined via Vite)
-
-| Variable | Description | Required |
-|---|---|---|
-| `VITE_VAPI_PUBLIC_KEY` | Public API key for Vapi voice widget | No (Voice widget disables cleanly if omitted) |
-| `VITE_VAPI_ASSISTANT_ID` | Assistant ID configured in your Vapi dashboard | No |
-| `VITE_CF_BEACON_TOKEN` | Cloudflare Web Analytics token (production only) | No |
-
-### Server Variables (Never exposed to client)
-
-| Variable | Description | Required |
-|---|---|---|
-| `RESEND_API_KEY` | Resend API key for outbound contact enquiries | Required for `/api/enquiry` |
-| `RESEND_FROM_EMAIL` | Verified sender address (e.g. `OMNIEL <noreply@omniel.com.ng>`) | Required for `/api/enquiry` |
-| `OMNIEL_ENQUIRY_EMAIL` | Destination mailbox for inbound enquiries (defaults to `hello@omniel.com.ng`) | Optional |
-
----
-
-## Project Structure
-
-```
-├── .env.example            # Environment variables template
-├── DESIGN.md               # Visual language, tokens, and motion guidelines
-├── package.json            # Scripts and dependency declarations
-├── vitest.config.ts        # Vitest test configuration
-├── src/
-│   ├── routes/             # TanStack Start file-based routes
-│   │   ├── __root.tsx      # Root document shell, navigation, footer, voice widget
-│   │   ├── index.tsx       # Homepage hero, meridian motif, flagship showcase
-│   │   ├── about.tsx       # Mission, philosophy, and background
-│   │   ├── products.index.tsx  # Product ecosystem directory
-│   │   ├── products.$slug.tsx  # Dynamic deep dives (NOVA, VYREN, ARVO, KIWI)
-│   │   ├── technology.tsx  # Core technical pillars (Memory, Voice, Local, Tools)
-│   │   ├── research.tsx    # Open science, safety, and roadmaps
-│   │   ├── careers.tsx     # Culture, principles, and recruitment
-│   │   ├── contact.tsx     # Validated enquiry form
-│   │   └── api/
-│   │       └── enquiry.ts  # Server endpoint for enquiry submissions
-│   ├── components/
-│   │   ├── site/           # Custom site components (Meridian, Nav, Footer, Vapi widget)
-│   │   │   ├── atmosphere.tsx   # SVG meridian signature system
-│   │   │   ├── primitives.tsx   # Design primitives (Shell, Panel, Reveal, Eyebrow)
-│   │   │   ├── site-nav.tsx     # Responsive desktop/mobile header
-│   │   │   └── vapi-widget.tsx  # Real-time voice interaction dock
-│   │   └── ui/             # Radix UI and shared UI elements
-│   └── lib/
-│       ├── omniel.ts       # Canonical data model (products, principles, navigation)
-│       ├── enquiry-handler.ts # Server-side Resend ingestion & validation
-│       ├── seo.ts          # Metadata, OpenGraph, JSON-LD schema generators
-│       └── vapi-integration/ # Client-side browser action dispatcher for voice
-```
-
----
-
-
-## Testing & Verification
-
-The test suite covers schema validation, email handling, and client voice tools:
-
-```bash
-npm test
-```
-
----
-
-## License & Attribution
-
-Internal platform code for **OMNIEL** (`omniel.com.ng`). All rights reserved.
-Deployment managed via [Lovable](https://lovable.dev) / custom host.
