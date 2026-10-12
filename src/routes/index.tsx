@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import intelligenceCore from "@/assets/omniel-intelligence-core.jpg";
+import { HeroBackdrop } from "@/components/site/hero-backdrop";
 import {
   ActionLink,
   Eyebrow,
@@ -28,8 +28,20 @@ export const Route = createFileRoute("/")({
 function Hero() {
   return (
     <section className="relative min-h-[48rem] overflow-hidden border-b border-hairline pt-28 md:min-h-[52rem] md:pt-36">
-      <div className="absolute inset-0 lab-grid opacity-25" />
-      <Shell className="relative grid min-h-[44rem] items-center gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:gap-16">
+      {/* The core is the hero's ground, not a framed study beside the copy.
+          The image is anchored right and scrimmed on the left so the headline
+          never lands on the object. */}
+      <HeroBackdrop />
+      <div className="absolute inset-0 lab-grid opacity-[0.14]" />
+
+      {/* One technical annotation over the object — the detail the framed study
+          carried, without boxing the image in. */}
+      <div className="pointer-events-none absolute right-[4%] top-[13%] hidden text-right font-mono text-[0.58rem] uppercase leading-relaxed tracking-[0.18em] text-muted-foreground/70 lg:block">
+        <span className="block">Core study / 01</span>
+        <span className="mt-1 block text-muted-foreground/50">Graphite · lichen</span>
+      </div>
+
+      <Shell className="relative flex min-h-[44rem] items-center">
         <div className="relative z-10 max-w-xl pb-12 lg:pb-0">
           <Eyebrow>OMNIEL / Nigeria</Eyebrow>
           <h1 className="text-balance-tight mt-7 text-[clamp(3.4rem,7vw,7.8rem)] leading-[0.92] tracking-[-0.05em]">
@@ -46,22 +58,6 @@ function Hero() {
           <div className="mt-16 flex items-center gap-4 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground">
             <span className="h-px w-8 bg-accent" />
             <span>Early-stage / Pre-launch</span>
-          </div>
-        </div>
-
-        <div className="relative flex min-h-[28rem] items-center justify-center lg:min-h-[44rem]">
-          <div className="absolute right-[8%] top-[7%] hidden font-mono text-[0.58rem] uppercase tracking-[0.18em] text-muted-foreground md:block">
-            Core study / 01
-          </div>
-          <div className="absolute left-[4%] top-[18%] h-px w-24 bg-accent/50" />
-          <div className="absolute bottom-[18%] right-[6%] h-24 w-px bg-accent/40" />
-          <div className="relative aspect-square w-[min(100%,38rem)] overflow-hidden border border-hairline bg-surface-strong shadow-[0_30px_100px_-45px_oklch(0_0_0_/_90%)]">
-            <img src={intelligenceCore} alt="A dimensional graphite and lichen intelligence core" width={1408} height={1408} className="h-full w-full object-cover" />
-            <div className="absolute inset-5 border border-primary-foreground/10" />
-            <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between font-mono text-[0.58rem] uppercase tracking-[0.18em] text-primary-foreground/70">
-              <span>OMNIEL / Core visual</span>
-              <span>01—04</span>
-            </div>
           </div>
         </div>
       </Shell>
@@ -210,7 +206,7 @@ function ClosingSection() {
     <section className="bg-primary py-28 text-primary-foreground md:py-40">
       <Shell className="grid gap-12 md:grid-cols-[1.2fr_0.8fr] md:items-end">
         <div><Eyebrow className="text-primary-foreground/60">Get involved</Eyebrow><h2 className="mt-7 max-w-3xl text-[clamp(3rem,6vw,7rem)] leading-[0.92] tracking-[-0.05em]">Small team. Large ambition. Early enough to matter.</h2></div>
-        <div className="md:pb-2"><p className="max-w-sm text-base leading-relaxed text-primary-foreground/70">If you want to work on it, partner with it, or support what is being built, this is the moment to reach out.</p><ActionLink to="/contact" variant="ghost" className="mt-8 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground hover:text-primary">Start a conversation</ActionLink></div>
+        <div className="md:pb-2"><p className="max-w-sm text-base leading-relaxed text-primary-foreground/70">If you want to work on it, partner with it, or support what is being built, this is the moment to reach out.</p><ActionLink to="/contact" variant="inverse" arrow={false} className="mt-8">Start a conversation</ActionLink></div>
       </Shell>
     </section>
   );

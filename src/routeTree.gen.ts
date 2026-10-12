@@ -24,6 +24,8 @@ import { Route as ApiWaitlistRouteImport } from './routes/api/waitlist'
 import { Route as ApiWaitlistConfirmRouteImport } from './routes/api/waitlist-confirm'
 import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as ProductsSlugRouteImport } from './routes/products.$slug'
+import { Route as ApiAgentToolsRouteImport } from './routes/api/agent/tools'
+import { Route as ApiLivekitTokenRouteImport } from './routes/api/livekit/token'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -100,6 +102,16 @@ const ProductsSlugRoute = ProductsSlugRouteImport.update({
   path: '/products/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAgentToolsRoute = ApiAgentToolsRouteImport.update({
+  id: '/api/agent/tools',
+  path: '/api/agent/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLivekitTokenRoute = ApiLivekitTokenRouteImport.update({
+  id: '/api/livekit/token',
+  path: '/api/livekit/token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -117,6 +129,8 @@ export interface FileRoutesByFullPath {
   '/api/waitlist-confirm': typeof ApiWaitlistConfirmRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products/': typeof ProductsIndexRoute
+  '/api/agent/tools': typeof ApiAgentToolsRoute
+  '/api/livekit/token': typeof ApiLivekitTokenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -134,6 +148,8 @@ export interface FileRoutesByTo {
   '/api/waitlist-confirm': typeof ApiWaitlistConfirmRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products': typeof ProductsIndexRoute
+  '/api/agent/tools': typeof ApiAgentToolsRoute
+  '/api/livekit/token': typeof ApiLivekitTokenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -152,6 +168,8 @@ export interface FileRoutesById {
   '/api/waitlist-confirm': typeof ApiWaitlistConfirmRoute
   '/products/$slug': typeof ProductsSlugRoute
   '/products/': typeof ProductsIndexRoute
+  '/api/agent/tools': typeof ApiAgentToolsRoute
+  '/api/livekit/token': typeof ApiLivekitTokenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -171,6 +189,8 @@ export interface FileRouteTypes {
     | '/api/waitlist-confirm'
     | '/products/$slug'
     | '/products/'
+    | '/api/agent/tools'
+    | '/api/livekit/token'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,6 +208,8 @@ export interface FileRouteTypes {
     | '/api/waitlist-confirm'
     | '/products/$slug'
     | '/products'
+    | '/api/agent/tools'
+    | '/api/livekit/token'
   id:
     | '__root__'
     | '/'
@@ -205,6 +227,8 @@ export interface FileRouteTypes {
     | '/api/waitlist-confirm'
     | '/products/$slug'
     | '/products/'
+    | '/api/agent/tools'
+    | '/api/livekit/token'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -223,6 +247,8 @@ export interface RootRouteChildren {
   ApiWaitlistConfirmRoute: typeof ApiWaitlistConfirmRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
+  ApiAgentToolsRoute: typeof ApiAgentToolsRoute
+  ApiLivekitTokenRoute: typeof ApiLivekitTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -332,6 +358,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/agent/tools': {
+      id: '/api/agent/tools'
+      path: '/api/agent/tools'
+      fullPath: '/api/agent/tools'
+      preLoaderRoute: typeof ApiAgentToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/livekit/token': {
+      id: '/api/livekit/token'
+      path: '/api/livekit/token'
+      fullPath: '/api/livekit/token'
+      preLoaderRoute: typeof ApiLivekitTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -351,6 +391,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiWaitlistConfirmRoute: ApiWaitlistConfirmRoute,
   ProductsSlugRoute: ProductsSlugRoute,
   ProductsIndexRoute: ProductsIndexRoute,
+  ApiAgentToolsRoute: ApiAgentToolsRoute,
+  ApiLivekitTokenRoute: ApiLivekitTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

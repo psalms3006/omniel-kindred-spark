@@ -25,6 +25,27 @@ export const enquirySchema = z.object({
     .max(200),
   category: z.string().trim().max(80, "Category is too long.").optional().default(""),
   message: z.string().trim().min(1, "Message is required.").max(4000, "Message is too long."),
+  /**
+   * Optional throughout. The website form does not ask for a phone number,
+   * but the assistant can capture one when a visitor volunteers it, and the
+   * stored record keeps it when present. Deliberately loose: international
+   * formats vary too much to validate strictly without rejecting real
+   * numbers, so this only bounds the length.
+   */
+  phone: z.string().trim().max(40, "Phone number is too long.").optional().default(""),
+  /**
+   * Where the enquiry came from: the site path for a form submission, or
+   * "vapi-assistant" for one the assistant submitted. Never trusted for
+   * anything security-related, it is operational context for whoever reads
+   * the notification.
+   */
+  source: z.string().trim().max(200).optional().default(""),
+  /**
+   * Cloudflare Turnstile token from the browser widget. Optional in the
+   * schema because the assistant's server-side tool has no browser to solve
+   * a challenge; the handler decides per-source whether a token is required.
+   */
+  turnstileToken: z.string().max(4000).optional(),
   // Must be the literal boolean `true`. Missing, `false`, or truthy-but-not-`true`
   // values (e.g. the string "true") are all rejected — the assistant must not
   // be able to talk its way past explicit user confirmation.

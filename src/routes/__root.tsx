@@ -13,7 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
-import { VapiWidget } from "@/components/site/vapi-widget";
+import { LiveKitWidget } from "@/components/site/livekit-widget";
 import { CloudflareAnalytics } from "@/components/site/analytics";
 import { siteUrl } from "@/lib/omniel";
 import { Atmosphere } from "@/components/site/atmosphere";
@@ -216,7 +216,7 @@ function RootComponent() {
         <Outlet />
       </main>
       <SiteFooter />
-      <VapiWidget />
+      <LiveKitWidget />
     </QueryClientProvider>
   );
 }
