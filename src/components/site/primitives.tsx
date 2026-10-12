@@ -143,13 +143,16 @@ export function ActionLink({
   children,
   variant = "primary",
   className,
+  arrow = true,
 }: {
   to?: string;
   href?: string;
   params?: Record<string, string>;
   children: ReactNode;
-  variant?: "primary" | "ghost" | "quiet";
+  variant?: "primary" | "ghost" | "quiet" | "inverse";
   className?: string;
+  /** Trailing → affordance. Set false for CTAs where it is noise. */
+  arrow?: boolean;
 }) {
   const styles = cn(
     actionBase,
@@ -158,15 +161,25 @@ export function ActionLink({
     variant === "ghost" &&
       "panel px-6 py-3 text-foreground hover:border-accent/50 hover:bg-surface-strong",
     variant === "quiet" && "text-muted-foreground hover:text-foreground",
+    // For light ("primary"-coloured) sections: outline that always shows its
+    // label, and fills on hover. The ghost variant's dark `.panel` surface is
+    // what made dark text invisible there.
+    variant === "inverse" &&
+      "border border-primary-foreground/30 px-6 py-3 text-primary-foreground hover:bg-primary-foreground hover:text-primary",
     className,
   );
 
   const inner = (
     <>
       {children}
-      <span aria-hidden className="transition-transform duration-500 group-hover:translate-x-1">
-        →
-      </span>
+      {arrow ? (
+        <span
+          aria-hidden
+          className="transition-transform duration-500 group-hover:translate-x-1"
+        >
+          →
+        </span>
+      ) : null}
     </>
   );
 
