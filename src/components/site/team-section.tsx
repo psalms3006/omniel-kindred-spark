@@ -92,7 +92,7 @@ function ProfileOverlay({ member, onClose }: { member: TeamMember; onClose: () =
         exit={{ opacity: 0 }}
       />
       <motion.div
-        className="glass relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-[2rem] p-8 sm:rounded-[2rem] md:p-10"
+        className="panel relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-[2rem] p-8 sm:rounded-[2rem] md:p-10"
         initial={{ y: 24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 24, opacity: 0 }}

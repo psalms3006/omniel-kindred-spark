@@ -127,7 +127,7 @@ export function InquiryForm({
   }
 
   return (
-    <section id={id} className={cn("glass scroll-mt-28 rounded-3xl p-6 md:p-9", className)}>
+    <section id={id} className={cn("panel scroll-mt-28 rounded-3xl p-6 md:p-9", className)}>
       <h3 className="text-2xl">{title}</h3>
       <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">{description}</p>
 

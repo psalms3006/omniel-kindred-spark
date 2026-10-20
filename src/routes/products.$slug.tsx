@@ -66,9 +66,11 @@ function ProductPage() {
           <Atmosphere variant="band" intensity={product.priority === "flagship" ? 0.95 : 0.7} />
         </div>
         <Shell>
-          {product.icon && <img src={product.icon} alt="" className="mb-6 h-12 w-12" />}
+          {product.icon && (
+            <img src={product.icon} alt="" className="mb-6 h-12 w-12 brightness-0 invert" />
+          )}
           <Eyebrow>
-            {product.priority === "flagship" ? "Flagship · " : ""}
+            {product.priority === "flagship" ? "Platform · " : ""}
             {product.kind} · {product.status}
           </Eyebrow>
           <h1 className="text-balance-tight mt-6 max-w-3xl text-4xl leading-[1.05] sm:text-5xl md:text-7xl">
@@ -144,7 +146,7 @@ function ProductPage() {
             >
               NOVA
             </Link>{" "}
-            is the current flagship, in active development now.
+            is the platform, in active development now.
           </p>
         )}
       </Section>
@@ -169,7 +171,7 @@ function ProductPage() {
             <li key={p.slug}>
               <Link to="/products/$slug" params={{ slug: p.slug }} className="block h-full">
                 <Panel interactive className="h-full p-6">
-                  <p className="font-display text-lg tracking-[0.25em]">{p.name}</p>
+                  <p className="font-display text-lg tracking-[-0.02em]">{p.name}</p>
                   <p className="mt-2 text-sm text-muted-foreground">{p.role}</p>
                 </Panel>
               </Link>

@@ -174,7 +174,7 @@ export function LiveKitWidget() {
             unlockAudio();
             void roomRef.current?.startAudio().then(() => setAudioBlocked(false));
           }}
-          className="glass rounded-full px-4 py-2 text-xs text-foreground"
+          className="panel rounded-full px-4 py-2 text-xs text-foreground"
         >
           Tap to hear OMNIEL
         </button>

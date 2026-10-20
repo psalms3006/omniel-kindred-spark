@@ -15,11 +15,12 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/products/")({
   head: () =>
     pageHead({
-    path: "/products",
-    title: "Products: NOVA and the OMNIEL roadmap | OMNIEL",
-    description: "NOVA is OMNIEL's flagship product, in active development. VYREN, ARVO and KIWI are the wider roadmap.",
-    ogTitle: "OMNIEL products",
-    ogDescription: "NOVA first. The rest of the OMNIEL ecosystem follows.",
+      path: "/products",
+      title: "Products: NOVA and the OMNIEL ecosystem | OMNIEL",
+      description:
+        "NOVA is OMNIEL's voice-first platform, in active development. VYREN, ARVO and KIWI are applications being built on it.",
+      ogTitle: "OMNIEL products",
+      ogDescription: "NOVA is the platform. The rest of the OMNIEL ecosystem follows.",
     }),
   component: ProductsIndex,
 });
@@ -32,12 +33,12 @@ function ProductsIndex() {
     <>
       <PageHero
         eyebrow="Products"
-        title="NOVA first. The rest of the roadmap follows."
-        lede="NOVA is OMNIEL's flagship product and current development focus. The other systems are real, in-progress parts of the ecosystem, not yet the release priority."
+        title="NOVA is the platform. The rest follows."
+        lede="NOVA is OMNIEL's voice-first platform and current development focus. The other systems are applications being built on it, not yet the release priority."
       />
 
       <Section id="nova">
-        <Eyebrow>Flagship · Building now</Eyebrow>
+        <Eyebrow>Platform · Building now</Eyebrow>
         <Link to="/products/$slug" params={{ slug: "nova" }} className="mt-6 block">
           <Panel interactive className="overflow-hidden p-0">
             <div className="grid gap-0 lg:grid-cols-[1fr_1.2fr]">
@@ -47,12 +48,12 @@ function ProductsIndex() {
                   <img
                     src={nova.icon}
                     alt=""
-                    className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2"
+                    className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 brightness-0 invert"
                   />
                 )}
               </div>
               <div className="p-8 md:p-10">
-                <p className="font-display text-3xl tracking-[0.3em]">{nova.name}</p>
+                <p className="font-display text-3xl tracking-[-0.02em]">{nova.name}</p>
                 <p className="mt-3 text-base text-muted-foreground">{nova.role}</p>
                 <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
                   {nova.summary}
@@ -85,7 +86,7 @@ function ProductsIndex() {
                   </div>
                   <div className="p-6">
                     <div className="flex flex-wrap items-center gap-3">
-                      <p className="font-display text-xl tracking-[0.3em]">{p.name}</p>
+                      <p className="font-display text-xl tracking-[-0.02em]">{p.name}</p>
                       <span className="rounded-full border border-hairline px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-accent">
                         {p.kind}
                       </span>
@@ -137,7 +138,7 @@ function ProductsIndex() {
                     {p.name}
                     {p.priority === "flagship" && (
                       <span className="ml-2 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-accent">
-                        Flagship
+                        Platform
                       </span>
                     )}
                   </th>

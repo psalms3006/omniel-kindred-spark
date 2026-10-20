@@ -4,6 +4,25 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
+@font-face {
+  font-family: "Equinox";
+  src: url("/fonts/equinox-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Equinox";
+  src: url("/fonts/equinox-bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -34,70 +53,177 @@
   --color-hairline: var(--hairline);
   --color-ion: var(--ion);
   --color-ember: var(--ember);
-  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --color-beige: var(--beige);
+  --color-signal: var(--signal);
+  --color-signal-2: var(--signal-2);
+  --font-display: "Equinox", ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
+
 :root {
-  --radius: 0.35rem;
-  --background: oklch(0.16 0.018 165);
-  --foreground: oklch(0.94 0.018 120);
-  --card: oklch(0.205 0.026 155);
-  --card-foreground: oklch(0.94 0.018 120);
-  --popover: oklch(0.205 0.026 155);
-  --popover-foreground: oklch(0.94 0.018 120);
-  --primary: oklch(0.92 0.025 120);
-  --primary-foreground: oklch(0.16 0.018 165);
-  --secondary: oklch(0.27 0.035 155);
-  --secondary-foreground: oklch(0.92 0.025 120);
-  --muted: oklch(0.24 0.03 155);
-  --muted-foreground: oklch(0.73 0.035 125);
-  --accent: oklch(0.73 0.09 125);
-  --accent-foreground: oklch(0.16 0.018 165);
-  --destructive: oklch(0.63 0.18 28);
-  --destructive-foreground: oklch(0.96 0.015 120);
-  --border: oklch(0.93 0.02 120 / 14%);
-  --input: oklch(0.93 0.02 120 / 18%);
-  --ring: oklch(0.73 0.09 125 / 70%);
-  --surface: oklch(0.205 0.026 155);
-  --surface-strong: oklch(0.245 0.035 155);
-  --hairline: oklch(0.93 0.02 120 / 12%);
-  --ion: oklch(0.73 0.09 125);
-  --ember: oklch(0.76 0.08 78);
+  --radius: 1rem;
+
+  --background: #05070d;
+  --foreground: #f2f5fb;
+
+  --card: rgba(12, 20, 40, 0.55);
+  --card-foreground: #f2f5fb;
+  --popover: #0a1330;
+  --popover-foreground: #f2f5fb;
+
+  --primary: #f2f5fb;
+  --primary-foreground: #05070d;
+  --secondary: rgba(255, 255, 255, 0.06);
+  --secondary-foreground: #f2f5fb;
+  --muted: rgba(255, 255, 255, 0.06);
+  --muted-foreground: #97a3b8;
+
+  --accent: #2f6bff;
+  --accent-foreground: #ffffff;
+  --destructive: #ff5a5f;
+  --destructive-foreground: #ffffff;
+
+  --border: rgba(110, 160, 255, 0.2);
+  --input: rgba(110, 160, 255, 0.28);
+  --ring: rgba(47, 107, 255, 0.65);
+
+  --surface: rgba(18, 28, 52, 0.45);
+  --surface-strong: rgba(24, 36, 64, 0.6);
+  --hairline: rgba(110, 160, 255, 0.16);
+  --ion: #2f6bff;
+  --ember: #e7dfd0;
+
+  --beige: #e7dfd0;
+  --signal: #38d6ff;
+  --signal-2: #8b9cff;
+
+  --neo-surface: rgba(12, 20, 40, 0.58);
+  --neo-border: rgba(110, 160, 255, 0.35);
+  --neo-shadow: rgba(47, 107, 255, 0.45);
+  --neo-highlight: rgba(255, 255, 255, 0.1);
+
   --motion-fast: 150ms;
   --motion-base: 300ms;
-  --motion-slow: 700ms;
+  --motion-slow: 600ms;
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* A local light theme for the beige sections. Because the theme variables are
+   inlined into utilities, every child component flips with this class. */
+.theme-light {
+  color-scheme: light;
+  color: var(--foreground);
+  --background: var(--beige);
+  --foreground: #0a0c12;
+
+  --card: rgba(255, 255, 255, 0.58);
+  --card-foreground: #0a0c12;
+  --popover: #f7f3ea;
+  --popover-foreground: #0a0c12;
+
+  --primary: #0a0c12;
+  --primary-foreground: #f2f5fb;
+  --secondary: rgba(10, 12, 18, 0.06);
+  --secondary-foreground: #0a0c12;
+  --muted: rgba(10, 12, 18, 0.06);
+  --muted-foreground: #4b5563;
+
+  --accent: #1d4ed8;
+  --accent-foreground: #ffffff;
+  --destructive: #b42318;
+  --destructive-foreground: #ffffff;
+
+  --border: rgba(10, 12, 18, 0.18);
+  --input: rgba(10, 12, 18, 0.22);
+  --ring: rgba(29, 78, 216, 0.6);
+
+  --surface: rgba(255, 255, 255, 0.35);
+  --surface-strong: rgba(255, 255, 255, 0.6);
+  --hairline: rgba(10, 12, 18, 0.14);
+  --ion: #1d4ed8;
+
+  --neo-surface: rgba(255, 255, 255, 0.55);
+  --neo-border: #0a0c12;
+  --neo-shadow: #0a0c12;
+  --neo-highlight: rgba(255, 255, 255, 0.8);
+}
+
 @utility shell {
   width: 100%;
-  max-width: 88rem;
+  max-width: 84rem;
   margin-inline: auto;
   padding-inline: 1.25rem;
-  @media (min-width: 768px) { padding-inline: 2.5rem; }
-  @media (min-width: 1280px) { padding-inline: 4rem; }
+
+  @media (min-width: 768px) {
+    padding-inline: 2.5rem;
+  }
+
+  @media (min-width: 1280px) {
+    padding-inline: 4rem;
+  }
 }
 
 @utility eyebrow {
-  color: var(--color-accent);
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.2em;
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   line-height: 1.4;
   text-transform: uppercase;
 }
 
+@utility editorial {
+  font-family: var(--font-editorial);
+  font-stretch: 125%;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
 @utility panel {
-  background: var(--color-surface);
-  border: 1px solid var(--color-hairline);
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  backdrop-filter: blur(16px);
 }
 
 @utility panel-strong {
-  background: var(--color-surface-strong);
-  border: 1px solid var(--color-hairline);
+  background: var(--surface-strong);
+  border: 1px solid var(--hairline);
+  backdrop-filter: blur(16px);
+}
+
+/* The union: glass fill + hard offset shadow. The shadow/border adapt to the
+   local theme via the --neo-* variables. */
+@utility neo-glass {
+  background: var(--neo-surface);
+  border: 1.5px solid var(--neo-border);
+  box-shadow:
+    8px 8px 0 0 var(--neo-shadow),
+    inset 0 1px 0 var(--neo-highlight);
+  backdrop-filter: blur(18px);
+}
+
+@utility neo {
+  border: 2px solid var(--neo-border);
+  box-shadow: 6px 6px 0 0 var(--neo-shadow);
+}
+
+@utility neo-lg {
+  border: 3px solid var(--neo-border);
+  box-shadow: 10px 10px 0 0 var(--neo-shadow);
+}
+
+@utility arch {
+  border-radius: 50% 50% 1.25rem 1.25rem / 18% 18% 1.25rem 1.25rem;
+}
+
+@utility text-hollow {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--foreground);
 }
 
 @utility text-balance-tight {
@@ -109,12 +235,15 @@
 }
 
 @utility lab-grid {
-  background-image: linear-gradient(to right, color-mix(in oklab, var(--color-foreground) 7%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--color-foreground) 7%, transparent) 1px, transparent 1px);
-  background-size: 4rem 4rem;
+  background-image: radial-gradient(circle,
+      color-mix(in oklab, var(--foreground) 12%, transparent) 1px,
+      transparent 1px);
+  background-size: 1.5rem 1.5rem;
 }
 
 @utility lab-rule {
   position: relative;
+
   &::before {
     content: "";
     display: block;
@@ -125,22 +254,157 @@
   }
 }
 
+@utility orb-float {
+  animation: orb-float 7s ease-in-out infinite;
+}
+
+@utility marquee {
+  animation: marquee 38s linear infinite;
+}
+
+@utility marquee-slow {
+  animation: marquee 60s linear infinite;
+}
+
+@keyframes orb-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes line-reveal {
+  from {
+    transform: translateY(110%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @layer base {
-  * { border-color: var(--color-border); }
-  html { background: var(--color-background); scroll-behavior: smooth; }
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    background: var(--background);
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     min-width: 320px;
-    background: var(--color-background);
-    color: var(--color-foreground);
+    background: var(--background);
+    color: var(--foreground);
     font-family: var(--font-sans);
     font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
-  h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 500; }
-  a, button, input, textarea, select { outline-color: var(--color-ring); }
-  :focus-visible { outline: 2px solid var(--color-ring); outline-offset: 4px; }
-  ::selection { background: var(--color-accent); color: var(--color-accent-foreground); }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    outline-color: var(--ring);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 4px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .page-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  .reveal-line {
+    display: block;
+    overflow: hidden;
+    /* Room for tall display glyphs without changing the visual line rhythm. */
+    padding-block: 0.12em;
+    margin-block: -0.12em;
+  }
+
+  .reveal-line>span {
+    display: block;
+    animation: line-reveal 900ms var(--ease-out-expo) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  .fade-in-up {
+    animation: fade-in-up 900ms var(--ease-out-expo) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  .marquee:hover {
+    animation-play-state: paused;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

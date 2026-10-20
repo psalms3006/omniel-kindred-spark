@@ -41,11 +41,11 @@ export const products: Product[] = [
   {
     slug: "nova",
     name: "NOVA",
-    kind: "Generalist",
-    role: "Generalist AI assistant",
+    kind: "Platform",
+    role: "Voice-first AI platform",
     statement: "Do more, with less unnecessary manual work.",
     summary:
-      "NOVA is OMNIEL's generalist assistant: productivity, general assistance and computer interaction, designed to work online and, where possible, offline.",
+      "NOVA is OMNIEL's voice-first platform: conversation, planning and action in one system, designed to work online and, where possible, offline.",
     status: "In development",
     priority: "flagship",
     icon: "/nova-mark.png",
@@ -374,6 +374,6 @@ export const partnershipAreas = [
   "Other",
 ] as const;
 
-export const contactEmail = "hello@omniel.com.ng";
+export const contactEmail = "omniel.ai@gmail.com";
 export const siteUrl = "https://omniel.com.ng";
 export const location = "Nigeria";

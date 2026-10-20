@@ -15,7 +15,7 @@ import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
 import { LiveKitWidget } from "@/components/site/livekit-widget";
 import { CloudflareAnalytics } from "@/components/site/analytics";
-import { siteUrl } from "@/lib/omniel";
+import { contactEmail, siteUrl } from "@/lib/omniel";
 import { Atmosphere } from "@/components/site/atmosphere";
 
 /**
@@ -32,7 +32,7 @@ const ORGANIZATION_SCHEMA = {
   name: "OMNIEL",
   url: siteUrl,
   logo: `${siteUrl}/icon-512.png`,
-  email: "hello@omniel.com.ng",
+  email: contactEmail,
   description:
     "OMNIEL is an early-stage AI and technology ecosystem being built from Nigeria: NOVA, VYREN, ARVO and KIWI.",
   founder: {
@@ -157,7 +157,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: `${siteUrl}/og-image.png` },
-      { name: "theme-color", content: "#0b0d12" },
+      { name: "theme-color", content: "#05070d" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -165,7 +165,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Inter:wght@400;500;600&display=swap",
+      },
+      {
+        rel: "preload",
+        href: "/fonts/equinox-bold.woff",
+        as: "font",
+        type: "font/woff",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        href: "/fonts/equinox-regular.woff",
+        as: "font",
+        type: "font/woff",
+        crossOrigin: "anonymous",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       // No canonical here. A canonical in the root is inherited by every
@@ -199,6 +213,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <div className="page-grain" aria-hidden="true" />
         <Scripts />
       </body>
     </html>
