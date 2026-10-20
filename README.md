@@ -28,7 +28,8 @@ The official web platform and intelligence ecosystem showcase for [OMNIEL](https
 
 OMNIEL was founded on the conviction that Africa shouldn't only participate in the technologies shaping the future — it should help define them.
 
-This repository powers **omniel.com.ng**, delivering a calm, precise, and high-performance digital presence. 
+This repository powers **omniel.com.ng**, delivering a calm, precise, and high-performance digital presence.
+
 ### Key Capabilities
 
 - **Full-Stack SSR & Streaming**: Powered by [TanStack Start](https://tanstack.com/start) and [Nitro](https://nitro.unjs.io/) for near-instant first paint, file-based routing, and SEO optimization.
@@ -43,12 +44,12 @@ This repository powers **omniel.com.ng**, delivering a calm, precise, and high-p
 
 OMNIEL structures its systems around distinct problem spaces, led by its flagship personal intelligence assistant:
 
-| Product | Focus | Role | Status |
-|---|---|---|---|
-| **NOVA** *(Flagship)* | Generalist Intelligence | Productivity, computer automation, vision, voice/text, persistent context, and offline operation | In development |
-| **VYREN** | Specialist Intelligence | Deep technical reasoning, code comprehension, systems engineering, and voice-first technical dialogue | In development |
-| **ARVO** | Voice-First Intelligence | Hands-busy workflows, conversational memory, screen understanding, file control, and tool use / MCP | In development |
-| **KIWI** | Emerging Exploration | Early-stage research initiative; specifications intentionally guarded until production validation | Emerging project |
+| Product               | Focus                    | Role                                                                                                  | Status           |
+| --------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------- | ---------------- |
+| **NOVA** _(Flagship)_ | Generalist Intelligence  | Productivity, computer automation, vision, voice/text, persistent context, and offline operation      | In development   |
+| **VYREN**             | Specialist Intelligence  | Deep technical reasoning, code comprehension, systems engineering, and voice-first technical dialogue | In development   |
+| **ARVO**              | Voice-First Intelligence | Hands-busy workflows, conversational memory, screen understanding, file control, and tool use / MCP   | In development   |
+| **KIWI**              | Emerging Exploration     | Early-stage research initiative; specifications intentionally guarded until production validation     | Emerging project |
 
 > **Content Integrity Rule**: All capabilities are represented accurately as in-development ambitions. The repository strictly excludes speculative benchmarks, unverified launch dates, or artificial partner claims.
 
@@ -94,12 +95,14 @@ OMNIEL structures its systems around distinct problem spaces, led by its flagshi
 ### Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/omniel-kindred-spark.git
    cd omniel-kindred-spark
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    # or with bun
@@ -107,10 +110,12 @@ OMNIEL structures its systems around distinct problem spaces, led by its flagshi
    ```
 
 3. **Configure environment variables:**
+
    ```bash
    cp .env.example .env
    ```
-   *(See [Environment Configuration](#environment-configuration) for required keys).*
+
+   _(See [Environment Configuration](#environment-configuration) for required keys)._
 
 4. **Launch development server:**
    ```bash
@@ -122,14 +127,14 @@ OMNIEL structures its systems around distinct problem spaces, led by its flagshi
 
 ## Available Scripts
 
-| Command | Action |
-|---|---|
-| `npm run dev` | Starts Vite dev server with hot module replacement (HMR) |
-| `npm run build` | Compiles the production server and client assets with Nitro |
-| `npm run preview` | Previews the compiled production build locally |
-| `npm test` | Runs the full Vitest suite (SEO, enquiry pipeline, Vapi tools) |
-| `npm run lint` | Runs ESLint 9 checks across the codebase |
-| `npm run format` | Formats all source files with Prettier |
+| Command           | Action                                                         |
+| ----------------- | -------------------------------------------------------------- |
+| `npm run dev`     | Starts Vite dev server with hot module replacement (HMR)       |
+| `npm run build`   | Compiles the production server and client assets with Nitro    |
+| `npm run preview` | Previews the compiled production build locally                 |
+| `npm test`        | Runs the full Vitest suite (SEO, enquiry pipeline, Vapi tools) |
+| `npm run lint`    | Runs ESLint 9 checks across the codebase                       |
+| `npm run format`  | Formats all source files with Prettier                         |
 
 ---
 
@@ -139,19 +144,19 @@ Configure your `.env` file based on `.env.example`:
 
 ### Client Variables (Inlined via Vite)
 
-| Variable | Description | Required |
-|---|---|---|
-| `VITE_VAPI_PUBLIC_KEY` | Public API key for Vapi voice widget | No (Voice widget disables cleanly if omitted) |
-| `VITE_VAPI_ASSISTANT_ID` | Assistant ID configured in your Vapi dashboard | No |
-| `VITE_CF_BEACON_TOKEN` | Cloudflare Web Analytics token (production only) | No |
+| Variable                 | Description                                      | Required                                      |
+| ------------------------ | ------------------------------------------------ | --------------------------------------------- |
+| `VITE_VAPI_PUBLIC_KEY`   | Public API key for Vapi voice widget             | No (Voice widget disables cleanly if omitted) |
+| `VITE_VAPI_ASSISTANT_ID` | Assistant ID configured in your Vapi dashboard   | No                                            |
+| `VITE_CF_BEACON_TOKEN`   | Cloudflare Web Analytics token (production only) | No                                            |
 
 ### Server Variables (Never exposed to client)
 
-| Variable | Description | Required |
-|---|---|---|
-| `RESEND_API_KEY` | Resend API key for outbound contact enquiries | Required for `/api/enquiry` |
-| `RESEND_FROM_EMAIL` | Verified sender address (e.g. `OMNIEL <noreply@omniel.com.ng>`) | Required for `/api/enquiry` |
-| `OMNIEL_ENQUIRY_EMAIL` | Destination mailbox for inbound enquiries (defaults to `hello@omniel.com.ng`) | Optional |
+| Variable               | Description                                                                   | Required                    |
+| ---------------------- | ----------------------------------------------------------------------------- | --------------------------- |
+| `RESEND_API_KEY`       | Resend API key for outbound contact enquiries                                 | Required for `/api/enquiry` |
+| `RESEND_FROM_EMAIL`    | Verified sender address (e.g. `OMNIEL <noreply@omniel.com.ng>`)               | Required for `/api/enquiry` |
+| `OMNIEL_ENQUIRY_EMAIL` | Destination mailbox for inbound enquiries (defaults to `omniel.ai@gmail.com`) | Optional                    |
 
 ---
 
@@ -190,7 +195,6 @@ Configure your `.env` file based on `.env.example`:
 ```
 
 ---
-
 
 ## Testing & Verification
 
