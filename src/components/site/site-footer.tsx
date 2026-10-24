@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Linkedin, Mail } from "lucide-react";
-import { Atmosphere } from "@/components/site/atmosphere";
 import { contactEmail, products } from "@/lib/omniel";
 import omnielWordmark from "@/assets/omniel-wordmark.png";
 
@@ -8,12 +7,11 @@ const companyLinks = [
   { label: "About", to: "/about" },
   { label: "Technology", to: "/technology" },
   { label: "Research", to: "/research" },
-  { label: "Careers", to: "/careers" },
 ] as const;
 
 const connectLinks = [
   { label: "Contact", to: "/contact" },
-  { label: "Join the NOVA waitlist", to: "/waitlist" },
+  { label: "NOVA waitlist", to: "/nova" },
 ] as const;
 
 function XIcon({ className }: { className?: string }) {
@@ -34,17 +32,20 @@ const socials = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden border-t border-hairline bg-[#04060b]">
-      <Atmosphere variant="band" intensity={0.45} />
+    <footer className="theme-dark relative overflow-hidden border-t border-hairline bg-background">
+      <div className="lab-grid pointer-events-none absolute inset-0 opacity-[0.06]" aria-hidden />
 
       <div className="shell relative py-16 md:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.15fr_1.85fr] lg:gap-20">
+        <div className="grid gap-12 lg:grid-cols-[1.2fr_1.8fr] lg:gap-20">
           <div>
             <Link to="/" aria-label="OMNIEL home" className="inline-block">
-              <img src={omnielWordmark} alt="OMNIEL" className="h-6 w-auto brightness-0 invert" />
+              <img src={omnielWordmark} alt="OMNIEL" className="h-8 w-auto" />
             </Link>
-            <p className="mt-6 max-w-xs font-display text-2xl leading-snug tracking-[-0.02em]">
-              Building superintelligence for everyday use.
+            <p className="mt-7 max-w-xs font-display text-4xl leading-[0.95] tracking-[-0.02em]">
+              Do less, but smart.
+            </p>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              Everyday intelligence from OMNIEL.
             </p>
             <a
               href={`mailto:${contactEmail}`}
@@ -75,18 +76,24 @@ export function SiteFooter() {
               <ul className="space-y-3 text-sm text-muted-foreground">
                 {products.map((product) => (
                   <li key={product.slug}>
-                    <Link
-                      to="/products/$slug"
-                      params={{ slug: product.slug }}
-                      className="transition-colors hover:text-foreground"
-                    >
-                      {product.name}
-                      {product.slug === "kiwi" ? (
-                        <span className="ml-2 text-[0.52rem] uppercase tracking-[0.12em] text-muted-foreground/70">
-                          Soon
-                        </span>
-                      ) : null}
-                    </Link>
+                    {product.slug === "nova" ? (
+                      <Link to="/nova" className="transition-colors hover:text-foreground">
+                        {product.name}
+                      </Link>
+                    ) : (
+                      <Link
+                        to="/products/$slug"
+                        params={{ slug: product.slug }}
+                        className="transition-colors hover:text-foreground"
+                      >
+                        {product.name}
+                        {product.slug === "kiwi" ? (
+                          <span className="ml-2 text-[0.52rem] uppercase tracking-[0.12em] text-muted-foreground/70">
+                            Soon
+                          </span>
+                        ) : null}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

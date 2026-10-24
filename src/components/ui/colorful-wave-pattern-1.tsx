@@ -81,9 +81,9 @@ const fragmentShader = `
     vec3 col = scene(uv);
     float energy = clamp(col.r * 0.9 + col.g * 0.7 + col.b * 0.5, 0.0, 1.0);
 
-    vec3 deep = vec3(0.01, 0.03, 0.09);
-    vec3 electric = vec3(0.08, 0.32, 1.0);
-    vec3 ice = vec3(0.32, 0.82, 1.0);
+    vec3 deep = vec3(0.10, 0.10, 0.09);
+    vec3 electric = vec3(0.72, 0.29, 0.16);
+    vec3 ice = vec3(0.95, 0.92, 0.86);
     vec3 tinted = mix(deep, electric, smoothstep(0.0, 0.55, energy));
     tinted = mix(tinted, ice, smoothstep(0.55, 1.0, energy));
 
@@ -121,7 +121,7 @@ export default function ElectricWavesShader({
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     } catch (error) {
       console.error("WebGL not supported", error);
-      container.style.background = "radial-gradient(circle at 50% 50%, #123a8f 0%, #05070d 62%)";
+      container.style.background = "radial-gradient(circle at 50% 50%, #6e3038 0%, #1a1a18 62%)";
       return;
     }
 

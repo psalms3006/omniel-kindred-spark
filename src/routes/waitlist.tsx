@@ -9,9 +9,9 @@ export const Route = createFileRoute("/waitlist")({
       path: "/waitlist",
       title: "Join the NOVA waitlist | OMNIEL",
       description:
-        "NOVA is OMNIEL's generalist assistant, in development. Join the waitlist and we'll email you when there is something to try.",
+        "NOVA is OMNIEL's everyday intelligence. Join the waitlist and we'll email you when there is something to try.",
       ogTitle: "Join the NOVA waitlist",
-      ogDescription: "NOVA is in development. Add your name and we'll contact you when it's ready.",
+      ogDescription: "Add your name and we'll contact you when NOVA is ready.",
     }),
   component: WaitlistPage,
 });
@@ -22,7 +22,7 @@ function WaitlistPage() {
       <PageHero
         eyebrow="NOVA / Early access"
         title="Be first to use NOVA."
-        lede="NOVA is OMNIEL's generalist assistant, still in development. Join the waitlist and we'll email you when there is something worth showing you. No newsletters in between."
+        lede="NOVA is OMNIEL's everyday intelligence. Join the waitlist and we'll email you when there is something worth showing you. No newsletters in between."
       />
 
       <Section>

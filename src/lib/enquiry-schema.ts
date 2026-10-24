@@ -2,11 +2,10 @@ import { z } from "zod";
 
 /**
  * The only form ids that actually exist in the app (see InquiryForm usages in
- * src/routes/contact.tsx and src/routes/careers.tsx). Never widen this list
- * to accept an id "in case it's needed later" — an unrecognized formId must
- * be rejected, not guessed at.
+ * src/routes/contact.tsx). Never widen this list to accept an id "in case it's
+ * needed later" — an unrecognized formId must be rejected, not guessed at.
  */
-export const ENQUIRY_FORM_IDS = ["contact", "partnerships", "investment", "careers"] as const;
+export const ENQUIRY_FORM_IDS = ["contact", "partnerships", "investment"] as const;
 export type EnquiryFormId = (typeof ENQUIRY_FORM_IDS)[number];
 
 /**
@@ -60,5 +59,4 @@ export const ENQUIRY_FORM_LABELS: Record<EnquiryFormId, string> = {
   contact: "General Enquiry",
   partnerships: "Partnership Enquiry",
   investment: "Support / Investment Interest",
-  careers: "Careers Interest",
 };

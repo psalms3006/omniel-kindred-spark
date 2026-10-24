@@ -129,7 +129,7 @@ export function Panel({
       className={cn(
         "panel rounded-3xl p-6 md:p-8",
         interactive &&
-          "transition-[transform,border-color,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_20px_60px_-35px_rgba(47,107,255,0.9)]",
+          "transition-[transform,border-color,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_20px_50px_-35px_rgba(26,26,24,0.45)]",
         className,
       )}
       {...rest}
@@ -171,11 +171,11 @@ export function ActionLink({
   const styles = cn(
     actionBase,
     variant === "primary" &&
-      "bg-primary px-6 py-3 text-primary-foreground hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-20px_rgba(47,107,255,0.95)]",
+      "bg-primary px-6 py-3 text-primary-foreground hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-18px_rgba(26,26,24,0.55)]",
     variant === "accent" &&
-      "bg-accent px-6 py-3 text-accent-foreground hover:-translate-y-0.5 hover:shadow-[0_16px_44px_-18px_rgba(47,107,255,1)]",
+      "bg-accent px-6 py-3 text-accent-foreground hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-18px_rgba(110,48,56,0.6)]",
     variant === "ghost" &&
-      "border border-foreground/20 bg-foreground/[0.04] px-6 py-3 text-foreground backdrop-blur-xl hover:-translate-y-0.5 hover:border-accent/50 hover:bg-foreground/[0.07]",
+      "border border-foreground/25 bg-transparent px-6 py-3 text-foreground hover:-translate-y-0.5 hover:border-accent/60 hover:bg-surface",
     variant === "quiet" && "text-muted-foreground hover:text-foreground",
     className,
   );

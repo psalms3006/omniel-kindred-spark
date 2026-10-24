@@ -40,7 +40,7 @@ function mix(a: string, b: string, t: number): string {
 export function NeonDither({ intensity = 0.68, parallax = true, className }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const t = clamp(intensity);
-  const front = useMemo(() => mix("#173B8F", "#38D6FF", t * 0.5), [t]);
+  const front = useMemo(() => mix("#6E3038", "#5A6B5C", t * 0.45), [t]);
 
   useEffect(() => {
     if (!parallax) return;
@@ -63,14 +63,14 @@ export function NeonDither({ intensity = 0.68, parallax = true, className }: Pro
     <div
       ref={ref}
       aria-hidden="true"
-      className={cn("pointer-events-none absolute inset-0 overflow-hidden bg-[#05070d]", className)}
+      className={cn("pointer-events-none absolute inset-0 overflow-hidden bg-[#f2ebde]", className)}
       style={{
         transform: parallax ? "translate3d(var(--dither-x,0), var(--dither-y,0), 0)" : undefined,
         willChange: parallax ? "transform" : undefined,
       }}
     >
       <Dithering
-        colorBack="#00000000"
+        colorBack="#f2ebde"
         colorFront={front}
         speed={0.18 + t * 0.22}
         shape="wave"
@@ -83,21 +83,21 @@ export function NeonDither({ intensity = 0.68, parallax = true, className }: Pro
       <div
         className="absolute inset-0"
         style={{
-          background: "radial-gradient(60% 40% at 50% 40%, rgba(47,107,255,0.18), transparent 70%)",
-          mixBlendMode: "screen",
+          background: "radial-gradient(60% 40% at 50% 40%, rgba(110,48,56,0.10), transparent 70%)",
+          mixBlendMode: "multiply",
         }}
       />
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 80% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.6) 100%)",
+            "radial-gradient(120% 80% at 50% 50%, rgba(242,235,222,0) 55%, rgba(242,235,222,0.55) 100%)",
         }}
       />
       <div
-        className="absolute inset-0 opacity-40"
+        className="absolute inset-0 opacity-50"
         style={{
-          background: "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 35%)",
+          background: "linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 35%)",
         }}
       />
     </div>

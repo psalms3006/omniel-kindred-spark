@@ -9,7 +9,6 @@ import {
   SectionHeading,
   Shell,
 } from "@/components/site/primitives";
-import { WaitlistForm } from "@/components/site/waitlist-form";
 import { productBySlug, products } from "@/lib/omniel";
 import { pageHead } from "@/lib/seo";
 
@@ -23,6 +22,11 @@ export const Route = createFileRoute("/products/$slug")({
     // permanent redirect to the product index is the honest answer -- the
     // page is gone, here is where products live -- and it consolidates any
     // ranking signal instead of discarding it.
+    // NOVA now has a dedicated page.
+    if (params.slug === "nova") {
+      throw redirect({ to: "/nova", statusCode: 301 });
+    }
+
     const RETIRED_SLUGS = new Set(["orin"]);
     if (RETIRED_SLUGS.has(params.slug)) {
       throw redirect({ to: "/products", statusCode: 301 });
@@ -67,10 +71,10 @@ function ProductPage() {
         </div>
         <Shell>
           {product.icon && (
-            <img src={product.icon} alt="" className="mb-6 h-12 w-12 brightness-0 invert" />
+            <img src={product.icon} alt="" className="mb-6 h-12 w-12 brightness-0" />
           )}
           <Eyebrow>
-            {product.priority === "flagship" ? "Platform · " : ""}
+            {product.priority === "flagship" ? "Everyday intelligence · " : ""}
             {product.kind} · {product.status}
           </Eyebrow>
           <h1 className="text-balance-tight mt-6 max-w-3xl text-4xl leading-[1.05] sm:text-5xl md:text-7xl">
@@ -146,23 +150,10 @@ function ProductPage() {
             >
               NOVA
             </Link>{" "}
-            is the platform, in active development now.
+            is the everyday intelligence, in active development now.
           </p>
         )}
       </Section>
-
-      {product.slug === "nova" ? (
-        <Section id="waitlist" className="border-t border-hairline">
-          <SectionHeading
-            eyebrow="Early access"
-            title="Want to use NOVA first?"
-            lede="NOVA is in development. Join the waitlist and we'll email you when there is something to try — no newsletters in between."
-          />
-          <div className="mt-12 max-w-2xl">
-            <WaitlistForm />
-          </div>
-        </Section>
-      ) : null}
 
       <Section className="border-t border-hairline">
         <Eyebrow>Elsewhere in the ecosystem</Eyebrow>

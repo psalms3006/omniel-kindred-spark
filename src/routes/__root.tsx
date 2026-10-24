@@ -34,7 +34,7 @@ const ORGANIZATION_SCHEMA = {
   logo: `${siteUrl}/icon-512.png`,
   email: contactEmail,
   description:
-    "OMNIEL is an early-stage AI and technology ecosystem being built from Nigeria: NOVA, VYREN, ARVO and KIWI.",
+    "OMNIEL builds NOVA, an everyday intelligence that carries the planning, the follow-ups and the admin. The wider ecosystem includes VYREN, ARVO and KIWI.",
   founder: {
     "@type": "Person",
     name: "Samuel Asagwara",
@@ -142,11 +142,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "OMNIEL: Building intelligence without borders" },
+      { title: "OMNIEL: Do less, but smart" },
       {
         name: "description",
         content:
-          "OMNIEL is an early-stage AI and technology ecosystem being built from Nigeria: NOVA, VYREN, ARVO and KIWI.",
+          "OMNIEL builds NOVA, an everyday intelligence that carries the planning, the follow-ups and the admin — so the day feels like yours again.",
       },
       { name: "author", content: "OMNIEL" },
       { property: "og:site_name", content: "OMNIEL" },
@@ -157,29 +157,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: `${siteUrl}/og-image.png` },
-      { name: "theme-color", content: "#05070d" },
+      { name: "theme-color", content: "#f2ebde" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://api.fontshare.com" },
+      { rel: "preconnect", href: "https://cdn.fontshare.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Inter:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap",
       },
       {
-        rel: "preload",
-        href: "/fonts/equinox-bold.woff",
-        as: "font",
-        type: "font/woff",
-        crossOrigin: "anonymous",
-      },
-      {
-        rel: "preload",
-        href: "/fonts/equinox-regular.woff",
-        as: "font",
-        type: "font/woff",
-        crossOrigin: "anonymous",
+        rel: "stylesheet",
+        href: "https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       // No canonical here. A canonical in the root is inherited by every

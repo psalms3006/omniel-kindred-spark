@@ -54,7 +54,7 @@ export function Typewriter({
   return (
     <span className={cn("font-mono", className)} aria-hidden="true">
       {text}
-      <span className="ml-1 inline-block h-[0.9em] w-[2px] translate-y-[0.08em] animate-pulse bg-ember" />
+      <span className="ml-1 inline-block h-[0.9em] w-[2px] translate-y-[0.08em] animate-pulse bg-accent" />
     </span>
   );
 }

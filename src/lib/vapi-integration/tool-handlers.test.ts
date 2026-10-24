@@ -21,11 +21,9 @@ function makeFakeVapi() {
 
 function makeFakeDispatcher(): ActionDispatcher {
   return {
-    navigate_to_page: vi.fn().mockResolvedValue({ ok: true, page: "careers", path: "/careers" }),
-    navigate_to_section: vi
-      .fn()
-      .mockResolvedValue({ ok: true, section: "reality", path: "/careers" }),
-    open_product: vi.fn().mockResolvedValue({ ok: true, slug: "nova", path: "/products/nova" }),
+    navigate_to_page: vi.fn().mockResolvedValue({ ok: true, page: "nova", path: "/nova" }),
+    navigate_to_section: vi.fn().mockResolvedValue({ ok: true, section: "team", path: "/about" }),
+    open_product: vi.fn().mockResolvedValue({ ok: true, slug: "nova", path: "/nova" }),
     open_form: vi.fn().mockResolvedValue({ ok: true, formId: "contact", path: "/contact" }),
     fill_form: vi
       .fn()

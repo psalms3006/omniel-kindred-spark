@@ -13,8 +13,8 @@ export type ActionResult<T extends Record<string, unknown> = Record<string, neve
 
 /**
  * Every key here corresponds to a real `id="..."` anchor discovered in the
- * repository (src/routes/index.tsx, products.index.tsx, careers.tsx,
- * about.tsx, technology.tsx, research.tsx — Phase 6 audit). Do not add a
+ * repository (src/routes/index.tsx, products.index.tsx, about.tsx,
+ * technology.tsx, research.tsx — Phase 6 audit). Do not add a
  * section here unless it actually exists in the markup. Sections that live
  * on the dynamic /products/$slug route ("capabilities", "audience") are
  * intentionally excluded — they don't have one fixed path, and belong to
@@ -25,7 +25,6 @@ const SECTIONS = {
   about: "/",
   ecosystem: "/products",
   compare: "/products",
-  reality: "/careers",
   belief: "/about",
   vision: "/about",
   team: "/about",
@@ -44,12 +43,11 @@ export type ProductSectionId = (typeof PRODUCT_SECTIONS)[number];
 const PRODUCT_SLUGS = ["nova", "vyren", "arvo", "kiwi"] as const;
 export type ProductSlug = (typeof PRODUCT_SLUGS)[number];
 
-/** Matches the four InquiryForm ids actually rendered in contact.tsx / careers.tsx. */
+/** Matches the three InquiryForm ids rendered in contact.tsx. */
 const FORMS = {
   contact: "/contact",
   partnerships: "/contact",
   investment: "/contact",
-  careers: "/careers",
 } as const;
 export type FormId = keyof typeof FORMS;
 
@@ -66,7 +64,7 @@ const PAGES = {
   home: "/",
   about: "/about",
   products: "/products",
-  careers: "/careers",
+  nova: "/nova",
   contact: "/contact",
   research: "/research",
   technology: "/technology",
@@ -153,6 +151,10 @@ export function createActionDispatcher(router: AnyRouter) {
         error: `Unknown product "${input?.slug ?? ""}".`,
         validOptions: [...PRODUCT_SLUGS],
       };
+    }
+    if (slug === "nova") {
+      await router.navigate({ to: "/nova" });
+      return { ok: true, slug, path: "/nova" };
     }
     await router.navigate({ to: "/products/$slug", params: { slug } });
     return { ok: true, slug, path: `/products/${slug}` };

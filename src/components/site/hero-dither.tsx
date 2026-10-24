@@ -20,22 +20,22 @@ export function HeroDither() {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
     >
-      <div className="absolute inset-0 bg-[#05070d]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_-10%,rgba(47,107,255,0.34),transparent_58%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_18%,rgba(56,214,255,0.12),transparent_38%)]" />
+      <div className="absolute inset-0 bg-[#f2ebde]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_-10%,rgba(110,48,56,0.14),transparent_58%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_18%,rgba(90,107,92,0.10),transparent_38%)]" />
 
       {!reduced && inView ? (
         <ClientOnly>
           <Suspense fallback={null}>
-            <NeonDither intensity={0.55} parallax className="opacity-80" />
+            <NeonDither intensity={0.5} parallax className="opacity-75" />
           </Suspense>
         </ClientOnly>
       ) : null}
 
-      {/* Scrim: keeps the headline and subline readable over the moving dither. */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_38%,rgba(5,7,13,0.9)_0%,rgba(5,7,13,0.62)_42%,transparent_72%)]" />
+      {/* A bone wash keeps the obsidian headline clear over the moving texture. */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_38%,rgba(250,246,238,0.9)_0%,rgba(250,246,238,0.55)_44%,transparent_74%)]" />
 
-      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent to-[#05070d]" />
+      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent to-[#f2ebde]" />
     </div>
   );
 }

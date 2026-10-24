@@ -12,44 +12,44 @@ const calendar = [
   { time: "15:00", label: "Q3 review", with: "Finance" },
 ] as const;
 
-/** A dark glass "everyday work" dashboard for the enterprise section. */
+/** A paper dashboard of everyday work: people, approvals, calendar, handoffs. */
 export function EverydayWork() {
   return (
     <div className="relative">
       <div
         aria-hidden
-        className="absolute -inset-6 rounded-[2.5rem] bg-[radial-gradient(circle_at_30%_20%,rgba(47,107,255,0.28),transparent_62%)] blur-2xl"
+        className="absolute -inset-6 rounded-[2.5rem] bg-[radial-gradient(circle_at_30%_20%,rgba(110,48,56,0.14),transparent_62%)] blur-2xl"
       />
 
       <div className="neo-glass relative overflow-hidden rounded-3xl">
-        <div className="flex items-center gap-1.5 border-b border-white/10 px-4 py-3">
-          <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
-          <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
-          <span className="h-2 w-2 rounded-full bg-[#28c840]" />
+        <div className="flex items-center gap-1.5 border-b border-hairline px-4 py-3">
+          <span className="h-2 w-2 rounded-full bg-accent" />
+          <span className="h-2 w-2 rounded-full bg-sage" />
+          <span className="h-2 w-2 rounded-full bg-surface-strong" />
           <span className="ml-2 text-[0.6rem] uppercase tracking-[0.14em] text-muted-foreground">
             NOVA / Workday
           </span>
-          <span className="ml-auto text-[0.55rem] uppercase tracking-[0.14em] text-ember">
+          <span className="ml-auto text-[0.55rem] uppercase tracking-[0.14em] text-accent">
             Tue 20 Oct
           </span>
         </div>
 
         <div className="grid sm:grid-cols-[1.15fr_0.85fr]">
-          <div className="border-b border-white/10 p-4 sm:border-b-0 sm:border-r">
+          <div className="border-b border-hairline p-4 sm:border-b-0 sm:border-r">
             <div className="flex items-center justify-between">
               <p className="flex items-center gap-1.5 text-[0.55rem] uppercase tracking-[0.14em] text-muted-foreground">
                 <Inbox className="h-3 w-3" /> Waiting on you
               </p>
-              <span className="text-[0.55rem] text-ember">3 items</span>
+              <span className="text-[0.55rem] text-accent">3 items</span>
             </div>
 
             <ul className="mt-3 space-y-2">
               {approvals.map((item) => (
                 <li
                   key={item.title}
-                  className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5"
+                  className="flex items-center gap-3 rounded-xl border border-hairline bg-background/60 px-3 py-2.5"
                 >
-                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-ember text-[0.55rem] font-semibold text-[#05070d]">
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-accent text-[0.55rem] font-semibold text-accent-foreground">
                     {item.initials}
                   </span>
                   <span className="min-w-0 flex-1">
@@ -63,8 +63,8 @@ export function EverydayWork() {
                   <span
                     className={
                       item.done
-                        ? "grid h-6 w-6 place-items-center rounded-full bg-white/10 text-ember"
-                        : "grid h-6 w-6 place-items-center rounded-full border border-white/20 text-muted-foreground"
+                        ? "grid h-6 w-6 place-items-center rounded-full bg-surface text-olive"
+                        : "grid h-6 w-6 place-items-center rounded-full border border-foreground/20 text-muted-foreground"
                     }
                   >
                     <Check className="h-3 w-3" />
@@ -73,7 +73,7 @@ export function EverydayWork() {
               ))}
             </ul>
 
-            <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-3">
+            <div className="mt-4 rounded-xl border border-hairline bg-background/60 px-3 py-3">
               <p className="flex items-center gap-1.5 text-[0.55rem] uppercase tracking-[0.14em] text-muted-foreground">
                 <Users className="h-3 w-3" /> Team thread
               </p>
@@ -81,7 +81,7 @@ export function EverydayWork() {
                 <span className="text-foreground">Maya</span> — Q3 numbers are in.
               </p>
               <p className="mt-1 text-[0.68rem] leading-relaxed text-muted-foreground">
-                <span className="text-ember">NOVA</span> — Reconciled. Two variances flagged for
+                <span className="text-accent">NOVA</span> — Reconciled. Two variances flagged for
                 Priya.
               </p>
             </div>
@@ -109,7 +109,7 @@ export function EverydayWork() {
               ))}
             </ul>
 
-            <div className="mt-5 rounded-xl border border-white/10 bg-white/[0.03] p-3">
+            <div className="mt-5 rounded-xl border border-hairline bg-background/60 p-3">
               <p className="text-[0.55rem] uppercase tracking-[0.14em] text-muted-foreground">
                 Handled today
               </p>
@@ -121,12 +121,12 @@ export function EverydayWork() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-t border-white/10 px-4 py-3 text-[0.58rem] text-muted-foreground">
+        <div className="flex items-center justify-between border-t border-hairline px-4 py-3 text-[0.58rem] text-muted-foreground">
           <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-ember" />
+            <span className="h-1.5 w-1.5 rounded-full bg-sage" />
             Every person, every handoff
           </span>
-          <span className="text-ember">3 waiting for you</span>
+          <span className="text-accent">3 waiting for you</span>
         </div>
       </div>
     </div>

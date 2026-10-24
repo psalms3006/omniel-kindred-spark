@@ -1,27 +1,19 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useScroll } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { navigation } from "@/lib/omniel";
 import omnielWordmark from "@/assets/omniel-wordmark.png";
 import { cn } from "@/lib/utils";
 
-/** Desktop links. About and Contact live in the footer / right side respectively. */
-const HEADER_LINKS = ["/products", "/technology", "/research", "/careers"] as const;
+const NAV_LINKS = ["/products", "/technology", "/research"] as const;
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const firstMenuLink = useRef<HTMLAnchorElement>(null);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => setOpen(false), [pathname]);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -40,38 +32,35 @@ export function SiteNav() {
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const links = navigation.filter((item) => (HEADER_LINKS as readonly string[]).includes(item.to));
+  const links = navigation.filter((item) => (NAV_LINKS as readonly string[]).includes(item.to));
+  const novaActive = pathname === "/nova" || pathname.startsWith("/products/nova");
 
   return (
     <>
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-[60] focus:rounded-full focus:bg-accent focus:px-5 focus:py-3 focus:text-sm focus:text-accent-foreground"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-[60] focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:text-sm focus:text-primary-foreground"
       >
         Skip to content
       </a>
 
-      <header className="fixed inset-x-0 top-3 z-50 px-3 sm:top-4 sm:px-4">
-        <div
-          className={cn(
-            "relative mx-auto flex h-16 max-w-[72rem] items-center justify-between gap-4 rounded-full border border-hairline px-4 backdrop-blur-xl",
-            "transition-[background-color,box-shadow,border-color] duration-300",
-            scrolled
-              ? "bg-background/85 shadow-[0_18px_50px_-34px_oklch(0.19_0.012_265_/_45%)]"
-              : "bg-background/70",
-          )}
-        >
-          <Link to="/" aria-label="OMNIEL home" className="shrink-0">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-hairline bg-background/95 backdrop-blur-sm">
+        <div className="shell grid h-[4.5rem] grid-cols-[1fr_auto_1fr] items-center gap-6">
+          <Link
+            to="/"
+            aria-label="OMNIEL home"
+            className="flex shrink-0 items-center justify-self-start"
+          >
             <img
               src={omnielWordmark}
               alt="OMNIEL"
-              className="h-5 w-auto brightness-0 invert sm:h-6"
+              className="h-9 w-auto object-contain brightness-0 md:h-10"
             />
           </Link>
 
           <nav
             aria-label="Primary"
-            className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 lg:flex"
+            className="hidden items-center gap-7 justify-self-center lg:flex"
           >
             {links.map((item) => {
               const active = pathname === item.to || pathname.startsWith(`${item.to}/`);
@@ -81,7 +70,7 @@ export function SiteNav() {
                   to={item.to}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative py-2 text-[0.8rem] font-medium text-muted-foreground transition-colors hover:text-foreground",
+                    "relative py-2 text-[0.82rem] font-medium text-muted-foreground transition-colors hover:text-foreground",
                     active && "text-foreground",
                   )}
                 >
@@ -89,7 +78,7 @@ export function SiteNav() {
                   <span
                     aria-hidden
                     className={cn(
-                      "absolute inset-x-0 -bottom-0.5 mx-auto h-px w-5 bg-accent transition-opacity duration-200",
+                      "absolute inset-x-0 -bottom-0.5 mx-auto h-px w-4 bg-accent transition-opacity duration-200",
                       active ? "opacity-100" : "opacity-0",
                     )}
                   />
@@ -98,19 +87,19 @@ export function SiteNav() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-3 justify-self-end">
             <Link
-              to="/contact"
-              className="hidden text-[0.8rem] font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+              to="/nova"
+              aria-current={novaActive ? "page" : undefined}
+              className={cn(
+                "hidden items-center gap-1.5 text-[0.82rem] font-semibold text-accent transition-colors hover:text-foreground lg:inline-flex",
+                novaActive && "text-foreground",
+              )}
             >
-              Contact
+              NOVA
+              <span aria-hidden>↗</span>
             </Link>
-            <Link
-              to="/waitlist"
-              className="hidden h-9 items-center rounded-full bg-primary px-4 text-[0.78rem] font-medium text-primary-foreground transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_0_var(--color-accent)] sm:inline-flex"
-            >
-              Join waitlist
-            </Link>
+
             <button
               type="button"
               aria-expanded={open}
@@ -136,6 +125,12 @@ export function SiteNav() {
             </button>
           </div>
         </div>
+
+        <motion.div
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-px origin-left bg-accent"
+          style={{ scaleX: scrollYProgress }}
+        />
       </header>
 
       <AnimatePresence>
@@ -159,7 +154,7 @@ export function SiteNav() {
                     <Link
                       ref={index === 0 ? firstMenuLink : undefined}
                       to={item.to}
-                      className="flex items-center justify-between py-5 text-2xl"
+                      className="flex items-center justify-between py-5 font-display text-3xl"
                     >
                       {item.label}
                       <span aria-hidden className="text-muted-foreground">
@@ -170,20 +165,13 @@ export function SiteNav() {
                 ))}
               </ul>
 
-              <div className="mt-8 grid gap-3">
-                <Link
-                  to="/waitlist"
-                  className="flex h-12 items-center justify-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground"
-                >
-                  Join the NOVA waitlist
-                </Link>
-                <Link
-                  to="/contact"
-                  className="flex h-12 items-center justify-center rounded-full border border-hairline px-5 text-sm font-medium"
-                >
-                  Contact OMNIEL
-                </Link>
-              </div>
+              <Link
+                to="/nova"
+                className="mt-8 flex items-center justify-between border-b border-hairline py-5 font-display text-3xl text-accent"
+              >
+                NOVA
+                <span aria-hidden>↗</span>
+              </Link>
             </nav>
           </motion.div>
         ) : null}

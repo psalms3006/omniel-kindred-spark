@@ -15,14 +15,14 @@ export function CreativeEditor() {
     <div className="relative">
       <div
         aria-hidden
-        className="absolute -inset-6 rounded-[2.5rem] bg-[radial-gradient(circle_at_60%_30%,rgba(29,78,216,0.18),transparent_62%)] blur-2xl"
+        className="absolute -inset-6 rounded-[2.5rem] bg-[radial-gradient(circle_at_60%_30%,rgba(110,48,56,0.14),transparent_62%)] blur-2xl"
       />
 
       <div className="neo-glass relative overflow-hidden rounded-3xl">
         <div className="flex items-center gap-1.5 border-b border-hairline px-4 py-3">
-          <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
-          <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
-          <span className="h-2 w-2 rounded-full bg-[#28c840]" />
+          <span className="h-2 w-2 rounded-full bg-accent" />
+          <span className="h-2 w-2 rounded-full bg-sage" />
+          <span className="h-2 w-2 rounded-full bg-surface-strong" />
           <span className="ml-2 text-[0.6rem] uppercase tracking-[0.14em] text-muted-foreground">
             studio / poster-01
           </span>
@@ -50,23 +50,23 @@ export function CreativeEditor() {
 
           <div className="p-4">
             <div className="grid grid-cols-2 gap-2">
-              <div className="relative aspect-square overflow-hidden rounded-xl border border-hairline bg-[radial-gradient(circle_at_34%_28%,#38d6ff,#2f6bff_46%,#05070d)]">
-                <span className="absolute left-1/2 top-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/80 blur-[1px]" />
+              <div className="relative aspect-square overflow-hidden rounded-xl border border-hairline bg-[radial-gradient(circle_at_34%_28%,#e3dccf,#8a3b42_46%,#1a1a18)]">
+                <span className="absolute left-1/2 top-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#faf6ee]/80 blur-[1px]" />
                 <span className="absolute bottom-2 left-2 font-mono text-[0.5rem] uppercase tracking-[0.12em] text-white/70">
                   01 / Signal
                 </span>
               </div>
 
-              <div className="relative aspect-square overflow-hidden rounded-xl border border-hairline bg-[#0a0c12]">
-                <span className="absolute left-3 top-3 h-12 w-12 rounded-full bg-[#e7dfd0]" />
-                <span className="absolute bottom-4 right-3 h-16 w-10 rotate-12 rounded-sm bg-[#2f6bff]" />
+              <div className="relative aspect-square overflow-hidden rounded-xl border border-hairline bg-[#1a1a18]">
+                <span className="absolute left-3 top-3 h-12 w-12 rounded-full bg-[#f2ebde]" />
+                <span className="absolute bottom-4 right-3 h-16 w-10 rotate-12 rounded-sm bg-[#6e3038]" />
                 <span className="absolute bottom-3 left-3 font-mono text-[0.5rem] uppercase tracking-[0.12em] text-white/60">
                   02 / Form
                 </span>
               </div>
 
-              <div className="relative col-span-2 aspect-[2/1] overflow-hidden rounded-xl border border-hairline bg-[linear-gradient(180deg,#05070d_0%,#0a1330_52%,#2f6bff_100%)]">
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[repeating-linear-gradient(90deg,transparent_0_12px,rgba(56,214,255,0.45)_12px_13px)] [mask-image:linear-gradient(to_bottom,transparent,black)]" />
+              <div className="relative col-span-2 aspect-[2/1] overflow-hidden rounded-xl border border-hairline bg-[linear-gradient(180deg,#1a1a18_0%,#3a2a22_52%,#6e3038_100%)]">
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[repeating-linear-gradient(90deg,transparent_0_12px,rgba(233,223,208,0.35)_12px_13px)] [mask-image:linear-gradient(to_bottom,transparent,black)]" />
                 <span className="absolute left-4 top-3 font-display text-2xl text-white">NOVA</span>
                 <span className="absolute bottom-3 right-3 font-mono text-[0.5rem] uppercase tracking-[0.12em] text-white/70">
                   03 / Horizon
@@ -78,9 +78,9 @@ export function CreativeEditor() {
               <span className="text-[0.62rem] text-muted-foreground">Selected / Poster 01</span>
               <span className="flex items-center gap-1.5">
                 <span className="h-3.5 w-3.5 rounded-full bg-accent" />
-                <span className="h-3.5 w-3.5 rounded-full bg-[#38d6ff]" />
-                <span className="h-3.5 w-3.5 rounded-full bg-[#0a0c12]" />
-                <span className="h-3.5 w-3.5 rounded-full bg-[#e7dfd0]" />
+                <span className="h-3.5 w-3.5 rounded-full bg-[#a9b5a4]" />
+                <span className="h-3.5 w-3.5 rounded-full bg-[#1a1a18]" />
+                <span className="h-3.5 w-3.5 rounded-full bg-[#f2ebde]" />
               </span>
             </div>
           </div>

@@ -1,111 +1,187 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Download } from "lucide-react";
 import { CreativeEditor } from "@/components/site/creative-editor";
 import { EverydayWork } from "@/components/site/everyday-work";
 import { HeroDither } from "@/components/site/hero-dither";
-import { HeroPreview } from "@/components/site/hero-preview";
 import { NovaStage } from "@/components/site/nova-stage";
-import { ProductShowcase } from "@/components/site/product-showcase";
+import { ScrollExpand } from "@/components/site/scroll-expand";
 import { StudyWorkspace } from "@/components/site/study-workspace";
-import {
-  ActionLink,
-  Eyebrow,
-  Reveal,
-  Section,
-  SectionHeading,
-  Shell,
-  Stat,
-} from "@/components/site/primitives";
+import { Eyebrow, Reveal, Section, Shell, Stat } from "@/components/site/primitives";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () =>
     pageHead({
       path: "/",
-      title: "Omniel | Superintelligence for everyone",
+      title: "OMNIEL — Do less, but smart",
       description:
-        "NOVA is OMNIEL's voice-first AI platform: it plans, executes and stays in the conversation. Built for everyday use, from Nigeria. In development.",
-      ogTitle: "Omniel | Superintelligence for everyone",
-      ogDescription: "NOVA is the platform. The rest of the ecosystem follows.",
+        "OMNIEL is building the right kind of superintelligence: useful, human, and clear to people who don't write code. NOVA is coming.",
+      ogTitle: "OMNIEL — Do less, but smart",
+      ogDescription: "Building superintelligence for everyday use.",
     }),
   component: Home,
 });
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden pb-20 pt-36 md:pb-28 md:pt-44">
+    <section className="relative overflow-hidden pb-16 pt-32 md:pb-24 md:pt-44">
       <HeroDither />
 
       <Shell className="relative z-10">
-        <div className="mx-auto max-w-7xl text-center">
-          <Reveal>
-            <a
-              href="#nova"
-              className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.04] px-3 py-2 text-xs backdrop-blur-xl transition-colors hover:border-accent/50"
-            >
-              <span className="rounded-full bg-accent px-2 py-0.5 text-[0.55rem] font-semibold uppercase tracking-[0.14em] text-accent-foreground">
-                New
-              </span>
-              <span className="font-medium text-foreground">Introducing Nova</span>
-              <span aria-hidden className="text-accent">
-                →
-              </span>
-            </a>
-          </Reveal>
+        <div className="grid items-start gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
+          <div className="max-w-2xl">
+            <Reveal>
+              <p className="text-sm font-medium leading-relaxed text-foreground md:text-base">
+                Building superintelligence for everyday use.
+              </p>
+            </Reveal>
 
-          <h1 className="mt-10 text-[clamp(1.45rem,6.6vw,6.2rem)] leading-[0.9] tracking-[-0.045em]">
-            <span className="reveal-line">
-              <span className="block uppercase">Building</span>
-            </span>
-            <span className="reveal-line">
-              <span className="block uppercase">Superintelligence</span>
-            </span>
-            <span className="fade-in-up editorial mt-4 block normal-case [--reveal-delay:160ms] md:mt-6">
-              for{" "}
-              <span className="relative inline-block">
-                everyday use.
-                <span
-                  aria-hidden
-                  className="absolute -bottom-1 left-0 h-[3px] w-full bg-gradient-to-r from-accent via-signal-2 to-signal"
-                />
+            <h1 className="mt-7 text-[clamp(3.4rem,8.5vw,8rem)] leading-[0.86] tracking-[-0.045em]">
+              <span className="reveal-line">
+                <span className="block">Do less,</span>
               </span>
-            </span>
-          </h1>
+              <span className="reveal-line [--reveal-delay:110ms]">
+                <span className="block">
+                  but smart<span className="text-accent">.</span>
+                </span>
+              </span>
+            </h1>
+          </div>
 
-          <Reveal delay={0.15}>
-            <p className="mx-auto mt-7 max-w-2xl text-sm leading-relaxed text-foreground/80 md:text-base">
-              Your fullstack AI companion is finally home. Think it. Say it. Done.
-            </p>
+          <Reveal from="right" delay={0.12}>
+            <div className="overflow-hidden rounded-[2rem] border border-hairline bg-card">
+              <img
+                src="/do%20less%20image%203.jpg"
+                alt="A person relaxing with a laptop."
+                width={1280}
+                height={1920}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                className="aspect-[4/5] w-full object-cover object-center"
+              />
+            </div>
           </Reveal>
         </div>
-
-        <Reveal delay={0.22} className="mt-16">
-          <HeroPreview />
-        </Reveal>
       </Shell>
     </section>
   );
 }
 
-function Products() {
+function Origin() {
   return (
-    <Section id="products" className="border-t border-hairline">
-      <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-        <SectionHeading eyebrow="Products" title="Powered by OMNIEL" />
-        <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-          We believe superintelligence should be accessible to everyone — and useful in every field.
+    <Section id="origin" className="border-t border-hairline">
+      <div className="mx-auto max-w-5xl text-center">
+        <h2 className="font-display text-[clamp(4.5rem,13vw,13rem)] font-semibold leading-[0.8] tracking-[-0.05em]">
+          OMNIEL<span className="text-accent">.</span>
+        </h2>
+
+        <div className="relative mx-auto mt-10 overflow-hidden rounded-[2rem] border border-hairline bg-card">
+          <img
+            src="/nigeria%20Omniel%20page.jpg"
+            alt="A group portrait of young people in red, green and black."
+            width={1280}
+            height={1920}
+            loading="lazy"
+            decoding="async"
+            className="aspect-[2/1] w-full object-cover object-[center_35%] [filter:saturate(0.85)_contrast(1.05)]"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(110,48,56,0.18),transparent_45%,rgba(79,93,80,0.18))] mix-blend-multiply"
+          />
+        </div>
+
+        <p className="mx-auto mt-8 max-w-2xl text-2xl leading-snug md:text-4xl">
+          Building the right kind of superintelligence. The kind we need.
         </p>
       </div>
-      <div className="mt-12">
-        <ProductShowcase />
+    </Section>
+  );
+}
+
+function Everyone() {
+  return (
+    <Section id="everyone" className="border-t border-hairline">
+      <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <Reveal from="left">
+          <Eyebrow>Made for everyone</Eyebrow>
+          <h2 className="mt-6 text-[clamp(2.8rem,5.5vw,5.5rem)] font-semibold leading-[0.94]">
+            We build products for everyone.
+          </h2>
+        </Reveal>
+
+        <Reveal from="right" delay={0.08}>
+          <div className="grid grid-cols-2 gap-3">
+            <figure className="col-span-2">
+              <div className="overflow-hidden rounded-[1.75rem] border border-hairline bg-card">
+                <img
+                  src="/students%20omniel.jpg"
+                  alt="Students working together in a lecture hall."
+                  width={2000}
+                  height={1333}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[16/9] w-full object-cover"
+                />
+              </div>
+              <figcaption className="mt-2 text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">
+                For students.
+              </figcaption>
+            </figure>
+
+            <figure>
+              <div className="overflow-hidden rounded-[1.5rem] border border-hairline bg-card">
+                <img
+                  src="/creatives.jpg"
+                  alt="A group of young creatives in a city."
+                  width={1280}
+                  height={1920}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[4/3] w-full object-cover"
+                />
+              </div>
+              <figcaption className="mt-2 text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">
+                For creatives.
+              </figcaption>
+            </figure>
+
+            <figure>
+              <div className="overflow-hidden rounded-[1.5rem] border border-hairline bg-card">
+                <img
+                  src="/group%20picture.jpg"
+                  alt="A team of young people working together."
+                  width={2000}
+                  height={1201}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[4/3] w-full object-cover"
+                />
+              </div>
+              <figcaption className="mt-2 text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">
+                For teams.
+              </figcaption>
+            </figure>
+          </div>
+        </Reveal>
       </div>
+    </Section>
+  );
+}
+
+function NovaSection() {
+  return (
+    <Section id="nova" className="border-t border-hairline">
+      <ScrollExpand>
+        <NovaStage />
+      </ScrollExpand>
     </Section>
   );
 }
 
 function Students() {
   return (
-    <Section id="students" className="theme-light border-t border-hairline bg-background">
+    <Section id="students" className="border-t border-hairline">
       <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
         <Reveal from="left">
           <Eyebrow>For students</Eyebrow>
@@ -116,7 +192,7 @@ function Students() {
           </h2>
           <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
             NOVA turns a stack of deadlines into a plan, explains the parts that don&apos;t make
-            sense, and remembers where you stopped.
+            sense, and remembers where you stopped. The list stops living in your head.
           </p>
 
           <div className="mt-8 grid grid-cols-3 gap-4">
@@ -124,32 +200,46 @@ function Students() {
             <Stat value="1 plan" label="Every deadline" />
             <Stat value="Offline" label="Where possible" />
           </div>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <ActionLink to="/waitlist" variant="accent">
-              Join the waitlist
-            </ActionLink>
-          </div>
         </Reveal>
 
-        <Reveal from="right" delay={0.1}>
+        <ScrollExpand className="origin-center">
           <StudyWorkspace />
-        </Reveal>
+        </ScrollExpand>
       </div>
     </Section>
   );
 }
 
+function StudentImage() {
+  return (
+    <section className="border-t border-hairline">
+      <div className="shell py-6 md:py-8">
+        <div className="overflow-hidden rounded-[2rem] border border-hairline bg-card">
+          <img
+            src="/students%20with%20omniel.jpg"
+            alt="Students studying together outdoors."
+            width={2000}
+            height={1333}
+            loading="lazy"
+            decoding="async"
+            className="h-[50vh] w-full object-cover md:h-[70vh]"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Enterprises() {
   return (
-    <Section id="enterprises" className="border-t border-hairline">
+    <Section id="enterprises" className="border-t border-hairline bg-surface/40">
       <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
-        <Reveal from="left">
+        <ScrollExpand className="origin-center">
           <EverydayWork />
-        </Reveal>
+        </ScrollExpand>
 
-        <Reveal from="right" delay={0.1}>
-          <Eyebrow>For enterprises</Eyebrow>
+        <Reveal from="right" delay={0.08}>
+          <Eyebrow>For teams</Eyebrow>
           <h2 className="mt-6 text-[clamp(2.6rem,5.4vw,5.4rem)] leading-[0.94]">
             Ship the work.
             <br />
@@ -165,15 +255,6 @@ function Enterprises() {
             <Stat value="Every team" label="One shared context" />
             <Stat value="Every day" label="Work that moves" />
           </div>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <ActionLink to="/contact" variant="accent" showArrow={false}>
-              Talk to us
-            </ActionLink>
-            <ActionLink to="/products" variant="ghost" showArrow={false}>
-              See the platform
-            </ActionLink>
-          </div>
         </Reveal>
       </div>
     </Section>
@@ -182,7 +263,7 @@ function Enterprises() {
 
 function Creatives() {
   return (
-    <Section id="creatives" className="theme-light border-t border-hairline bg-background">
+    <Section id="creatives" className="border-t border-hairline">
       <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
         <Reveal from="left">
           <Eyebrow>For creatives</Eyebrow>
@@ -202,48 +283,75 @@ function Creatives() {
           </div>
         </Reveal>
 
-        <Reveal from="right" delay={0.1}>
+        <ScrollExpand className="origin-center">
           <CreativeEditor />
-        </Reveal>
+        </ScrollExpand>
       </div>
     </Section>
   );
 }
 
-function Desktop() {
+const values = ["Access", "Privacy", "Offline", "Action"] as const;
+
+function Values() {
   return (
-    <Section id="desktop" className="border-t border-hairline">
-      <div className="relative overflow-hidden rounded-[2rem] border border-white/10 px-6 py-16 md:px-16 md:py-24">
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(47,107,255,0.42),transparent_68%)]"
-        />
-        <div className="relative mx-auto max-w-3xl text-center">
-          <Eyebrow>Desktop / Coming soon</Eyebrow>
-          <h2 className="mx-auto mt-6 max-w-3xl text-[clamp(2.8rem,6vw,5.8rem)] leading-[0.92]">
-            NOVA, on your desktop.
-          </h2>
-          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">
-            The desktop application is in development. Join the waitlist and we&apos;ll send you a
-            build when it&apos;s ready.
-          </p>
+    <section className="border-t border-hairline bg-surface/40 py-16 md:py-20">
+      <div className="shell">
+        <Eyebrow>What we stand for</Eyebrow>
+        <h2 className="mt-5 max-w-4xl text-[clamp(2.4rem,5vw,4.6rem)] leading-[0.94]">
+          Intelligence for everyone.
+        </h2>
+      </div>
 
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <ActionLink to="/waitlist">Join the waitlist</ActionLink>
-            <span className="inline-flex h-11 cursor-not-allowed items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-6 text-sm font-medium text-muted-foreground opacity-60">
-              <Download className="h-4 w-4" />
-              macOS — coming soon
-            </span>
-            <span className="inline-flex h-11 cursor-not-allowed items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-6 text-sm font-medium text-muted-foreground opacity-60">
-              <Download className="h-4 w-4" />
-              Windows — coming soon
-            </span>
-          </div>
-
-          <p className="mt-6 text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground">
-            In development / No date promised
-          </p>
+      <div className="mt-10 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
+        <div className="marquee flex w-max">
+          {[0, 1].map((copy) => (
+            <div
+              key={copy}
+              className="flex items-center gap-10 pr-10"
+              aria-hidden={copy === 1 ? "true" : undefined}
+            >
+              {values.map((value) => (
+                <span
+                  key={value}
+                  className="whitespace-nowrap font-display text-[clamp(2.5rem,6vw,6rem)] leading-none"
+                >
+                  {value}
+                  <span className="text-accent">.</span>
+                </span>
+              ))}
+            </div>
+          ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+function Closing() {
+  return (
+    <Section className="border-t border-hairline">
+      <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.8fr] lg:gap-16">
+        <div>
+          <Eyebrow>The invitation</Eyebrow>
+          <h2 className="mt-6 text-[clamp(3rem,7vw,7rem)] leading-[0.9]">
+            Do less, but smart<span className="text-accent">.</span>
+          </h2>
+        </div>
+
+        <Reveal from="right" delay={0.08}>
+          <div className="overflow-hidden rounded-[2rem] border border-hairline bg-card">
+            <img
+              src="/do%20less%204.jpg"
+              alt="A person relaxing with a laptop."
+              width={1280}
+              height={1920}
+              loading="lazy"
+              decoding="async"
+              className="aspect-[4/5] w-full object-cover"
+            />
+          </div>
+        </Reveal>
       </div>
     </Section>
   );
@@ -253,14 +361,15 @@ function Home() {
   return (
     <>
       <Hero />
-      <Products />
+      <Origin />
+      <Everyone />
+      <NovaSection />
       <Students />
+      <StudentImage />
       <Enterprises />
       <Creatives />
-      <Section id="nova" className="border-t border-hairline">
-        <NovaStage />
-      </Section>
-      <Desktop />
+      <Values />
+      <Closing />
     </>
   );
 }

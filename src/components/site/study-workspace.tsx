@@ -13,14 +13,14 @@ export function StudyWorkspace() {
     <div className="relative">
       <div
         aria-hidden
-        className="absolute -inset-6 rounded-[2.5rem] bg-[radial-gradient(circle_at_70%_20%,rgba(29,78,216,0.18),transparent_62%)] blur-2xl"
+        className="absolute -inset-6 rounded-[2.5rem] bg-[radial-gradient(circle_at_70%_20%,rgba(110,48,56,0.14),transparent_62%)] blur-2xl"
       />
 
       <div className="neo-glass relative overflow-hidden rounded-3xl">
         <div className="flex items-center gap-1.5 border-b border-hairline px-4 py-3">
-          <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
-          <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
-          <span className="h-2 w-2 rounded-full bg-[#28c840]" />
+          <span className="h-2 w-2 rounded-full bg-accent" />
+          <span className="h-2 w-2 rounded-full bg-sage" />
+          <span className="h-2 w-2 rounded-full bg-surface-strong" />
           <span className="ml-2 text-[0.6rem] uppercase tracking-[0.14em] text-muted-foreground">
             Study workspace / Thursday
           </span>

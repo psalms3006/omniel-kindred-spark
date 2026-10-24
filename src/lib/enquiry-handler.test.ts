@@ -79,7 +79,7 @@ const validPayload = (overrides: Record<string, unknown> = {}) => ({
 });
 
 describe("valid submissions", () => {
-  it.each(["contact", "partnerships", "investment", "careers"] as const)(
+  it.each(["contact", "partnerships", "investment"] as const)(
     "accepts a valid %s enquiry",
     async (formId) => {
       const fetchImpl = okFetch();

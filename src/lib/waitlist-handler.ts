@@ -2,8 +2,6 @@ import { contactEmail } from "./omniel";
 import { waitlistSchema } from "./waitlist-schema";
 import { signWaitlistToken, verifyWaitlistToken } from "./waitlist-token";
 
-
-
 export type WaitlistEntry = {
   email: string;
   name: string;
@@ -86,7 +84,7 @@ function renderConfirmEmail(input: {
   const text = [
     `Hi ${first},`,
     "",
-    "You asked to join the waitlist for NOVA, OMNIEL's generalist assistant. NOVA is still in development, so there is no release date to give you yet.",
+    "You asked to join the waitlist for NOVA, OMNIEL's everyday intelligence. NOVA is on its way, and there is no release date to give you yet.",
     "",
     "Confirm your email to hold your place:",
     input.confirmUrl,
@@ -98,7 +96,7 @@ function renderConfirmEmail(input: {
   const html = `
 <div style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.6;color:#111;max-width:36rem">
   <p>Hi ${safeFirst},</p>
-  <p>You asked to join the waitlist for <strong>NOVA</strong>, OMNIEL's generalist assistant. NOVA is still in development, so there is no release date to give you yet.</p>
+  <p>You asked to join the waitlist for <strong>NOVA</strong>, OMNIEL's everyday intelligence. NOVA is on its way, and there is no release date to give you yet.</p>
   <p>Confirm your email to hold your place:</p>
   <p><a href="${safeUrl}" style="display:inline-block;background:#111;color:#fff;padding:12px 22px;border-radius:999px;text-decoration:none">Confirm my spot</a></p>
   <p style="color:#555;font-size:13px">If the button doesn't work, paste this into your browser:<br /><a href="${safeUrl}">${safeUrl}</a></p>

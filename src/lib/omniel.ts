@@ -9,7 +9,7 @@
 
 export type ProductSlug = "nova" | "vyren" | "arvo" | "kiwi";
 
-export type ProductStatus = "In development" | "Emerging project";
+export type ProductStatus = "In development" | "Emerging project" | "Coming soon";
 
 export type ProductPriority = "flagship" | "roadmap";
 
@@ -41,12 +41,12 @@ export const products: Product[] = [
   {
     slug: "nova",
     name: "NOVA",
-    kind: "Platform",
-    role: "Voice-first AI platform",
+    kind: "Everyday intelligence",
+    role: "Everyday AI companion",
     statement: "Do more, with less unnecessary manual work.",
     summary:
-      "NOVA is OMNIEL's voice-first platform: conversation, planning and action in one system, designed to work online and, where possible, offline.",
-    status: "In development",
+      "NOVA carries the planning, the follow-ups and the admin of everyday work, designed to work online and, where possible, offline.",
+    status: "Coming soon",
     priority: "flagship",
     icon: "/nova-mark.png",
     audience: [
@@ -82,7 +82,7 @@ export const products: Product[] = [
       },
     ],
     notes: [
-      "NOVA is in active development. Capabilities are at different stages of maturity and not all of them are production-ready.",
+      "NOVA is coming soon. Capabilities are at different stages of maturity and not all of them will be production-ready at launch.",
       "Designed to reduce the manual work in everyday computing. No performance figure is published: nothing has been independently measured yet, and an unvalidated number would be quoted long after its caveat was lost.",
       "The source repository is private. A development build may be made available to visitors.",
     ],
@@ -192,7 +192,6 @@ export const navigation = [
   { label: "Products", to: "/products" },
   { label: "Technology", to: "/technology" },
   { label: "Research", to: "/research" },
-  { label: "Careers", to: "/careers" },
 ] as const;
 
 export const positioning = {
@@ -353,17 +352,6 @@ export const teamMembers: TeamMember[] = [
     relationship: "Core team",
   },
 ];
-
-export const careerAreas = [
-  "Engineering",
-  "AI / ML",
-  "Research",
-  "Design",
-  "Product",
-  "Business",
-  "Partnerships",
-  "Other",
-] as const;
 
 export const partnershipAreas = [
   "Technology",
