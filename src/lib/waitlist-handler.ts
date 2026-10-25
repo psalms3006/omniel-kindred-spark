@@ -187,7 +187,7 @@ function renderConfirmEmail(input: {
       <p style="margin:0 0 22px;">${button("Confirm my place", input.confirmUrl)}</p>
       <p style="margin:0 0 24px;font-family:${SANS};font-size:12px;line-height:1.65;color:${COLORS.muted};">If the button doesn't work, copy this link into your browser:<br /><a href="${safeUrl}" style="color:${COLORS.accent};word-break:break-all;">${safeUrl}</a></p>
       ${noteBlock("What happens next", "Once you confirm, your place is held. We'll email you when NOVA is ready — nothing in between.")}
-      ${paragraph("If you didn't ask for this, ignore this email. You won't be added to the confirmed list, and you won't hear from us again.")}
+      ${paragraph("If you didn't ask for this, ignore this email. You won't be added, and you won't hear from us again.")}
       ${signoff()}
   `;
 
@@ -197,9 +197,9 @@ function renderConfirmEmail(input: {
     "You asked to join the NOVA waitlist. Confirm your email and we'll hold your place:",
     input.confirmUrl,
     "",
-    "Once confirmed, your place is held. We'll email you when NOVA is ready — nothing in between.",
+    "Once confirmed, your place is held. We'll email you when NOVA is ready.",
     "",
-    "If you didn't ask for this, ignore this email. You won't be added to the confirmed list, and you won't hear from us again.",
+    "If you didn't ask for this, ignore this email. You won't be added, and you won't hear from us again.",
     "",
     "— OMNIEL",
     `${hostOf(input.siteUrl)} · ${contactEmail}`,
