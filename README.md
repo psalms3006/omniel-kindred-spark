@@ -166,8 +166,9 @@ A `503` from `/api/waitlist` means the running Worker is not receiving one of
 `WAITLIST_TOKEN_SECRET`, `RESEND_API_KEY`, or `RESEND_FROM_EMAIL`. Add the values
 under **Cloudflare → Workers & Pages → the Worker that serves omniel.com.ng
 (`omniel-evolve`) → Settings → Variables and Secrets**, then create a new
-deployment. Adding them to a different Worker, a Pages project, or only to
-Lovable will not reach production.
+deployment. These must be runtime variables/secrets, not Build variables, and
+plain Worker secrets rather than Secrets Store bindings. Adding them to a
+different Worker, a Pages project, or only to Lovable will not reach production.
 
 Server routes read Worker bindings through `getConfig()` in
 `src/lib/automation/runtime-env.ts`. Do not read secrets with `import.meta.env`,
