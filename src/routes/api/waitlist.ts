@@ -22,10 +22,9 @@ export const Route = createFileRoute("/api/waitlist")({
         const apiKey = process.env["RESEND_API_KEY"];
         const fromEmail = process.env["RESEND_FROM_EMAIL"];
         if (apiKey) {
-          const segmentId = process.env["RESEND_WAITLIST_SEGMENT_ID"];
-          deps.store = segmentId
-            ? createResendWaitlistStore({ apiKey, segmentId })
-            : createResendWaitlistStore({ apiKey });
+          // Segment membership is added on confirmation, not here, so pending
+          // addresses can never receive a broadcast.
+          deps.store = createResendWaitlistStore({ apiKey });
           if (fromEmail)
             deps.sendEmail = createResendEmailSender({
               apiKey,

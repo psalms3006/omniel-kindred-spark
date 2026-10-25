@@ -362,6 +362,6 @@ export const partnershipAreas = [
   "Other",
 ] as const;
 
-export const contactEmail = "omniel.ai@gmail.com";
+export const contactEmail = "info@omniel.com.ng";
 export const siteUrl = "https://omniel.com.ng";
 export const location = "Nigeria";

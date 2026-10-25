@@ -31,8 +31,8 @@ function WaitlistPage() {
             <Eyebrow>What happens next</Eyebrow>
             <ul className="mt-6 space-y-5 text-sm leading-relaxed text-muted-foreground">
               <li>
-                We send a confirmation link. You're only added once you open it — that keeps someone
-                else from adding your address.
+                We send a confirmation link. You're only added to the confirmed list once you open
+                it — that keeps someone else from adding your address.
               </li>
               <li>
                 After that, you hear from us when NOVA is ready, and not before. No release date is

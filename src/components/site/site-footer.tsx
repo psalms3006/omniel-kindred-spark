@@ -30,7 +30,7 @@ const socials = [
     icon: Linkedin,
   },
   { label: "Instagram", href: "https://www.instagram.com/_omnielai/?hl=en", icon: Instagram },
-  { label: "X", href: "#", icon: XIcon },
+  { label: "X", href: "https://X.com/OMNIELAIng", icon: XIcon },
   { label: "Email", href: `mailto:${contactEmail}`, icon: Mail },
 ] as const;
 

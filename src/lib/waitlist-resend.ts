@@ -11,6 +11,10 @@
  *   intended_use  free text from the form
  *   signed_up_at  ISO timestamp
  *   confirmed_at  ISO timestamp, set on confirmation
+ *
+ * Pending contacts are deliberately not added to the broadcast Segment. A
+ * Segment is added only after confirmation, so a broadcast can never reach an
+ * address that never completed double opt-in.
  */
 import type {
   SendWaitlistEmail,
@@ -26,7 +30,7 @@ type FetchLike = typeof fetch;
 
 export function createResendWaitlistStore(options: {
   apiKey: string;
-  /** Optional Segment to add contacts to, for later broadcasts. */
+  /** Optional Segment to add confirmed contacts to, for later broadcasts. */
   segmentId?: string;
   fetchImpl?: FetchLike;
 }): WaitlistStore {
@@ -51,19 +55,22 @@ export function createResendWaitlistStore(options: {
 
   return {
     async upsertPending(entry: WaitlistEntry): Promise<UpsertResult> {
+      const properties: Record<string, unknown> = {
+        source: "nova-waitlist",
+        status: "pending",
+        signed_up_at: entry.signedUpAt,
+      };
+      // Resend rejects a property value whose type does not match the property
+      // definition, so omit an empty optional field rather than sending null.
+      if (entry.intendedUse) properties["intended_use"] = entry.intendedUse;
+
       const payload: Record<string, unknown> = {
         email: entry.email,
         // The form collects one name field; Resend's nearest fit is first_name.
         first_name: entry.name,
         unsubscribed: false,
-        properties: {
-          source: "nova-waitlist",
-          status: "pending",
-          intended_use: entry.intendedUse || null,
-          signed_up_at: entry.signedUpAt,
-        },
+        properties,
       };
-      if (options.segmentId) payload["segments"] = [{ id: options.segmentId }];
 
       let res: Response;
       try {
@@ -117,6 +124,23 @@ export function createResendWaitlistStore(options: {
           const body = await res.text().catch(() => "");
           return { ok: false, error: `Resend confirm failed ${res.status}: ${body.slice(0, 200)}` };
         }
+
+        // Only add a confirmed contact to the broadcast Segment. The contact is
+        // already confirmed at this point, so a Segment failure is logged and
+        // does not turn a successful confirmation into an error.
+        if (options.segmentId) {
+          const segmentRes = await doFetch(
+            `${RESEND_API}/contacts/${encodeURIComponent(email)}/segments/${encodeURIComponent(options.segmentId)}`,
+            { method: "POST", headers },
+          );
+          if (!segmentRes.ok) {
+            const body = await segmentRes.text().catch(() => "");
+            console.error(
+              `[waitlist] confirmed contact not added to segment ${segmentRes.status}: ${body.slice(0, 200)}`,
+            );
+          }
+        }
+
         return { ok: true };
       } catch (err) {
         return { ok: false, error: `confirm request threw: ${String(err)}` };
@@ -136,6 +160,7 @@ export function createResendEmailSender(options: {
   const doFetch = options.fetchImpl ?? fetch;
   return async (email: WaitlistEmail) => {
     try {
+      const replyTo = email.replyTo ?? options.replyTo;
       const res = await doFetch(`${RESEND_API}/emails`, {
         method: "POST",
         headers: {
@@ -145,7 +170,7 @@ export function createResendEmailSender(options: {
         body: JSON.stringify({
           from: options.from,
           to: [email.to],
-          ...(options.replyTo ? { reply_to: options.replyTo } : {}),
+          ...(replyTo ? { reply_to: replyTo } : {}),
           subject: email.subject,
           html: email.html,
           text: email.text,

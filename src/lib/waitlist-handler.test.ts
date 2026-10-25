@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { contactEmail } from "./omniel";
 import {
   handleWaitlistConfirm,
   handleWaitlistSignup,
@@ -35,7 +36,7 @@ function makeSender() {
 const valid = { name: "Ada Lovelace", email: "Ada@Example.com", intendedUse: "Writing" };
 
 describe("handleWaitlistSignup", () => {
-  it("stores the contact (lowercased) and sends a confirmation link", async () => {
+  it("stores the contact (lowercased), sends a confirmation link and notifies the team", async () => {
     const store = makeStore();
     const sendEmail = makeSender();
     const res = await handleWaitlistSignup(req(valid), {
@@ -54,6 +55,30 @@ describe("handleWaitlistSignup", () => {
     const sent = sendEmail.mock.calls[0]![0];
     expect(sent.to).toBe("ada@example.com");
     expect(sent.text).toContain(`${SITE}/waitlist-confirm?token=`);
+
+    const admin = sendEmail.mock.calls[1]![0];
+    expect(admin.to).toBe(contactEmail);
+    expect(admin.replyTo).toBe("ada@example.com");
+    expect(admin.subject).toContain("New NOVA waitlist signup");
+    expect(admin.text).toContain("Writing");
+  });
+
+  it("does not fail a saved signup when the team notification fails", async () => {
+    const sendEmail = vi.fn(async (email: WaitlistEmail) =>
+      email.to === contactEmail
+        ? { ok: false as const, error: "inbox down" }
+        : { ok: true as const },
+    );
+    const res = await handleWaitlistSignup(req(valid), {
+      store: makeStore(),
+      sendEmail,
+      tokenSecret: SECRET,
+      siteUrl: SITE,
+      now: () => NOW,
+    });
+
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true, status: "pending" });
   });
 
   it("rejects invalid input without touching the store", async () => {
@@ -156,7 +181,10 @@ describe("handleWaitlistConfirm", () => {
 
     expect(res.status).toBe(200);
     expect(store.confirm).toHaveBeenCalledWith("ada@example.com", expect.any(String));
-    expect(sendEmail.mock.calls[0]![0].subject).toContain("NOVA waitlist");
+    const ack = sendEmail.mock.calls[0]![0];
+    expect(ack.subject).toContain("NOVA waitlist");
+    expect(ack.text).toContain("when NOVA is ready");
+    expect(ack.html).toContain("when NOVA is ready");
   });
 
   it("rejects a missing token", async () => {

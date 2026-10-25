@@ -21,8 +21,11 @@ export const Route = createFileRoute("/api/waitlist-confirm")({
 
         const apiKey = process.env["RESEND_API_KEY"];
         const fromEmail = process.env["RESEND_FROM_EMAIL"];
+        const segmentId = process.env["RESEND_WAITLIST_SEGMENT_ID"];
         if (apiKey) {
-          deps.store = createResendWaitlistStore({ apiKey });
+          deps.store = segmentId
+            ? createResendWaitlistStore({ apiKey, segmentId })
+            : createResendWaitlistStore({ apiKey });
           if (fromEmail)
             deps.sendEmail = createResendEmailSender({
               apiKey,
