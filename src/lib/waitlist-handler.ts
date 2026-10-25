@@ -320,12 +320,11 @@ export async function handleWaitlistSignup(
 
   const { store, sendEmail, tokenSecret } = deps;
   if (!tokenSecret || !store || !sendEmail) {
-    const missing = !tokenSecret
-      ? "WAITLIST_TOKEN_SECRET"
-      : !store
-        ? "waitlist store (RESEND_API_KEY)"
-        : "waitlist email sender (RESEND_FROM_EMAIL)";
-    console.error(`MISSING REQUIRED CONFIGURATION: ${missing}`);
+    const missing: string[] = [];
+    if (!tokenSecret) missing.push("WAITLIST_TOKEN_SECRET");
+    if (!store) missing.push("RESEND_API_KEY");
+    if (!sendEmail) missing.push("RESEND_FROM_EMAIL");
+    console.error(`MISSING REQUIRED CONFIGURATION: ${missing.join(", ")}`);
     return jsonResponse({ ok: false, error: "The waitlist is not configured yet." }, 503);
   }
 
@@ -407,9 +406,10 @@ export async function handleWaitlistConfirm(
 
   const { store, sendEmail, tokenSecret } = deps;
   if (!tokenSecret || !store) {
-    console.error(
-      `MISSING REQUIRED CONFIGURATION: ${!tokenSecret ? "WAITLIST_TOKEN_SECRET" : "waitlist store (RESEND_API_KEY)"}`,
-    );
+    const missing: string[] = [];
+    if (!tokenSecret) missing.push("WAITLIST_TOKEN_SECRET");
+    if (!store) missing.push("RESEND_API_KEY");
+    console.error(`MISSING REQUIRED CONFIGURATION: ${missing.join(", ")}`);
     return jsonResponse({ ok: false, error: "The waitlist is not configured yet." }, 503);
   }
 

@@ -160,6 +160,21 @@ Configure your `.env` file based on `.env.example`:
 | `WAITLIST_TOKEN_SECRET`      | Secret used to sign NOVA waitlist confirmation links                         | Required for `/api/waitlist`    |
 | `RESEND_WAITLIST_SEGMENT_ID` | Resend Segment for confirmed NOVA waitlist contacts                          | Optional; needed for broadcasts |
 
+### If the waitlist says it is not configured
+
+A `503` from `/api/waitlist` means the running Worker is not receiving one of
+`WAITLIST_TOKEN_SECRET`, `RESEND_API_KEY`, or `RESEND_FROM_EMAIL`. Add the values
+under **Cloudflare → Workers & Pages → the Worker that serves omniel.com.ng
+(`omniel-evolve`) → Settings → Variables and Secrets**, then create a new
+deployment. These must be runtime variables/secrets, not Build variables, and
+plain Worker secrets rather than Secrets Store bindings. Adding them to a
+different Worker, a Pages project, or only to Lovable will not reach production.
+
+Server routes read Worker bindings through `getConfig()` in
+`src/lib/automation/runtime-env.ts`. Do not read secrets with `import.meta.env`,
+and do not put them in `.env` for a Cloudflare deploy. The Worker logs print the
+exact missing variable name.
+
 ### NOVA waitlist storage and updates
 
 The waitlist is stored in **Resend Contacts**; there is no separate database to maintain.
