@@ -7,8 +7,8 @@
  * `undefined` at runtime.
  *
  * Server-only secrets (RESEND_API_KEY, RESEND_FROM_EMAIL, OMNIEL_ENQUIRY_EMAIL)
- * are deliberately absent: they are read from `process.env` on the server and
- * must never be exposed to the client.
+ * are deliberately absent: they are read from the Worker bindings on the server
+ * and must never be exposed to the client.
  */
 interface ImportMetaEnv {
   readonly VITE_CF_BEACON_TOKEN?: string;

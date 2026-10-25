@@ -7,6 +7,18 @@ type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
 };
 
+/**
+ * Nitro exposes Cloudflare bindings as `globalThis.__env__` for handlers that
+ * are not holding the Worker's fetch arguments. Publish it here as well so the
+ * custom server entry never depends on that wrapper having run first; without
+ * it, server routes would only see whatever `process.env` happens to contain.
+ */
+function publishCloudflareEnv(env: unknown): void {
+  if (env && typeof env === "object") {
+    (globalThis as { __env__?: unknown }).__env__ = env;
+  }
+}
+
 let serverEntryPromise: Promise<ServerEntry> | undefined;
 
 async function getServerEntry(): Promise<ServerEntry> {
@@ -46,6 +58,7 @@ function isH3SwallowedErrorBody(body: string): boolean {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    publishCloudflareEnv(env);
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
