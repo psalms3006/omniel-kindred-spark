@@ -174,7 +174,7 @@ export function LiveKitWidget() {
             unlockAudio();
             void roomRef.current?.startAudio().then(() => setAudioBlocked(false));
           }}
-          className="glass rounded-full px-4 py-2 text-xs text-foreground"
+          className="panel rounded-full px-4 py-2 text-xs text-foreground"
         >
           Tap to hear OMNIEL
         </button>
@@ -205,7 +205,7 @@ export function LiveKitWidget() {
           "hover:-translate-y-0.5 active:translate-y-0",
           isLive
             ? "border border-hairline bg-surface-strong text-foreground backdrop-blur-xl"
-            : "bg-primary text-primary-foreground",
+            : "border border-foreground/15 bg-card text-foreground shadow-[0_12px_30px_-16px_rgba(26,26,24,0.55)] hover:bg-background",
         )}
       >
         <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden>

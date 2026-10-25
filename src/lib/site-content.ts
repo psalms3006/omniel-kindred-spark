@@ -1,5 +1,4 @@
 import {
-  careerAreas,
   contactEmail,
   futureDirections,
   location,
@@ -11,26 +10,7 @@ import {
   technologyDirections,
 } from "./omniel";
 
-/**
- * A searchable view of everything the website publishes.
- *
- * The point is that the knowledge base should not need rewriting every time
- * the site changes. Add a team member or a product capability to
- * `src/lib/omniel.ts`, deploy, and the assistant can answer about it
- * immediately, with no second copy to keep in sync.
- *
- * Built from the content module rather than by fetching the rendered pages.
- * That was the first approach and it cannot work: a Cloudflare Worker cannot
- * fetch its own origin, so every request came back with zero readable pages.
- * Reading the source data is better regardless. It needs no network, cannot
- * loop, costs no subrequests, adds no latency to a spoken reply, and is
- * exactly in step with what is deployed, because it ships in the same bundle.
- *
- * The answer order the assistant follows is set in the tool description:
- *   1. this content, for anything the site publishes;
- *   2. the knowledge base, for background the site does not carry;
- *   3. an explicit "that is not public", when neither has it.
- */
+
 
 export type SitePage = { path: string; title: string; text: string };
 export type SiteSearchHit = { path: string; title: string; excerpt: string };
@@ -139,7 +119,10 @@ function buildPages(): SitePage[] {
       positioning.lede,
       positioning.belief,
       `OMNIEL is based in ${location}.`,
-      `The flagship product is NOVA. The wider ecosystem is ${products.map((p) => p.name).join(", ")}.`,
+      `NOVA is the first product. The wider ecosystem is ${products
+        .filter((p) => p.slug !== "nova")
+        .map((p) => p.name)
+        .join(", ")}.`,
     ),
   });
 
@@ -188,7 +171,7 @@ function buildPages(): SitePage[] {
 
   for (const p of products) {
     pages.push({
-      path: `/products/${p.slug}`,
+      path: p.slug === "nova" ? "/nova" : `/products/${p.slug}`,
       title: `${p.name}: ${p.role}`,
       text: join(
         `${p.name} is OMNIEL's ${p.role.toLowerCase()}. Kind: ${p.kind}. Status: ${p.status}. Priority: ${p.priority}.`,
@@ -217,16 +200,6 @@ function buildPages(): SitePage[] {
     text: join(
       "Where OMNIEL intends to go, stated as ambition rather than current capability.",
       futureDirections.map((d) => `${d.title}. ${d.body}`).join(" "),
-    ),
-  });
-
-  pages.push({
-    path: "/careers",
-    title: "Careers at OMNIEL",
-    text: join(
-      "OMNIEL is early-stage and open to people who want to build with it.",
-      `Areas of interest: ${careerAreas.join(", ")}.`,
-      "Interest is registered through the careers form on the website.",
     ),
   });
 
@@ -337,7 +310,7 @@ export function searchSite(query: string, limit = 3): SiteSearchHit[] {
     }));
 }
 
-/** Reads one page in full, for "what does the careers page say" style asks. */
+/** Reads one page in full, for "what does the about page say" style asks. */
 export function readSitePage(path: string, maxChars = 4000): SitePage | null {
   const wanted = path.startsWith("/") ? path : `/${path}`;
   const page = getPages().find((p) => p.path === wanted);
@@ -354,13 +327,12 @@ export const SITE_CONTENT_ROUTES = [
   "/",
   "/about",
   "/products",
-  "/products/nova",
+  "/nova",
   "/products/vyren",
   "/products/arvo",
   "/products/kiwi",
   "/technology",
   "/research",
-  "/careers",
   "/contact",
   "/privacy",
   "/terms",

@@ -42,10 +42,10 @@ describe("navigate_to_page", () => {
     const router = makeFakeRouter("/");
     const dispatcher = createActionDispatcher(router);
 
-    const result = await dispatcher.navigate_to_page({ page: "careers" });
+    const result = await dispatcher.navigate_to_page({ page: "nova" });
 
-    expect(result).toEqual({ ok: true, page: "careers", path: "/careers" });
-    expect(router.navigate).toHaveBeenCalledWith({ to: "/careers" });
+    expect(result).toEqual({ ok: true, page: "nova", path: "/nova" });
+    expect(router.navigate).toHaveBeenCalledWith({ to: "/nova" });
   });
 
   it("rejects an unknown page without inventing one", async () => {
@@ -57,7 +57,7 @@ describe("navigate_to_page", () => {
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.validOptions).toEqual(
-        expect.arrayContaining(["home", "about", "products", "careers", "contact"]),
+        expect.arrayContaining(["home", "about", "products", "nova", "contact"]),
       );
     }
     expect(router.navigate).not.toHaveBeenCalled();
@@ -85,7 +85,7 @@ describe("navigate_to_section", () => {
     expect(result.ok).toBe(false);
     if (!result.ok) {
       expect(result.validOptions).toEqual(
-        expect.arrayContaining(["products", "about", "ecosystem", "compare", "reality"]),
+        expect.arrayContaining(["products", "about", "ecosystem", "compare", "team"]),
       );
     }
     expect(router.navigate).not.toHaveBeenCalled();
@@ -109,11 +109,8 @@ describe("open_product", () => {
 
     const result = await dispatcher.open_product({ slug: "nova" });
 
-    expect(result).toEqual({ ok: true, slug: "nova", path: "/products/nova" });
-    expect(router.navigate).toHaveBeenCalledWith({
-      to: "/products/$slug",
-      params: { slug: "nova" },
-    });
+    expect(result).toEqual({ ok: true, slug: "nova", path: "/nova" });
+    expect(router.navigate).toHaveBeenCalledWith({ to: "/nova" });
   });
 
   it("rejects an unknown product slug", async () => {

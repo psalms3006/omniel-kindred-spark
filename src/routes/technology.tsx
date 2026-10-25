@@ -14,11 +14,12 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/technology")({
   head: () =>
     pageHead({
-    path: "/technology",
-    title: "Technology direction | OMNIEL",
-    description: "The engineering directions behind OMNIEL: online and offline intelligence, memory, computer interaction, voice, vision, and tool use.",
-    ogTitle: "OMNIEL technology direction",
-    ogDescription: "What OMNIEL is building, at the level of honest engineering direction.",
+      path: "/technology",
+      title: "Technology direction | OMNIEL",
+      description:
+        "The engineering directions behind OMNIEL: online and offline intelligence, memory, computer interaction, voice, vision, and tool use.",
+      ogTitle: "OMNIEL technology direction",
+      ogDescription: "What OMNIEL is building, at the level of honest engineering direction.",
     }),
   component: Technology,
 });
@@ -80,7 +81,7 @@ function Technology() {
           {products.map((p) => (
             <li key={p.slug}>
               <Panel className="h-full p-6">
-                <p className="font-display text-lg tracking-[0.25em]">{p.name}</p>
+                <p className="font-display text-lg tracking-[-0.02em]">{p.name}</p>
                 <p className="mt-2 text-sm text-accent">{p.kind}</p>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{p.summary}</p>
               </Panel>

@@ -1,11 +1,15 @@
 import { useId, useState, type FormEvent } from "react";
 import { cn } from "@/lib/utils";
 
-
 type Props = {
   /** Anchor id. Omitted when the surrounding section already provides one. */
   id?: string;
   className?: string;
+  /** Optional heading for a page/panel that does not supply its own. */
+  title?: string;
+  description?: string;
+  /** "plain" lets a caller supply its own neobrutalist frame. */
+  frame?: "panel" | "plain";
 };
 
 type Status = "idle" | "sending" | "pending" | "confirmed" | "failed";
@@ -24,7 +28,7 @@ function failureCopy(status: number | null): string {
   return "That didn't go through. Please try again.";
 }
 
-export function WaitlistForm({ id, className }: Props) {
+export function WaitlistForm({ id, className, title, description, frame = "panel" }: Props) {
   const uid = useId();
   const [status, setStatus] = useState<Status>("idle");
   const [failureStatus, setFailureStatus] = useState<number | null>(null);
@@ -64,8 +68,22 @@ export function WaitlistForm({ id, className }: Props) {
   }
 
   return (
-    <div id={id} className={cn("panel scroll-mt-28 rounded-3xl p-6 md:p-9", className)}>
-      <form className="grid gap-4 sm:grid-cols-2" onSubmit={onSubmit}>
+    <div
+      id={id}
+      className={cn(
+        frame === "panel" ? "panel" : "bg-card",
+        "scroll-mt-28 rounded-3xl p-6 md:p-9",
+        className,
+      )}
+    >
+      {title ? <h3 className="text-2xl leading-snug">{title}</h3> : null}
+      {description ? (
+        <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">{description}</p>
+      ) : null}
+      <form
+        className={cn("grid gap-4 sm:grid-cols-2", (title || description) && "mt-6")}
+        onSubmit={onSubmit}
+      >
         <div>
           <label htmlFor={`${uid}-name`} className="eyebrow mb-2 block">
             Name

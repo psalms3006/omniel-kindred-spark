@@ -15,34 +15,34 @@ export function Shell({ className, children }: { className?: string; children: R
   return <div className={cn("shell", className)}>{children}</div>;
 }
 
+type RevealFrom = "bottom" | "left" | "right" | "scale";
+
+const revealOffsets: Record<RevealFrom, { x: number; y: number; scale: number }> = {
+  bottom: { x: 0, y: 24, scale: 1 },
+  left: { x: -32, y: 0, scale: 1 },
+  right: { x: 32, y: 0, scale: 1 },
+  scale: { x: 0, y: 0, scale: 0.96 },
+};
+
 export function Reveal({
   children,
   delay = 0,
   className,
   as = "div",
+  from = "bottom",
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
   as?: "div" | "section" | "li" | "span";
+  from?: RevealFrom;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-12% 0px -8% 0px" });
+  const inView = useInView(ref, { once: true, margin: "-10% 0px -6% 0px" });
   const reduced = useReducedMotion();
   const MotionTag = motion[as] as typeof motion.div;
 
-  // Failsafe: never leave content invisible.
-  //
-  // This holds its children at opacity 0 until IntersectionObserver reports
-  // them in view. If that never fires -- the observer is unavailable, the
-  // element is measured at zero height during a layout pass, the page is
-  // restored mid-scroll, or hydration is delayed -- the content stays
-  // permanently invisible while sitting in the DOM, which is worse than
-  // having no animation at all. Observed twice in review as a blank region
-  // where a whole section should be.
-  //
-  // After a second, reveal regardless. An entrance animation is an
-  // enhancement; the content is the point.
+  // Failsafe: content must never stay invisible if the observer never fires.
   const [forceVisible, setForceVisible] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setForceVisible(true), 1000);
@@ -50,13 +50,14 @@ export function Reveal({
   }, []);
 
   const shown = inView || forceVisible;
+  const offset = revealOffsets[from];
 
   const anim = reduced
     ? {}
     : {
-        initial: { opacity: 0, y: 26, filter: "blur(6px)" },
-        animate: shown ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 26 },
-        transition: { duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] as const },
+        initial: { opacity: 0, ...offset },
+        animate: shown ? { opacity: 1, x: 0, y: 0, scale: 1 } : { opacity: 0, ...offset },
+        transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] as const },
       };
 
   return (
@@ -84,11 +85,16 @@ export function SectionHeading({
   return (
     <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
       {eyebrow ? <Eyebrow className="mb-5">{eyebrow}</Eyebrow> : null}
-      <h2 className="text-balance-tight text-3xl leading-[1.08] sm:text-4xl md:text-5xl">
+      <h2 className="text-balance-tight text-4xl leading-[0.96] sm:text-5xl md:text-6xl">
         {title}
       </h2>
       {lede ? (
-        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+        <p
+          className={cn(
+            "mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg",
+            align === "center" && "mx-auto",
+          )}
+        >
           {lede}
         </p>
       ) : null}
@@ -121,9 +127,9 @@ export function Panel({
   return (
     <div
       className={cn(
-        "glass rounded-3xl p-6 md:p-8",
+        "panel rounded-3xl p-6 md:p-8",
         interactive &&
-          "transition-[transform,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-accent/40",
+          "transition-[transform,border-color,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_20px_50px_-35px_rgba(26,26,24,0.45)]",
         className,
       )}
       {...rest}
@@ -133,8 +139,17 @@ export function Panel({
   );
 }
 
+/** Neobrutalism ∪ glassmorphism. The local theme supplies the border/shadow. */
+export function NeoPanel({ className, children, ...rest }: ComponentProps<"div">) {
+  return (
+    <div className={cn("neo-glass rounded-2xl p-6 md:p-8", className)} {...rest}>
+      {children}
+    </div>
+  );
+}
+
 const actionBase =
-  "group inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]";
+  "group inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]";
 
 export function ActionLink({
   to,
@@ -143,40 +158,33 @@ export function ActionLink({
   children,
   variant = "primary",
   className,
-  arrow = true,
+  showArrow = true,
 }: {
   to?: string;
   href?: string;
   params?: Record<string, string>;
   children: ReactNode;
-  variant?: "primary" | "ghost" | "quiet" | "inverse";
+  variant?: "primary" | "accent" | "ghost" | "quiet";
   className?: string;
-  /** Trailing → affordance. Set false for CTAs where it is noise. */
-  arrow?: boolean;
+  showArrow?: boolean;
 }) {
   const styles = cn(
     actionBase,
     variant === "primary" &&
-      "bg-primary px-6 py-3 text-primary-foreground hover:shadow-[0_16px_50px_-18px_var(--ion)] hover:brightness-110",
+      "bg-primary px-6 py-3 text-primary-foreground hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-18px_rgba(26,26,24,0.55)]",
+    variant === "accent" &&
+      "bg-accent px-6 py-3 text-accent-foreground hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-18px_rgba(110,48,56,0.6)]",
     variant === "ghost" &&
-      "panel px-6 py-3 text-foreground hover:border-accent/50 hover:bg-surface-strong",
+      "border border-foreground/25 bg-transparent px-6 py-3 text-foreground hover:-translate-y-0.5 hover:border-accent/60 hover:bg-surface",
     variant === "quiet" && "text-muted-foreground hover:text-foreground",
-    // For light ("primary"-coloured) sections: outline that always shows its
-    // label, and fills on hover. The ghost variant's dark `.panel` surface is
-    // what made dark text invisible there.
-    variant === "inverse" &&
-      "border border-primary-foreground/30 px-6 py-3 text-primary-foreground hover:bg-primary-foreground hover:text-primary",
     className,
   );
 
   const inner = (
     <>
       {children}
-      {arrow ? (
-        <span
-          aria-hidden
-          className="transition-transform duration-500 group-hover:translate-x-1"
-        >
+      {showArrow ? (
+        <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
           →
         </span>
       ) : null}
@@ -210,19 +218,12 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <header className="relative overflow-hidden pb-16 pt-36 md:pb-24 md:pt-48">
-      {/* Every page opens in the same environment.
-          A design language that stops at the landing page is not a design
-          language -- it is a landing page. This is the one component every
-          inner route already renders its title through, so putting the
-          environment here is what makes About, Technology, Research, Careers,
-          Contact, Privacy and Terms belong to the same site as the homepage,
-          without touching any of them. */}
-      <Atmosphere variant="band" intensity={0.7} />
+    <header className="relative overflow-hidden pb-16 pt-36 md:pb-24 md:pt-44">
+      <Atmosphere variant="band" intensity={1} />
       <Shell className="relative">
         <Reveal>
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="text-balance-tight mt-6 max-w-4xl text-4xl leading-[1.04] sm:text-5xl md:text-7xl">
+          <h1 className="text-balance-tight mt-6 max-w-4xl text-5xl leading-[0.96] sm:text-6xl md:text-7xl">
             {title}
           </h1>
           {lede ? (

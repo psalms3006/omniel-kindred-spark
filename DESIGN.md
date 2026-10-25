@@ -1,184 +1,151 @@
-# OMNIEL design system
+# OMNIEL design system (v5 — warm mineral)
 
-The visual language for omniel.com.ng. Read this before adding a component,
-a colour, or an animation.
-
----
-
-## Assessment (2026-09-10)
-
-### Keep
-
-* **Token architecture.** `@theme inline` over oklch custom properties in
-  `styles.css`, with the rule "never hardcode colors in components". This is
-  already a real design-token system and everything below builds on it.
-* **Typography trio.** Sora (display, weight 300, tight tracking), Manrope
-  (body), JetBrains Mono (labels/eyebrows). Three faces, clearly assigned
-  roles, no decorative fonts.
-* **`shell`, `eyebrow`, `hairline-t` utilities.** Consistent measure and
-  gutters across every page.
-* **Accessibility baseline.** A real `:focus-visible` ring, a skip link, and a
-  global `prefers-reduced-motion` block.
-* **Content discipline.** The copy is unusually honest for an early-stage
-  company. Nothing here changes it.
-
-### Remove
-
-* **`NeuralField`.** A canvas particle-network — floating nodes joined by
-  fading lines — rendered on 13 surfaces. It is competently built (rAF paused
-  offscreen, DPR capped, node budget by CPU) and it is the single most
-  recognisable cliché of a generic AI startup website. It says "this is an AI
-  site" instead of saying anything about OMNIEL.
-* **Stacked ambient layers.** The homepage hero rendered `AmbientField` *and*
-  `NeuralField` on top of each other, plus the aurora gradient. Three
-  simultaneous background treatments behind the one paragraph that has to
-  explain the company.
-* **Infinite ambient animation.** `drift` (26s) and `sheen` (7s) loop forever,
-  costing battery and attention permanently in exchange for nothing the
-  visitor can act on.
-* **Arbitrary product hues.** Each product carried a `hue` number — 205, 78,
-  300, 150 — with no meaning beyond "different". Colour that varies without
-  reason is noise.
-
-### Improve
-
-* **Glassmorphism.** `glass` and `glass-quiet` appeared on 12 surfaces.
-  Translucency is justified where content genuinely passes *behind* an element
-  — the fixed navigation. Everywhere else it is a texture, and a costly one
-  (`backdrop-filter` forces a compositing layer per element).
-* **Motion vocabulary.** Durations and easings were written inline per
-  component. Now tokenised.
-
-### Rebuild
-
-* **The background motif** (see *Signature* below).
-* **Hero hierarchy** — the company, then the flagship, then the proof.
+Read this before adding a component, a colour, or an animation.
 
 ---
 
-## Signature: the meridian
+## The narrative
 
-OMNIEL's one distinctive visual idea.
+- Brand platform: **“Do less, but smart.”**
+- Supporting idea: “Less to carry.”
+- Product line and primary CTA: **“Leave it to NOVA.”**
 
-The positioning is *"Building intelligence without borders"*, from a company
-built in Nigeria for a global audience. The motif is therefore a **meridian
-system**: thin concentric arcs, the geometry of a globe seen from an angle,
-drawn as flat lines rather than a rendered sphere.
+- Audience: students, teams and creatives. The story stays universal; the three
+  audience sections are proof, not separate pitches.
 
-Why this and not a particle field:
+---
 
-* It **means something specific to OMNIEL** — borders, reach, a world seen
-  whole — rather than gesturing vaguely at "neural networks".
-* It is **geometry, not glow**, so it does not date with the current visual
-  trend.
-* It is **static SVG**: no canvas, no animation frame, no battery cost, and it
-  renders identically on a slow phone and a workstation.
-* The "O" of the wordmark is a circle. The motif is the same circle, opened
-  out. The logo and the background are the same idea at two scales.
+## Colour — warm mineral
+
+| Token          | Value     | Use                                 |
+| -------------- | --------- | ----------------------------------- |
+| Sand           | `#F2EBDE` | page base                           |
+| Bone           | `#FAF6EE` | cards, lightest surface             |
+| Oatmeal        | `#E3DCCF` | quiet bands, inputs                 |
+| Line           | `#CFC5B6` | borders and dividers                |
+| Obsidian       | `#1A1A18` | text, structure                     |
+| Oxblood        | `#6E3038` | primary accent, small text, links   |
+| Oxblood bright | `#8A3B42` | large art, underlines, dark accents |
+| Rose (on dark) | `#C97A82` | dark-section accent                 |
+| Olive          | `#4F5D50` | secondary accent, quiet states      |
+| Sage           | `#A9B5A4` | tints, status, waveforms            |
 
 Rules:
 
-* Never more than one meridian per viewport.
-* It sits behind content at low contrast and must never compete with text.
-* Only the homepage hero animates it, and only as a single very slow rotation
-  that a visitor should not consciously notice. Everywhere else it is static.
+- Oxblood is the primary pop; olive is the quiet counterweight. The earlier
+  orange was retired because it sat too close to Anthropic.
+- Small text never uses `#C85A32` on sand — use `#B64A2A` for contrast.
+- No bright chrome on sand. The only metal on sand is the dark-gunmetal
+  wordmark; light chrome is reserved for the dark NOVA stage and footer.
+- Dark is not a second theme; it is a material used in two places: the footer
+  and the NOVA stage.
+- Dotted grids and 4% paper grain are allowed. No glows, no blue gradients, no
+  glassmorphism.
 
 ---
 
-## Colour
+## Type
 
-Dark-first. All values oklch, all defined in `styles.css`.
+| Role           | Face                  | Source       |
+| -------------- | --------------------- | ------------ |
+| Display        | **Clash Display**     | Fontshare    |
+| Body / UI      | **Plus Jakarta Sans** | Google Fonts |
+| Technical meta | system monospace      | OS           |
 
-### Roles
+Equinox, Archivo and Galiscka are retired from the site UI. Clash Display is
+used for statement headlines and product names; Plus Jakarta carries dense copy,
+navigation and forms. Sentence case, generous leading, no all-caps paragraphs.
 
-| Token | Use |
-|---|---|
-| `background` | The page |
-| `surface`, `surface-strong` | Raised content: cards, panels |
-| `hairline` | Borders and dividers |
-| `foreground` | Primary text |
-| `muted-foreground` | Secondary text, labels, metadata |
-| `primary` | Primary action |
-| `ion` | The OMNIEL accent — brand identity and flagship emphasis |
-| `ember` | Rare secondary accent. Never decorative |
-| `destructive` | Error states only |
+---
 
-### Colour has meaning
+## Logo
 
-Accent colour is **not** distributed evenly across products. NOVA is the
-flagship, so NOVA carries `ion`. The other products are rendered in the
-neutral system and are distinguished by *type and content*, not by being
-assigned a different hue each.
+The mark is the split-O OMNIEL wordmark, finished as a shallow 3D metal.
 
-This is the hierarchy the site is meant to communicate — OMNIEL is the
-ecosystem, NOVA is the flagship — expressed in colour rather than only in
-words.
+- Navigation: `omniel-wordmark-dark-metal.png` — warm dark gunmetal with a
+  baked vertical bevel and a soft drop shadow.
+- Footer and dark NOVA stage: `omniel-wordmark-light-metal.png` — warm light
+  chrome.
+- Never place the light-metal/chrome wordmark on sand.
 
-Do not make every component glow.
+Both assets are generated from the same silhouette. The shape stays fixed; only
+the finish changes with the surface. `BrandMark` remains available for
+one-colour uses, but the nav and footer use the metal assets.
+
+---
+
+## Layout
+
+1. **Fixed full-width nav** — sand, 1px line, the original wordmark left, links
+   centre, one NOVA link right. No floating pill.
+2. **Hero** — centered: “Do less, but smart.”, one sentence, one CTA
+   (“Leave it to NOVA”), the warm dither.
+3. **Origin** — a centered, curved origin image and a triptych for students,
+   creatives and teams. The image carries the signal; the copy never names the
+   country.
+4. **The weight** — the list, the follow-ups, the context. Editorial, no cards.
+5. **Introducing NOVA** — the retained product moment: warm impact waves,
+   typewriter, moving cards. A text link to `/nova`.
+6. **Students** — curved student photo + study-workspace UI, no CTA.
+7. **Teams** — everyday-work dashboard, no CTA.
+8. **Creatives** — neobrutalist editor, no CTA.
+9. **Why we build** — access, privacy, offline, action.
+10. **Closing** — “Do less, but smart.” and the one primary CTA.
+11. **Footer** — dark; chrome wordmark, socials, ecosystem, company, contact.
+
+### NOVA page — `/nova`
+
+- One primary animation: the warm impact waves on obsidian.
+- Chrome wordmark, “Leave it to NOVA.”, a short paragraph.
+- Three short lines: Plan, Act, Remember.
+- Neobrutalist download cards for macOS and Windows, both “coming soon”.
+- The waitlist form (the page's primary action).
+- `/products/nova` permanently redirects to `/nova`.
 
 ---
 
 ## Motion
 
-### Tokens
+- **Homepage:** the warm dither is the page atmosphere; the contained
+  “Introducing NOVA” stage uses the warm impact waves as its product moment.
+- **NOVA page:** the warm impact waves are the single primary animation.
+- **NOVA box:** typewriter + a slow marquee of three example cards; one is a
+  live voice conversation. No blue shader.
+- **ScrollExpand:** audience visuals settle from 95% to 100% as they scroll.
+- **Reveal:** bottom / left / right / scale variants.
+- **Nav:** a 1px oxblood scroll-progress line.
 
-| Token | Value | Use |
-|---|---|---|
-| `--motion-fast` | 150ms | Hover, focus, button feedback |
-| `--motion-base` | 300ms | Component transitions |
-| `--motion-slow` | 600ms | Entrances, page-level reveals |
-| `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | Default for anything entering |
-| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` | State changes both directions |
-
-### Hierarchy
-
-1. **Micro-interactions** — hover, focus, button feedback. `--motion-fast`.
-2. **Component transitions** — menus, panels, reveals. `--motion-base`.
-3. **Brand motion** — the logo wordmark reveal, the hero meridian. Rare, and
-   never more than one on screen at a time.
-
-Levels must not compete. If a section already has brand motion, its contents
-do not also animate in.
-
-### The test
-
-Before adding an animation, name which of these it does: communicates state,
-guides attention, establishes hierarchy, explains an interaction, provides
-feedback, or is a deliberate brand signature.
-
-If the honest answer is "it looks good", it does not ship.
-
-Nothing loops forever.
+Nothing animates blur/filter. Everything stops under `prefers-reduced-motion`.
 
 ---
 
 ## Components
 
-Defined once in `components/site/primitives.tsx`, reused everywhere.
-
-| Pattern | Component | Notes |
-|---|---|---|
-| Page width | `Shell` | The only horizontal gutter authority |
-| Section | `Section` | Vertical rhythm and `border-t border-hairline` |
-| Section header | `SectionHeading` | eyebrow → title → lede |
-| Raised content | `Panel` | Solid surface. `interactive` adds hover |
-| Primary/ghost action | `ActionLink` | The only two button styles |
-| Entrance | `Reveal` | Level 2 motion, stagger via `delay` |
-| Label / metadata | `Eyebrow` | Mono, uppercase, wide tracking |
-
-Before building a new component, check this table. If a pattern exists, reuse
-it; if it genuinely does not, add it here rather than styling one page.
+- `primitives.tsx` — Shell, Section, SectionHeading, Panel, NeoPanel,
+  ActionLink, Reveal, Eyebrow, PageHero, Stat.
+- `brand-mark.tsx` — one-colour split-O.
+- `scroll-expand.tsx` — the slow scroll expansion.
+- `hero-dither.tsx` / `neon-dither.tsx` — warm homepage dither.
+- `nova-waves.tsx` / `colorful-wave-pattern-1.tsx` — warm NOVA waves.
+- `nova-stage.tsx` — the retained homepage product box.
+- `study-workspace.tsx`, `everyday-work.tsx`, `creative-editor.tsx` — audience
+  proof.
+- `download-cards.tsx` — NOVA downloads.
 
 ---
 
-## Responsive
+## Accessibility
 
-`shell` handles gutters. Layout adapts; the visual language does not change
-between breakpoints.
+- AA contrast on sand and obsidian.
+- Visible `:focus-visible` ring; never suppress it.
+- 44px minimum touch targets.
+- Shaders and decorative art are `aria-hidden`.
+- Typewriter has a static accessible line.
+- Forms keep input on failure and never claim success they did not get.
 
-The navigation's wordmark reveal is gated to ≥1024px because below that the
-links and the Contact button already consume the row — an interaction that
-would push content off-screen is disabled rather than allowed to break the
-layout.
+---
 
-Touch targets: 44px minimum.
+## Truthfulness
+
+NOVA is **coming soon**. No release dates, invented benchmarks or claims of
+scale. The waitlist says “No date promised.”

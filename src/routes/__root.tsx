@@ -15,7 +15,7 @@ import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/site-footer";
 import { LiveKitWidget } from "@/components/site/livekit-widget";
 import { CloudflareAnalytics } from "@/components/site/analytics";
-import { siteUrl } from "@/lib/omniel";
+import { contactEmail, siteUrl } from "@/lib/omniel";
 import { Atmosphere } from "@/components/site/atmosphere";
 
 /**
@@ -32,9 +32,9 @@ const ORGANIZATION_SCHEMA = {
   name: "OMNIEL",
   url: siteUrl,
   logo: `${siteUrl}/icon-512.png`,
-  email: "hello@omniel.com.ng",
+  email: contactEmail,
   description:
-    "OMNIEL is an early-stage AI and technology ecosystem being built from Nigeria: NOVA, VYREN, ARVO and KIWI.",
+    "OMNIEL builds NOVA, an everyday intelligence that carries the planning, the follow-ups and the admin. The wider ecosystem includes VYREN, ARVO and KIWI.",
   founder: {
     "@type": "Person",
     name: "Samuel Asagwara",
@@ -142,11 +142,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "OMNIEL: Building intelligence without borders" },
+      { title: "OMNIEL: Do less. Get more done." },
       {
         name: "description",
         content:
-          "OMNIEL is an early-stage AI and technology ecosystem being built from Nigeria: NOVA, VYREN, ARVO and KIWI.",
+          "OMNIEL builds NOVA, an everyday intelligence that carries the planning, the follow-ups and the admin — so the day feels like yours again.",
       },
       { name: "author", content: "OMNIEL" },
       { property: "og:site_name", content: "OMNIEL" },
@@ -157,15 +157,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: `${siteUrl}/og-image.png` },
-      { name: "theme-color", content: "#0b0d12" },
+      { name: "theme-color", content: "#f2ebde" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://api.fontshare.com" },
+      { rel: "preconnect", href: "https://cdn.fontshare.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       // No canonical here. A canonical in the root is inherited by every
@@ -199,6 +205,7 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <div className="page-grain" aria-hidden="true" />
         <Scripts />
       </body>
     </html>

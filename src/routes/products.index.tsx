@@ -15,11 +15,12 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/products/")({
   head: () =>
     pageHead({
-    path: "/products",
-    title: "Products: NOVA and the OMNIEL roadmap | OMNIEL",
-    description: "NOVA is OMNIEL's flagship product, in active development. VYREN, ARVO and KIWI are the wider roadmap.",
-    ogTitle: "OMNIEL products",
-    ogDescription: "NOVA first. The rest of the OMNIEL ecosystem follows.",
+      path: "/products",
+      title: "The ecosystem | OMNIEL",
+      description:
+        "NOVA is OMNIEL's everyday intelligence. VYREN, ARVO and KIWI are the wider ecosystem.",
+      ogTitle: "The OMNIEL ecosystem",
+      ogDescription: "NOVA is the everyday intelligence. The rest of the ecosystem follows.",
     }),
   component: ProductsIndex,
 });
@@ -31,14 +32,14 @@ function ProductsIndex() {
   return (
     <>
       <PageHero
-        eyebrow="Products"
-        title="NOVA first. The rest of the roadmap follows."
-        lede="NOVA is OMNIEL's flagship product and current development focus. The other systems are real, in-progress parts of the ecosystem, not yet the release priority."
+        eyebrow="Ecosystem"
+        title="NOVA. And what comes next."
+        lede="NOVA is OMNIEL's everyday intelligence. VYREN, ARVO and KIWI are the wider ecosystem, each at an earlier stage."
       />
 
       <Section id="nova">
-        <Eyebrow>Flagship · Building now</Eyebrow>
-        <Link to="/products/$slug" params={{ slug: "nova" }} className="mt-6 block">
+        <Eyebrow>Everyday intelligence · Building now</Eyebrow>
+        <Link to="/nova" className="mt-6 block">
           <Panel interactive className="overflow-hidden p-0">
             <div className="grid gap-0 lg:grid-cols-[1fr_1.2fr]">
               <div className="relative h-48 border-b border-hairline lg:h-full lg:border-b-0 lg:border-r">
@@ -47,12 +48,12 @@ function ProductsIndex() {
                   <img
                     src={nova.icon}
                     alt=""
-                    className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2"
+                    className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 brightness-0"
                   />
                 )}
               </div>
               <div className="p-8 md:p-10">
-                <p className="font-display text-3xl tracking-[0.3em]">{nova.name}</p>
+                <p className="font-display text-3xl tracking-[-0.02em]">{nova.name}</p>
                 <p className="mt-3 text-base text-muted-foreground">{nova.role}</p>
                 <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
                   {nova.summary}
@@ -85,7 +86,7 @@ function ProductsIndex() {
                   </div>
                   <div className="p-6">
                     <div className="flex flex-wrap items-center gap-3">
-                      <p className="font-display text-xl tracking-[0.3em]">{p.name}</p>
+                      <p className="font-display text-xl tracking-[-0.02em]">{p.name}</p>
                       <span className="rounded-full border border-hairline px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-accent">
                         {p.kind}
                       </span>
@@ -133,11 +134,11 @@ function ProductsIndex() {
             <tbody>
               {products.map((p) => (
                 <tr key={p.slug} className="border-b border-hairline align-top">
-                  <th scope="row" className="py-5 pr-6 font-display text-lg tracking-[0.2em]">
+                  <th scope="row" className="py-5 pr-6 font-display text-lg tracking-[-0.02em]">
                     {p.name}
                     {p.priority === "flagship" && (
                       <span className="ml-2 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-accent">
-                        Flagship
+                        First
                       </span>
                     )}
                   </th>

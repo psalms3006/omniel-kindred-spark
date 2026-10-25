@@ -18,7 +18,7 @@ const ENTRY = {
 };
 
 describe("createResendWaitlistStore", () => {
-  it("creates a contact with pending status and the segment", async () => {
+  it("creates a pending contact without joining the broadcast segment", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({ id: "c1" }));
     const store = createResendWaitlistStore({ apiKey: "k", segmentId: "seg_1", fetchImpl });
 
@@ -31,7 +31,7 @@ describe("createResendWaitlistStore", () => {
     expect(body.email).toBe("ada@example.com");
     expect(body.properties.status).toBe("pending");
     expect(body.properties.source).toBe("nova-waitlist");
-    expect(body.segments).toEqual([{ id: "seg_1" }]);
+    expect(body.segments).toBeUndefined();
   });
 
   it("treats an existing confirmed contact as already-confirmed and does not downgrade it", async () => {
@@ -94,6 +94,32 @@ describe("createResendWaitlistStore", () => {
     expect(init?.method).toBe("PATCH");
     expect(JSON.parse(String(init?.body)).properties.status).toBe("confirmed");
   });
+
+  it("adds a confirmed contact to the broadcast segment", async () => {
+    const fetchImpl = vi.fn(async () => jsonResponse({ id: "c1" }));
+    const store = createResendWaitlistStore({ apiKey: "k", segmentId: "seg_1", fetchImpl });
+
+    const result = await store.confirm("ada@example.com", "2026-01-02T00:00:00.000Z");
+
+    expect(result).toEqual({ ok: true });
+    expect(fetchImpl).toHaveBeenCalledTimes(2);
+    const [url, init] = fetchImpl.mock.calls[1] as unknown as FetchArgs;
+    expect(url).toBe("https://api.resend.com/contacts/ada%40example.com/segments/seg_1");
+    expect(init?.method).toBe("POST");
+  });
+
+  it("still confirms when adding to the segment fails", async () => {
+    const fetchImpl = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = String(input);
+      if (url.includes("/segments/")) return jsonResponse({ message: "nope" }, 500);
+      return init?.method === "PATCH" ? jsonResponse({ id: "c1" }) : jsonResponse({ id: "c1" });
+    });
+    const store = createResendWaitlistStore({ apiKey: "k", segmentId: "seg_1", fetchImpl });
+
+    const result = await store.confirm("ada@example.com", "2026-01-02T00:00:00.000Z");
+
+    expect(result).toEqual({ ok: true });
+  });
 });
 
 describe("createResendEmailSender", () => {
@@ -120,6 +146,27 @@ describe("createResendEmailSender", () => {
     expect(body.to).toEqual(["ada@example.com"]);
     expect(body.from).toBe("OMNIEL <noreply@omniel.test>");
     expect(body.reply_to).toBe("hello@omniel.test");
+  });
+
+  it("uses a message-level reply-to when one is provided", async () => {
+    const fetchImpl = vi.fn(async () => jsonResponse({ id: "e1" }));
+    const send = createResendEmailSender({
+      apiKey: "k",
+      from: "OMNIEL <noreply@omniel.test>",
+      replyTo: "hello@omniel.test",
+      fetchImpl,
+    });
+
+    await send({
+      to: "info@omniel.test",
+      replyTo: "ada@example.com",
+      subject: "Subject",
+      html: "<p>hi</p>",
+      text: "hi",
+    });
+
+    const [, init] = fetchImpl.mock.calls[0] as unknown as FetchArgs;
+    expect(JSON.parse(String(init?.body)).reply_to).toBe("ada@example.com");
   });
 
   it("reports failure instead of throwing", async () => {

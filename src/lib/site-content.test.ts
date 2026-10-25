@@ -6,8 +6,8 @@ beforeEach(() => __clearSiteContentCache());
 
 describe("index coverage", () => {
   it("indexes every public page", () => {
-    // 9 fixed pages plus one per product.
-    expect(loadedPageCount()).toBe(9 + products.length);
+    // 8 fixed pages plus one per product.
+    expect(loadedPageCount()).toBe(8 + products.length);
   });
 });
 
@@ -39,7 +39,7 @@ describe("products", () => {
     "ranks the %s product page first",
     (name, slug) => {
       const hits = searchSite(name);
-      expect(hits[0]!.path).toBe(`/products/${slug}`);
+      expect(hits[0]!.path).toBe(slug === "nova" ? "/nova" : `/products/${slug}`);
     },
   );
 
@@ -56,9 +56,9 @@ describe("topics", () => {
     expect(hits.some((h) => h.path === "/contact")).toBe(true);
   });
 
-  it("finds hiring areas", () => {
-    const hits = searchSite("careers roles hiring");
-    expect(hits.some((h) => h.path === "/careers")).toBe(true);
+  it("finds the NOVA page", () => {
+    const hits = searchSite("everyday intelligence");
+    expect(hits.some((h) => h.path === "/nova")).toBe(true);
   });
 });
 
@@ -78,9 +78,9 @@ describe("absence", () => {
 
 describe("readSitePage", () => {
   it("reads a known page", () => {
-    const page = readSitePage("/careers");
+    const page = readSitePage("/nova");
     expect(page).not.toBeNull();
-    expect(page!.title).toContain("Careers");
+    expect(page!.title).toContain("NOVA");
   });
 
   it("accepts a path without a leading slash", () => {

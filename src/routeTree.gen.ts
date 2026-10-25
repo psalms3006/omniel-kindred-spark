@@ -11,8 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as CareersRouteImport } from './routes/careers'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as NovaRouteImport } from './routes/nova'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as TechnologyRouteImport } from './routes/technology'
@@ -37,14 +37,14 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CareersRoute = CareersRouteImport.update({
-  id: '/careers',
-  path: '/careers',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NovaRoute = NovaRouteImport.update({
+  id: '/nova',
+  path: '/nova',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -116,8 +116,8 @@ const ApiLivekitTokenRoute = ApiLivekitTokenRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/nova': typeof NovaRoute
   '/privacy': typeof PrivacyRoute
   '/research': typeof ResearchRoute
   '/technology': typeof TechnologyRoute
@@ -135,8 +135,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/nova': typeof NovaRoute
   '/privacy': typeof PrivacyRoute
   '/research': typeof ResearchRoute
   '/technology': typeof TechnologyRoute
@@ -155,8 +155,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/nova': typeof NovaRoute
   '/privacy': typeof PrivacyRoute
   '/research': typeof ResearchRoute
   '/technology': typeof TechnologyRoute
@@ -176,8 +176,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/careers'
     | '/contact'
+    | '/nova'
     | '/privacy'
     | '/research'
     | '/technology'
@@ -195,8 +195,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/careers'
     | '/contact'
+    | '/nova'
     | '/privacy'
     | '/research'
     | '/technology'
@@ -214,8 +214,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
-    | '/careers'
     | '/contact'
+    | '/nova'
     | '/privacy'
     | '/research'
     | '/technology'
@@ -234,8 +234,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
+  NovaRoute: typeof NovaRoute
   PrivacyRoute: typeof PrivacyRoute
   ResearchRoute: typeof ResearchRoute
   TechnologyRoute: typeof TechnologyRoute
@@ -267,18 +267,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/careers': {
-      id: '/careers'
-      path: '/careers'
-      fullPath: '/careers'
-      preLoaderRoute: typeof CareersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nova': {
+      id: '/nova'
+      path: '/nova'
+      fullPath: '/nova'
+      preLoaderRoute: typeof NovaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -378,8 +378,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
+  NovaRoute: NovaRoute,
   PrivacyRoute: PrivacyRoute,
   ResearchRoute: ResearchRoute,
   TechnologyRoute: TechnologyRoute,

@@ -49,7 +49,7 @@ export const TOOL_REGISTRY: readonly ToolDefinition[] = [
             "home",
             "about",
             "products",
-            "careers",
+            "nova",
             "contact",
             "research",
             "technology",
@@ -78,7 +78,6 @@ export const TOOL_REGISTRY: readonly ToolDefinition[] = [
             "about",
             "ecosystem",
             "compare",
-            "reality",
             "belief",
             "vision",
             "team",
@@ -135,7 +134,7 @@ export const TOOL_REGISTRY: readonly ToolDefinition[] = [
   {
     name: "open_form",
     description:
-      "Open a specific enquiry form (contact, partnerships, investment, or careers) and scroll to it. Use before fill_form.",
+      "Open a specific enquiry form (contact, partnerships, or investment) and scroll to it. Use before fill_form.",
     executionLocation: "client",
     requiresUserConfirmation: false,
     parameters: {
@@ -144,7 +143,7 @@ export const TOOL_REGISTRY: readonly ToolDefinition[] = [
         formId: {
           type: "string",
           description: "Which form to open.",
-          enum: ["contact", "partnerships", "investment", "careers"],
+          enum: ["contact", "partnerships", "investment"],
         },
       },
       required: ["formId"],
@@ -162,7 +161,7 @@ export const TOOL_REGISTRY: readonly ToolDefinition[] = [
         formId: {
           type: "string",
           description: "Which open form to fill.",
-          enum: ["contact", "partnerships", "investment", "careers"],
+          enum: ["contact", "partnerships", "investment"],
         },
         name: { type: "string", description: "Visitor's name." },
         email: { type: "string", description: "Visitor's email address." },
@@ -184,7 +183,7 @@ export const TOOL_REGISTRY: readonly ToolDefinition[] = [
         formId: {
           type: "string",
           description: "Which kind of enquiry this is.",
-          enum: ["contact", "partnerships", "investment", "careers"],
+          enum: ["contact", "partnerships", "investment"],
         },
         name: { type: "string", description: "Visitor's name." },
         email: { type: "string", description: "Visitor's email address." },

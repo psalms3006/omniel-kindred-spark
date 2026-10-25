@@ -8,11 +8,13 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/about")({
   head: () =>
     pageHead({
-    path: "/about",
-    title: "About OMNIEL: An AI ecosystem being built from Nigeria",
-    description: "OMNIEL is an early-stage AI and technology initiative based in Nigeria, built by a sole founder toward a global frontier AI company.",
-    ogTitle: "About OMNIEL",
-    ogDescription: "Early-stage, Nigeria-based, and building toward a global frontier AI company.",
+      path: "/about",
+      title: "About OMNIEL: An AI ecosystem being built from Nigeria",
+      description:
+        "OMNIEL is an early-stage AI and technology initiative based in Nigeria, built by a sole founder toward a global frontier AI company.",
+      ogTitle: "About OMNIEL",
+      ogDescription:
+        "Early-stage, Nigeria-based, and building toward a global frontier AI company.",
     }),
   component: About,
 });
@@ -23,8 +25,8 @@ const stages = [
     body: "An early-stage, pre-launch AI and technology initiative based in Nigeria, with a sole founder and a small circle of collaborators.",
   },
   {
-    label: "In development",
-    body: "NOVA, VYREN and ARVO are actively being built. KIWI is an emerging project whose public specification is still being established.",
+    label: "Building now",
+    body: "NOVA is coming soon, with VYREN and ARVO at earlier stages. KIWI is an emerging project whose public specification is still being established.",
   },
   {
     label: "Planned",
@@ -105,11 +107,8 @@ function About() {
         <div className="mt-12">
           <TeamSection />
         </div>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <ActionLink to="/careers">Work on OMNIEL</ActionLink>
-          <ActionLink to="/contact" variant="ghost">
-            Contact
-          </ActionLink>
+        <div className="mt-10">
+          <ActionLink to="/contact">Talk to us</ActionLink>
         </div>
       </Section>
     </>

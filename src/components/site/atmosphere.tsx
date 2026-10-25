@@ -1,5 +1,9 @@
 import { cn } from "@/lib/utils";
 
+/**
+ * Ambient art for inner-page headers: a warm dotted grid, a rust wash and a
+ * quiet olive counterweight. Static SVG only.
+ */
 type Props = { className?: string; variant?: "hero" | "band"; intensity?: number };
 
 export function Atmosphere({ className, variant = "hero", intensity = 1 }: Props) {
@@ -9,10 +13,36 @@ export function Atmosphere({ className, variant = "hero", intensity = 1 }: Props
       aria-hidden="true"
       style={{ opacity: intensity }}
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,color-mix(in_oklab,var(--color-accent)_13%,transparent),transparent_30%),linear-gradient(120deg,var(--color-background),var(--color-surface)_58%,var(--color-background))]" />
-      <div className="lab-grid absolute inset-0 opacity-35" />
-      <div className={cn("absolute rounded-full border border-accent/20", variant === "hero" ? "-right-40 top-24 h-[38rem] w-[38rem]" : "-right-56 top-10 h-[28rem] w-[28rem]")} />
-      <div className={cn("absolute rounded-full border border-accent/10", variant === "hero" ? "-right-24 top-40 h-[30rem] w-[30rem]" : "-right-36 top-24 h-[22rem] w-[22rem]")} />
+      <div
+        className="lab-grid absolute inset-0 opacity-25"
+        style={{
+          maskImage: "linear-gradient(to bottom, black, transparent 88%)",
+          WebkitMaskImage: "linear-gradient(to bottom, black, transparent 88%)",
+        }}
+      />
+
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_16%,rgba(110,48,56,0.10),transparent_42%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_78%,rgba(90,107,92,0.09),transparent_40%)]" />
+
+      {variant === "hero" ? (
+        <svg
+          className="absolute inset-0 h-full w-full"
+          viewBox="0 0 1200 600"
+          preserveAspectRatio="none"
+          fill="none"
+          focusable="false"
+        >
+          <path
+            d="M0 470 C 160 440, 250 500, 400 450 S 650 370, 800 390 S 1030 320, 1200 340"
+            stroke="var(--color-accent)"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+            strokeDasharray="2 9"
+            opacity="0.25"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+      ) : null}
     </div>
   );
 }
