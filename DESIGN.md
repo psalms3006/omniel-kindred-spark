@@ -6,17 +6,12 @@ Read this before adding a component, a colour, or an animation.
 
 ## The narrative
 
-The site moved from **what OMNIEL does** to **what the person stops carrying**.
+- Brand platform: **“Do less, but smart.”**
+- Supporting idea: “Less to carry.”
+- Product line and primary CTA: **“Leave it to NOVA.”**
 
-- Brand platform: **“Do less. Get more done.”**
-- Product line and primary CTA: **“Meet NOVA.”**
-- The enemy is the mental load — the list, the follow-ups, the rebuilt context.
 - Audience: students, teams and creatives. The story stays universal; the three
   audience sections are proof, not separate pitches.
-
-Retire from the homepage: superintelligence, frontier, agentic, seamless,
-empower, unlock, AI-powered. “Superintelligence” belongs on the company/about
-page, not the hero.
 
 ---
 
@@ -40,7 +35,8 @@ Rules:
 - Oxblood is the primary pop; olive is the quiet counterweight. The earlier
   orange was retired because it sat too close to Anthropic.
 - Small text never uses `#C85A32` on sand — use `#B64A2A` for contrast.
-- No chrome on sand. Chrome is reserved for the dark NOVA stage and footer.
+- No bright chrome on sand. The only metal on sand is the dark-gunmetal
+  wordmark; light chrome is reserved for the dark NOVA stage and footer.
 - Dark is not a second theme; it is a material used in two places: the footer
   and the NOVA stage.
 - Dotted grids and 4% paper grain are allowed. No glows, no blue gradients, no
@@ -64,51 +60,43 @@ navigation and forms. Sentence case, generous leading, no all-caps paragraphs.
 
 ## Logo
 
-The mark is the split-O. Use it as a **one-colour silhouette**:
+The mark is the split-O OMNIEL wordmark, finished as a shallow 3D metal.
 
-- Navigation/footer light: split-O + “OMNIEL” in Clash Display, obsidian.
-- Dark NOVA stage/footer: the chrome wordmark may be used — it is the only
-  “silicon” material in the identity.
-- Never place the chrome wordmark on sand.
+- Navigation: `omniel-wordmark-dark-metal.png` — warm dark gunmetal with a
+  baked vertical bevel and a soft drop shadow.
+- Footer and dark NOVA stage: `omniel-wordmark-light-metal.png` — warm light
+  chrome.
+- Never place the light-metal/chrome wordmark on sand.
 
-`BrandMark` uses the PNG's alpha channel as a mask, so the mark can be ink,
-oxblood or sand without the cool gradient. The nav uses the original full
-wordmark, restored and enlarged; the chrome version is reserved for the dark
-footer and the NOVA stage.
+Both assets are generated from the same silhouette. The shape stays fixed; only
+the finish changes with the surface. `BrandMark` remains available for
+one-colour uses, but the nav and footer use the metal assets.
 
 ---
 
 ## Layout
 
 1. **Fixed full-width nav** — sand, 1px line, the original wordmark left, links
-   truly centred with a `[1fr_auto_1fr]` grid, a “Download NOVA” link right. No
-   floating pill.
-2. **Hero** — two columns, top aligned: “OMNIEL builds intelligence for everyday
-   use.”, the main “Do less. Get more done.”, and a work portrait (the
-   `black creatives` image) on the right, rounded as a rectangle. No CTA.
-3. **Origin** — a huge “OMNIEL.”, a centered 2:1 rounded image with a warm
-   treatment, then “Building the right kind of intelligence. The kind we need.”
-   plus a short note: OMNIEL builds practical intelligence for everyday problems,
-   and NOVA is the first product. No side copy and no country name.
-4. **Everyone** — “Built for the work you actually do.” left; a collage of the
-   students, creatives and teams work images right.
-5. **Introducing NOVA** — warm impact waves, typewriter, moving cards, the CTA
-   “Meet NOVA”, then a short explanation of NOVA as a voice-first desktop
-   assistant.
-6. **Students** — study-workspace UI, no CTA; then a near-full-width student
-   image.
+   centre, one NOVA link right. No floating pill.
+2. **Hero** — centered: “Do less, but smart.”, one sentence, one CTA
+   (“Leave it to NOVA”), the warm dither.
+3. **Origin** — a centered, curved origin image and a triptych for students,
+   creatives and teams. The image carries the signal; the copy never names the
+   country.
+4. **The weight** — the list, the follow-ups, the context. Editorial, no cards.
+5. **Introducing NOVA** — the retained product moment: warm impact waves,
+   typewriter, moving cards. A text link to `/nova`.
+6. **Students** — curved student photo + study-workspace UI, no CTA.
 7. **Teams** — everyday-work dashboard, no CTA.
 8. **Creatives** — neobrutalist editor, no CTA.
-9. **Values** — “The standards we build to.” and a short animated
-   “Access / Privacy / Offline / Action” marquee. No long principles list.
-10. **Closing** — “Do less. Get more done.” and the `for teams` work image; no
-    paragraph, no CTA.
+9. **Why we build** — access, privacy, offline, action.
+10. **Closing** — “Do less, but smart.” and the one primary CTA.
 11. **Footer** — dark; chrome wordmark, socials, ecosystem, company, contact.
 
 ### NOVA page — `/nova`
 
-- Warm impact waves on obsidian, plus a rotating 3D NOVA mark.
-- Chrome wordmark, “Meet NOVA.”, a short paragraph.
+- One primary animation: the warm impact waves on obsidian.
+- Chrome wordmark, “Leave it to NOVA.”, a short paragraph.
 - Three short lines: Plan, Act, Remember.
 - Neobrutalist download cards for macOS and Windows, both “coming soon”.
 - The waitlist form (the page's primary action).
@@ -118,9 +106,9 @@ footer and the NOVA stage.
 
 ## Motion
 
-- **Homepage:** a static warm wash in the hero; the contained “Introducing
-  NOVA” stage uses the warm impact waves as its product moment.
-- **NOVA page:** the warm impact waves, plus the rotating 3D NOVA mark.
+- **Homepage:** the warm dither is the page atmosphere; the contained
+  “Introducing NOVA” stage uses the warm impact waves as its product moment.
+- **NOVA page:** the warm impact waves are the single primary animation.
 - **NOVA box:** typewriter + a slow marquee of three example cards; one is a
   live voice conversation. No blue shader.
 - **ScrollExpand:** audience visuals settle from 95% to 100% as they scroll.
@@ -137,8 +125,8 @@ Nothing animates blur/filter. Everything stops under `prefers-reduced-motion`.
   ActionLink, Reveal, Eyebrow, PageHero, Stat.
 - `brand-mark.tsx` — one-colour split-O.
 - `scroll-expand.tsx` — the slow scroll expansion.
+- `hero-dither.tsx` / `neon-dither.tsx` — warm homepage dither.
 - `nova-waves.tsx` / `colorful-wave-pattern-1.tsx` — warm NOVA waves.
-- `nova-icon-3d.tsx` — the rotating extruded NOVA mark.
 - `nova-stage.tsx` — the retained homepage product box.
 - `study-workspace.tsx`, `everyday-work.tsx`, `creative-editor.tsx` — audience
   proof.

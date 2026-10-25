@@ -6,6 +6,7 @@ import { NovaStage } from "@/components/site/nova-stage";
 import { ScrollExpand } from "@/components/site/scroll-expand";
 import { StudyWorkspace } from "@/components/site/study-workspace";
 import { Eyebrow, Reveal, Section, Shell, Stat } from "@/components/site/primitives";
+import omnielWordmarkDarkMetalLarge from "@/assets/omniel-wordmark-dark-metal-large.png";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
@@ -58,8 +59,16 @@ function Origin() {
   return (
     <Section id="origin" className="border-t border-hairline">
       <div className="mx-auto max-w-5xl text-center">
-        <h2 className="font-display text-[clamp(4.5rem,13vw,13rem)] font-semibold leading-[0.8] tracking-[-0.05em]">
-          OMNIEL<span className="text-accent">.</span>
+        <h2 className="mx-auto max-w-2xl">
+          <img
+            src={omnielWordmarkDarkMetalLarge}
+            alt="OMNIEL"
+            width={1680}
+            height={282}
+            loading="lazy"
+            decoding="async"
+            className="h-auto w-full drop-shadow-[0_10px_24px_rgba(26,24,20,0.14)]"
+          />
         </h2>
 
         <div className="relative mx-auto mt-10 overflow-hidden rounded-[2rem] border border-hairline bg-card">

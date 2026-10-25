@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion, useScroll } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { navigation } from "@/lib/omniel";
-import omnielWordmark from "@/assets/omniel-wordmark.png";
+import omnielWordmarkDarkMetal from "@/assets/omniel-wordmark-dark-metal.png";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = ["/products", "/technology", "/research"] as const;
@@ -52,9 +52,9 @@ export function SiteNav() {
             className="flex shrink-0 items-center justify-self-start"
           >
             <img
-              src={omnielWordmark}
+              src={omnielWordmarkDarkMetal}
               alt="OMNIEL"
-              className="h-9 w-auto object-contain brightness-0 md:h-10"
+              className="h-9 w-auto object-contain drop-shadow-[0_2px_2px_rgba(26,24,20,0.28)] md:h-11"
             />
           </Link>
 
