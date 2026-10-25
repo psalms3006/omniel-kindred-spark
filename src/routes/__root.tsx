@@ -142,7 +142,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "OMNIEL: Do less, but smart" },
+      { title: "OMNIEL: Do less. Get more done." },
       {
         name: "description",
         content:

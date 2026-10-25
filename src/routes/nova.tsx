@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DownloadCards } from "@/components/site/download-cards";
+import { NovaIcon3D } from "@/components/site/nova-icon-3d";
 import { NovaWaves } from "@/components/site/nova-waves";
 import { Eyebrow, Reveal, Section } from "@/components/site/primitives";
 import { WaitlistForm } from "@/components/site/waitlist-form";
 import { pageHead } from "@/lib/seo";
-import omnielWordmark from "@/assets/omniel-wordmark.png";
 
 export const Route = createFileRoute("/nova")({
   head: () =>
@@ -31,10 +31,10 @@ function NovaPage() {
       <section className="theme-dark relative overflow-hidden">
         <NovaWaves />
 
-        <div className="shell relative z-10 flex min-h-[78vh] flex-col items-center justify-center py-40 text-center">
-          <img src={omnielWordmark} alt="OMNIEL" className="h-9 w-auto" />
+        <div className="shell relative z-10 flex min-h-[80vh] flex-col items-center justify-center py-32 text-center">
+          <NovaIcon3D className="mt-8" />
 
-          <p className="eyebrow mt-10">NOVA</p>
+          <p className="eyebrow mt-8">NOVA</p>
           <h1 className="mt-6 max-w-4xl text-[clamp(3.4rem,10vw,9rem)] leading-[0.84] tracking-[-0.045em] text-[#f2ebde]">
             Meet NOVA.
           </h1>
@@ -89,7 +89,7 @@ function NovaPage() {
         </div>
       </Section>
 
-      <Section id="downloads" className="border-t border-hairline bg-surface/40">
+      <Section id="downloads" className="scroll-mt-24 border-t border-hairline bg-surface/40">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <Eyebrow>Downloads</Eyebrow>
@@ -98,7 +98,7 @@ function NovaPage() {
             </h2>
           </div>
           <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-            The desktop build is coming. These will open when it ships.
+            NOVA is in beta on Windows. macOS is next.
           </p>
         </div>
 

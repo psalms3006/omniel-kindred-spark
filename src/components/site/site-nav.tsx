@@ -90,14 +90,15 @@ export function SiteNav() {
           <div className="flex items-center gap-3 justify-self-end">
             <Link
               to="/nova"
+              hash="downloads"
               aria-current={novaActive ? "page" : undefined}
               className={cn(
-                "hidden items-center gap-1.5 text-[0.82rem] font-semibold text-accent transition-colors hover:text-foreground lg:inline-flex",
+                "hidden items-center gap-1.5 rounded-full border border-hairline px-4 py-2 text-[0.78rem] font-semibold text-accent transition-colors hover:border-accent/50 hover:text-foreground lg:inline-flex",
                 novaActive && "text-foreground",
               )}
             >
-              NOVA
-              <span aria-hidden>↗</span>
+              Download NOVA
+              <span aria-hidden>↓</span>
             </Link>
 
             <button
@@ -167,10 +168,11 @@ export function SiteNav() {
 
               <Link
                 to="/nova"
+                hash="downloads"
                 className="mt-8 flex items-center justify-between border-b border-hairline py-5 font-display text-3xl text-accent"
               >
-                NOVA
-                <span aria-hidden>↗</span>
+                Download NOVA
+                <span aria-hidden>↓</span>
               </Link>
             </nav>
           </motion.div>

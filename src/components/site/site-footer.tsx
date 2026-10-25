@@ -24,8 +24,8 @@ function XIcon({ className }: { className?: string }) {
 
 // TODO: replace the "#" placeholders with the live profile URLs.
 const socials = [
-  { label: "LinkedIn", href: "#", icon: Linkedin },
-  { label: "Instagram", href: "#", icon: Instagram },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/omniel-ai-limited/", icon: Linkedin },
+  { label: "Instagram", href: "https://www.instagram.com/_omnielai/?hl=en", icon: Instagram },
   { label: "X", href: "#", icon: XIcon },
   { label: "Email", href: `mailto:${contactEmail}`, icon: Mail },
 ] as const;
@@ -42,7 +42,7 @@ export function SiteFooter() {
               <img src={omnielWordmark} alt="OMNIEL" className="h-8 w-auto" />
             </Link>
             <p className="mt-7 max-w-xs font-display text-4xl leading-[0.95] tracking-[-0.02em]">
-              Do less, but smart.
+              Do less. Get more done.
             </p>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Everyday intelligence from OMNIEL.

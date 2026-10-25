@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { CapabilityRail } from "@/components/site/capability-rail";
 import { CreativeEditor } from "@/components/site/creative-editor";
 import { EverydayWork } from "@/components/site/everyday-work";
-import { HeroDither } from "@/components/site/hero-dither";
 import { NovaStage } from "@/components/site/nova-stage";
 import { ScrollExpand } from "@/components/site/scroll-expand";
 import { StudyWorkspace } from "@/components/site/study-workspace";
@@ -12,11 +12,11 @@ export const Route = createFileRoute("/")({
   head: () =>
     pageHead({
       path: "/",
-      title: "OMNIEL — Do less, but smart",
+      title: "Omniel | Get more done.",
       description:
-        "OMNIEL is building the right kind of superintelligence: useful, human, and clear to people who don't write code. NOVA is coming.",
-      ogTitle: "OMNIEL — Do less, but smart",
-      ogDescription: "Building superintelligence for everyday use.",
+        "Omniel builds the right kind of intelligence: useful, human, and clear to people who don't write code.",
+      ogTitle: "Omniel | Get more done.",
+      ogDescription: "Omniel builds intelligence for everyday use.",
     }),
   component: Home,
 });
@@ -24,42 +24,29 @@ export const Route = createFileRoute("/")({
 function Hero() {
   return (
     <section className="relative overflow-hidden pb-16 pt-32 md:pb-24 md:pt-44">
-      <HeroDither />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(182,74,42,0.07),transparent_58%)]"
+      />
 
       <Shell className="relative z-10">
-        <div className="grid items-start gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
-          <div className="max-w-2xl">
-            <Reveal>
-              <p className="text-sm font-medium leading-relaxed text-foreground md:text-base">
-                Building superintelligence for everyday use.
-              </p>
-            </Reveal>
-
-            <h1 className="mt-7 text-[clamp(3.4rem,8.5vw,8rem)] leading-[0.86] tracking-[-0.045em]">
-              <span className="reveal-line">
-                <span className="block">Do less,</span>
+        <div className="mx-auto max-w-5xl text-center">
+          <h1 className="text-[clamp(3rem,9vw,8rem)] leading-[0.88] tracking-[-0.015em] [word-spacing:0.08em] md:[word-spacing:0.12em]">
+            <span className="reveal-line">
+              <span className="block">Do less.</span>
+            </span>
+            <span className="reveal-line [--reveal-delay:110ms]">
+              <span className="block">
+                Get more done<span className="text-accent">.</span>
               </span>
-              <span className="reveal-line [--reveal-delay:110ms]">
-                <span className="block">
-                  but smart<span className="text-accent">.</span>
-                </span>
-              </span>
-            </h1>
-          </div>
+            </span>
+          </h1>
 
-          <Reveal from="right" delay={0.12}>
-            <div className="overflow-hidden rounded-[2rem] border border-hairline bg-card">
-              <img
-                src="/do%20less%20image%203.jpg"
-                alt="A person relaxing with a laptop."
-                width={1280}
-                height={1920}
-                loading="eager"
-                decoding="async"
-                fetchPriority="high"
-                className="aspect-[4/5] w-full object-cover object-center"
-              />
-            </div>
+          <Reveal delay={0.16}>
+            <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              OMNIEL is a technology company making products that fit real problems — not the other
+              way around.
+            </p>
           </Reveal>
         </div>
       </Shell>
@@ -92,7 +79,11 @@ function Origin() {
         </div>
 
         <p className="mx-auto mt-8 max-w-2xl text-2xl leading-snug md:text-4xl">
-          Building the right kind of superintelligence. The kind we need.
+          Building the right kind of intelligence. The kind we need.
+        </p>
+
+        <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+          Practical intelligence for everyday problems, built to fit the work people actually do.
         </p>
       </div>
     </Section>
@@ -104,9 +95,8 @@ function Everyone() {
     <Section id="everyone" className="border-t border-hairline">
       <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
         <Reveal from="left">
-          <Eyebrow>Made for everyone</Eyebrow>
-          <h2 className="mt-6 text-[clamp(2.8rem,5.5vw,5.5rem)] font-semibold leading-[0.94]">
-            We build products for everyone.
+          <h2 className="text-[clamp(2.8rem,5.5vw,5.5rem)] font-semibold leading-[0.94]">
+            Built for the work you actually do.
           </h2>
         </Reveal>
 
@@ -115,8 +105,8 @@ function Everyone() {
             <figure className="col-span-2">
               <div className="overflow-hidden rounded-[1.75rem] border border-hairline bg-card">
                 <img
-                  src="/students%20omniel.jpg"
-                  alt="Students working together in a lecture hall."
+                  src="/students%20with%20omniel.jpg"
+                  alt="Students working together."
                   width={2000}
                   height={1333}
                   loading="lazy"
@@ -132,8 +122,8 @@ function Everyone() {
             <figure>
               <div className="overflow-hidden rounded-[1.5rem] border border-hairline bg-card">
                 <img
-                  src="/creatives.jpg"
-                  alt="A group of young creatives in a city."
+                  src="/creatives%20on%20laptops.jpg"
+                  alt="A creative team working on laptops."
                   width={1280}
                   height={1920}
                   loading="lazy"
@@ -149,10 +139,10 @@ function Everyone() {
             <figure>
               <div className="overflow-hidden rounded-[1.5rem] border border-hairline bg-card">
                 <img
-                  src="/group%20picture.jpg"
-                  alt="A team of young people working together."
-                  width={2000}
-                  height={1201}
+                  src="/black%20for%20teams.jpg"
+                  alt="A team reviewing work around a laptop."
+                  width={1280}
+                  height={1920}
                   loading="lazy"
                   decoding="async"
                   className="aspect-[4/3] w-full object-cover"
@@ -175,6 +165,15 @@ function NovaSection() {
       <ScrollExpand>
         <NovaStage />
       </ScrollExpand>
+
+      <div className="mx-auto mt-12 max-w-3xl border-t border-hairline pt-8">
+        <h3 className="font-display text-2xl md:text-3xl">A voice-first desktop assistant.</h3>
+        <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+          NOVA stays online and in the conversation, keeps context between sessions, and carries the
+          task through — opening apps, working with files, searching the web and following up. You
+          speak; it handles the steps.
+        </p>
+      </div>
     </Section>
   );
 }
@@ -216,8 +215,8 @@ function StudentImage() {
       <div className="shell py-6 md:py-8">
         <div className="overflow-hidden rounded-[2rem] border border-hairline bg-card">
           <img
-            src="/students%20with%20omniel.jpg"
-            alt="Students studying together outdoors."
+            src="/students%20omniel.jpg"
+            alt="Students studying together in a lecture hall."
             width={2000}
             height={1333}
             loading="lazy"
@@ -241,13 +240,13 @@ function Enterprises() {
         <Reveal from="right" delay={0.08}>
           <Eyebrow>For teams</Eyebrow>
           <h2 className="mt-6 text-[clamp(2.6rem,5.4vw,5.4rem)] leading-[0.94]">
-            Ship the work.
+            Ship the work
             <br />
-            Not your peace.
+            At your pace.
           </h2>
           <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
             NOVA takes the repetitive work off the people doing the real work — the inbox, the
-            approvals, the handoffs — and keeps everyone in the same context.
+            approvals, the handoffs and keeps everyone in the same context.
           </p>
 
           <div className="mt-8 grid grid-cols-3 gap-4">
@@ -270,7 +269,7 @@ function Creatives() {
           <h2 className="mt-6 text-[clamp(2.6rem,5.4vw,5.4rem)] leading-[0.94]">
             Make the thing.
             <br />
-            Not the busywork.
+            We do the busywork.
           </h2>
           <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
             OMNIEL&apos;s NOVA handles your creative work, from first draft to references.
@@ -297,9 +296,8 @@ function Values() {
   return (
     <section className="border-t border-hairline bg-surface/40 py-16 md:py-20">
       <div className="shell">
-        <Eyebrow>What we stand for</Eyebrow>
-        <h2 className="mt-5 max-w-4xl text-[clamp(2.4rem,5vw,4.6rem)] leading-[0.94]">
-          Intelligence for everyone.
+        <h2 className="max-w-4xl text-[clamp(2.4rem,5vw,4.6rem)] leading-[0.94]">
+          The standards we build to.
         </h2>
       </div>
 
@@ -333,22 +331,21 @@ function Closing() {
     <Section className="border-t border-hairline">
       <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.8fr] lg:gap-16">
         <div>
-          <Eyebrow>The invitation</Eyebrow>
-          <h2 className="mt-6 text-[clamp(3rem,7vw,7rem)] leading-[0.9]">
-            Do less, but smart<span className="text-accent">.</span>
+          <h2 className="text-[clamp(3rem,7vw,7rem)] leading-[0.9]">
+            Do less. Get more done<span className="text-accent">.</span>
           </h2>
         </div>
 
         <Reveal from="right" delay={0.08}>
           <div className="overflow-hidden rounded-[2rem] border border-hairline bg-card">
             <img
-              src="/do%20less%204.jpg"
-              alt="A person relaxing with a laptop."
-              width={1280}
-              height={1920}
+              src="/for%20teams.jpg"
+              alt="A team working together around a table."
+              width={2000}
+              height={1333}
               loading="lazy"
               decoding="async"
-              className="aspect-[4/5] w-full object-cover"
+              className="aspect-[4/3] w-full object-cover"
             />
           </div>
         </Reveal>
@@ -361,6 +358,7 @@ function Home() {
   return (
     <>
       <Hero />
+      <CapabilityRail />
       <Origin />
       <Everyone />
       <NovaSection />

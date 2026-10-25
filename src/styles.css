@@ -241,12 +241,21 @@
   animation: orb-float 7s ease-in-out infinite;
 }
 
+@utility nova-spin {
+  animation: nova-spin 14s linear infinite;
+  transform-style: preserve-3d;
+}
+
 @utility marquee {
   animation: marquee 38s linear infinite;
 }
 
 @utility marquee-slow {
   animation: marquee 60s linear infinite;
+}
+
+@utility capability-marquee {
+  animation: capability-marquee 62s linear infinite;
 }
 
 @keyframes orb-float {
@@ -259,7 +268,25 @@
   }
 }
 
+@keyframes nova-spin {
+  from {
+    transform: rotateX(-12deg) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(-12deg) rotateY(360deg);
+  }
+}
+
 @keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes capability-marquee {
   from {
     transform: translateX(0);
   }
@@ -371,6 +398,16 @@
 
   .marquee:hover {
     animation-play-state: paused;
+  }
+
+  .capability-marquee:hover {
+    animation-play-state: paused;
+  }
+}
+
+@media (max-width: 767px) {
+  .capability-marquee {
+    animation: none;
   }
 }
 
