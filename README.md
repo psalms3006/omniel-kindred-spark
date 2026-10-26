@@ -184,8 +184,10 @@ curl.exe -s https://omniel.com.ng/ | Select-String "beacon.min.js"
 ```
 
 You should see the Cloudflare beacon `<script>` with a `data-cf-beacon` token.
-In the browser's Network panel, loading the page should request
-`static.cloudflareinsights.com/beacon.min.js` and then POST to
+With **automatic** setup, the injected URL has a versioned `/vce...` path and a
+curl request may not show it because Cloudflare only injects for browser page
+views. Use the browser's Network panel for automatic setup: loading the page
+should request `static.cloudflareinsights.com/beacon.min.js` and then POST to
 `cloudflareinsights.com/cdn-cgi/rum`. The Web Analytics dashboard normally
 updates within a few minutes.
 
