@@ -160,6 +160,39 @@ Configure your `.env` file based on `.env.example`:
 | `WAITLIST_TOKEN_SECRET`      | Secret used to sign NOVA waitlist confirmation links                         | Required for `/api/waitlist`    |
 | `RESEND_WAITLIST_SEGMENT_ID` | Resend Segment for confirmed NOVA waitlist contacts                          | Optional; needed for broadcasts |
 
+### Verifying Cloudflare Web Analytics
+
+`VITE_CF_BEACON_TOKEN` is a **build-time** Vite variable, not a Worker runtime
+secret. It must be present when `npm run build` runs and the site is deployed
+again. Adding it under Cloudflare's runtime Variables and Secrets does nothing.
+The token is public by design because the browser beacon needs it.
+
+There are two supported setups; use one, not both:
+
+- **Manual beacon (this code):** in Cloudflare → Web Analytics → `omniel.com.ng`
+  → Manage site, choose **Enable with JS Snippet installation**, copy the token,
+  and set it as `VITE_CF_BEACON_TOKEN` in the production **build** environment.
+  The code renders the beacon with `spa: true`, so client-side route changes are
+  counted.
+- **Automatic beacon:** choose **Enable** in the same screen and leave
+  `VITE_CF_BEACON_TOKEN` unset. Cloudflare injects the beacon at the edge.
+
+Verify the manual setup on the live site:
+
+```powershell
+curl.exe -s https://omniel.com.ng/ | Select-String "beacon.min.js"
+```
+
+You should see the Cloudflare beacon `<script>` with a `data-cf-beacon` token.
+In the browser's Network panel, loading the page should request
+`static.cloudflareinsights.com/beacon.min.js` and then POST to
+`cloudflareinsights.com/cdn-cgi/rum`. The Web Analytics dashboard normally
+updates within a few minutes.
+
+`npm run dev` deliberately does not load the beacon, and ad blockers can block
+it. Cloudflare **Traffic** analytics and **Web Analytics** are separate: traffic
+can appear in Traffic while Web Analytics stays empty if the beacon is missing.
+
 ### If the waitlist says it is not configured
 
 A `503` from `/api/waitlist` means the running Worker is not receiving one of
