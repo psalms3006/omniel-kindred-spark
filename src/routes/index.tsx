@@ -3,10 +3,11 @@ import { CapabilityRail } from "@/components/site/capability-rail";
 import { CreativeEditor } from "@/components/site/creative-editor";
 import { EverydayWork } from "@/components/site/everyday-work";
 import { NovaStage } from "@/components/site/nova-stage";
+import { ResponsivePhoto } from "@/components/site/responsive-photo";
 import { ScrollExpand } from "@/components/site/scroll-expand";
 import { StudyWorkspace } from "@/components/site/study-workspace";
 import { Eyebrow, Reveal, Section, Shell, Stat } from "@/components/site/primitives";
-import omnielWordmarkDarkMetalLarge from "@/assets/omniel-wordmark-dark-metal-large.png";
+import omnielWordmarkDarkMetalLarge from "@/assets/omniel-wordmark-dark-metal-large.webp";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
@@ -24,7 +25,7 @@ export const Route = createFileRoute("/")({
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden pb-16 pt-32 md:pb-24 md:pt-44">
+    <section className="relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-32 md:pb-20 md:pt-36">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(182,74,42,0.07),transparent_58%)]"
@@ -63,8 +64,8 @@ function Origin() {
           <img
             src={omnielWordmarkDarkMetalLarge}
             alt="OMNIEL"
-            width={1680}
-            height={282}
+            width={1600}
+            height={269}
             loading="lazy"
             decoding="async"
             className="h-auto w-full drop-shadow-[0_10px_24px_rgba(26,24,20,0.14)]"
@@ -72,14 +73,11 @@ function Origin() {
         </h2>
 
         <div className="relative mx-auto mt-10 overflow-hidden rounded-[2rem] border border-hairline bg-card">
-          <img
-            src="/nigeria%20Omniel%20page.jpg"
+          <ResponsivePhoto
+            name="nigeria-omniel"
             alt="A group portrait of young people in red, green and black."
-            width={1280}
-            height={1920}
-            loading="lazy"
-            decoding="async"
-            className="aspect-[2/1] w-full object-cover object-[center_35%] [filter:saturate(0.85)_contrast(1.05)]"
+            sizes="(min-width: 1024px) 1024px, 100vw"
+            className="aspect-[2/1] w-full object-cover [filter:saturate(0.85)_contrast(1.05)]"
           />
           <div
             aria-hidden
@@ -113,13 +111,10 @@ function Everyone() {
           <div className="grid grid-cols-2 gap-3">
             <figure className="col-span-2">
               <div className="overflow-hidden rounded-[1.75rem] border border-hairline bg-card">
-                <img
-                  src="/students%20with%20omniel.jpg"
+                <ResponsivePhoto
+                  name="students-with-omniel"
                   alt="Students working together."
-                  width={2000}
-                  height={1333}
-                  loading="lazy"
-                  decoding="async"
+                  sizes="(min-width: 1024px) 55vw, 100vw"
                   className="aspect-[16/9] w-full object-cover"
                 />
               </div>
@@ -130,13 +125,10 @@ function Everyone() {
 
             <figure>
               <div className="overflow-hidden rounded-[1.5rem] border border-hairline bg-card">
-                <img
-                  src="/creatives%20on%20laptops.jpg"
+                <ResponsivePhoto
+                  name="creatives-on-laptops"
                   alt="A creative team working on laptops."
-                  width={1280}
-                  height={1920}
-                  loading="lazy"
-                  decoding="async"
+                  sizes="(min-width: 640px) 28vw, 50vw"
                   className="aspect-[4/3] w-full object-cover"
                 />
               </div>
@@ -147,13 +139,10 @@ function Everyone() {
 
             <figure>
               <div className="overflow-hidden rounded-[1.5rem] border border-hairline bg-card">
-                <img
-                  src="/black%20for%20teams.jpg"
+                <ResponsivePhoto
+                  name="black-for-teams"
                   alt="A team reviewing work around a laptop."
-                  width={1280}
-                  height={1920}
-                  loading="lazy"
-                  decoding="async"
+                  sizes="(min-width: 640px) 28vw, 50vw"
                   className="aspect-[4/3] w-full object-cover"
                 />
               </div>
@@ -223,14 +212,11 @@ function StudentImage() {
     <section className="border-t border-hairline">
       <div className="shell py-6 md:py-8">
         <div className="overflow-hidden rounded-[2rem] border border-hairline bg-card">
-          <img
-            src="/students%20omniel.jpg"
+          <ResponsivePhoto
+            name="students-omniel"
             alt="Students studying together in a lecture hall."
-            width={2000}
-            height={1333}
-            loading="lazy"
-            decoding="async"
-            className="h-[50vh] w-full object-cover md:h-[70vh]"
+            sizes="100vw"
+            className="aspect-[16/9] w-full object-cover md:aspect-[2.2/1]"
           />
         </div>
       </div>
@@ -347,13 +333,10 @@ function Closing() {
 
         <Reveal from="right" delay={0.08}>
           <div className="overflow-hidden rounded-[2rem] border border-hairline bg-card">
-            <img
-              src="/for%20teams.jpg"
+            <ResponsivePhoto
+              name="for-teams"
               alt="A team working together around a table."
-              width={2000}
-              height={1333}
-              loading="lazy"
-              decoding="async"
+              sizes="(min-width: 1024px) 42vw, 100vw"
               className="aspect-[4/3] w-full object-cover"
             />
           </div>

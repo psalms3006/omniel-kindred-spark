@@ -112,20 +112,20 @@ export function NovaStage() {
       <div className="theme-dark relative overflow-hidden rounded-[2rem] border border-hairline">
         <NovaWaves fade={false} />
 
-        <div className="relative z-10 flex min-h-[32rem] flex-col items-center justify-center px-6 py-20 text-center">
+        <div className="relative z-10 flex min-h-[20rem] flex-col items-center justify-center px-4 py-6 text-center sm:min-h-[32rem] sm:px-6 sm:py-20">
           <p className="eyebrow">Introducing NOVA</p>
-          <h2 className="mt-5 text-[clamp(3rem,7vw,6rem)] leading-[0.9] text-[#f2ebde]">
+          <h2 className="mt-4 text-[clamp(2.2rem,8.5vw,6rem)] leading-[0.9] text-[#f2ebde]">
             The everyday intelligence.
           </h2>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-[#b9b1a4] md:text-base">
+          <p className="mt-3 hidden max-w-md text-sm leading-relaxed text-[#b9b1a4] sm:block md:text-base">
             NOVA carries the planning, the follow-ups and the admin. You keep the day.
           </p>
 
-          <div className="mt-8 w-full max-w-xl rounded-2xl border border-[#f2ebde]/15 bg-[#1a1a18]/55 px-6 py-5">
-            <p className="min-h-[2.5rem] text-2xl leading-tight text-[#f2ebde] md:text-4xl">
+          <div className="mt-5 w-full max-w-xl rounded-2xl border border-[#f2ebde]/15 bg-[#1a1a18]/55 px-4 py-3 sm:mt-8 sm:px-6 sm:py-5">
+            <p className="min-h-[2rem] text-lg leading-tight text-[#f2ebde] sm:min-h-[2.5rem] sm:text-2xl md:text-4xl">
               <Typewriter className="text-[#f2ebde]" />
             </p>
-            <p className="mt-2 text-[0.6rem] uppercase tracking-[0.16em] text-[#b9b1a4]/70">
+            <p className="mt-2 text-[0.52rem] uppercase tracking-[0.16em] text-[#b9b1a4]/70 sm:text-[0.6rem]">
               One conversation / no reset
             </p>
           </div>
@@ -135,7 +135,7 @@ export function NovaStage() {
             conversation. Examples include planning a week, booking a train, and sending a brief.
           </p>
 
-          <div className="mt-7 flex flex-wrap justify-center gap-2">
+          <div className="mt-4 hidden flex-wrap justify-center gap-2 sm:mt-7 sm:flex">
             {["Voice-first", "Plans and acts", "Always on"].map((chip) => (
               <span
                 key={chip}
@@ -146,7 +146,7 @@ export function NovaStage() {
             ))}
           </div>
 
-          <div className="mt-7">
+          <div className="mt-5 sm:mt-7">
             <ActionLink to="/nova">Meet NOVA</ActionLink>
           </div>
         </div>

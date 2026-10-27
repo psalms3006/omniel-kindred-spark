@@ -34,8 +34,8 @@ export function EverydayWork() {
           </span>
         </div>
 
-        <div className="grid sm:grid-cols-[1.15fr_0.85fr]">
-          <div className="border-b border-hairline p-4 sm:border-b-0 sm:border-r">
+        <div className="grid grid-cols-1 min-[360px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+          <div className="border-b border-hairline p-3 min-[360px]:border-b-0 min-[360px]:border-r sm:p-4">
             <div className="flex items-center justify-between">
               <p className="flex items-center gap-1.5 text-[0.55rem] uppercase tracking-[0.14em] text-muted-foreground">
                 <Inbox className="h-3 w-3" /> Waiting on you
@@ -47,24 +47,24 @@ export function EverydayWork() {
               {approvals.map((item) => (
                 <li
                   key={item.title}
-                  className="flex items-center gap-3 rounded-xl border border-hairline bg-background/60 px-3 py-2.5"
+                  className="flex items-center gap-2 rounded-xl border border-hairline bg-background/60 px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5"
                 >
-                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-accent text-[0.55rem] font-semibold text-accent-foreground">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent text-[0.52rem] font-semibold text-accent-foreground sm:h-7 sm:w-7 sm:text-[0.55rem]">
                     {item.initials}
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[0.68rem] text-foreground">
+                    <span className="block text-[0.64rem] leading-snug text-foreground sm:text-[0.68rem]">
                       {item.title}
                     </span>
-                    <span className="text-[0.55rem] uppercase tracking-[0.12em] text-muted-foreground">
+                    <span className="text-[0.52rem] uppercase tracking-[0.12em] text-muted-foreground sm:text-[0.55rem]">
                       {item.who}
                     </span>
                   </span>
                   <span
                     className={
                       item.done
-                        ? "grid h-6 w-6 place-items-center rounded-full bg-surface text-olive"
-                        : "grid h-6 w-6 place-items-center rounded-full border border-foreground/20 text-muted-foreground"
+                        ? "grid h-5 w-5 place-items-center rounded-full bg-surface text-olive sm:h-6 sm:w-6"
+                        : "grid h-5 w-5 place-items-center rounded-full border border-foreground/20 text-muted-foreground sm:h-6 sm:w-6"
                     }
                   >
                     <Check className="h-3 w-3" />
@@ -87,7 +87,7 @@ export function EverydayWork() {
             </div>
           </div>
 
-          <div className="p-4">
+          <div className="p-3 sm:p-4">
             <p className="flex items-center gap-1.5 text-[0.55rem] uppercase tracking-[0.14em] text-muted-foreground">
               <CalendarDays className="h-3 w-3" /> Today
             </p>
