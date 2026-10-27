@@ -29,8 +29,8 @@ export function StudyWorkspace() {
           </span>
         </div>
 
-        <div className="grid sm:grid-cols-[9rem_1fr]">
-          <aside className="border-b border-hairline p-3 sm:border-b-0 sm:border-r">
+        <div className="grid grid-cols-[6.5rem_minmax(0,1fr)] sm:grid-cols-[9rem_1fr]">
+          <aside className="border-r border-hairline p-2.5 sm:p-3">
             <p className="text-[0.55rem] uppercase tracking-[0.14em] text-muted-foreground">
               Subjects
             </p>
@@ -57,7 +57,7 @@ export function StudyWorkspace() {
             </div>
           </aside>
 
-          <div className="p-4">
+          <div className="p-3 sm:p-4">
             <div className="flex items-end justify-between gap-4">
               <div>
                 <p className="text-[0.55rem] uppercase tracking-[0.14em] text-muted-foreground">

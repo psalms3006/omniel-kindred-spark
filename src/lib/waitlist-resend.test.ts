@@ -128,7 +128,7 @@ describe("createResendEmailSender", () => {
     const send = createResendEmailSender({
       apiKey: "k",
       from: "OMNIEL <noreply@omniel.test>",
-      replyTo: "hello@omniel.test",
+      replyTo: "info@omniel.test",
       fetchImpl,
     });
 
@@ -145,7 +145,7 @@ describe("createResendEmailSender", () => {
     const body = JSON.parse(String(init?.body));
     expect(body.to).toEqual(["ada@example.com"]);
     expect(body.from).toBe("OMNIEL <noreply@omniel.test>");
-    expect(body.reply_to).toBe("hello@omniel.test");
+    expect(body.reply_to).toBe("info@omniel.test");
   });
 
   it("uses a message-level reply-to when one is provided", async () => {
@@ -153,7 +153,7 @@ describe("createResendEmailSender", () => {
     const send = createResendEmailSender({
       apiKey: "k",
       from: "OMNIEL <noreply@omniel.test>",
-      replyTo: "hello@omniel.test",
+      replyTo: "info@omniel.test",
       fetchImpl,
     });
 

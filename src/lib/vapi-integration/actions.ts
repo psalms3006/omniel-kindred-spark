@@ -69,7 +69,6 @@ const PAGES = {
   research: "/research",
   technology: "/technology",
   privacy: "/privacy",
-  terms: "/terms",
 } as const;
 export type PageId = keyof typeof PAGES;
 

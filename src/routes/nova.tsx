@@ -10,7 +10,7 @@ export const Route = createFileRoute("/nova")({
   head: () =>
     pageHead({
       path: "/nova",
-      title: "NOVA — Meet NOVA | OMNIEL",
+      title: "NOVA | OMNIEL",
       description:
         "NOVA carries the planning, the follow-ups and the admin. Join the waitlist for the desktop build.",
       ogTitle: "NOVA — Meet NOVA",
@@ -31,7 +31,7 @@ function NovaPage() {
       <section className="theme-dark relative overflow-hidden">
         <NovaWaves />
 
-        <div className="shell relative z-10 flex min-h-[80vh] flex-col items-center justify-center py-32 text-center">
+        <div className="shell relative z-10 flex min-h-[80svh] flex-col items-center justify-center py-32 text-center">
           <NovaIcon3D className="mt-8" />
 
           <p className="eyebrow mt-8">NOVA</p>

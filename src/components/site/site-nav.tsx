@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion, useScroll } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { navigation } from "@/lib/omniel";
-import omnielWordmarkDarkMetal from "@/assets/omniel-wordmark-dark-metal.png";
+import omnielWordmarkDarkMetal from "@/assets/omniel-wordmark-dark-metal.webp";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = ["/products", "/technology", "/research"] as const;
@@ -45,16 +45,19 @@ export function SiteNav() {
       </a>
 
       <header className="fixed inset-x-0 top-0 z-50 border-b border-hairline bg-background/95 backdrop-blur-sm">
-        <div className="shell grid h-[4.5rem] grid-cols-[1fr_auto_1fr] items-center gap-6">
+        <div className="shell grid h-[4.5rem] grid-cols-[1fr_auto] items-center gap-3 lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
           <Link
             to="/"
             aria-label="OMNIEL home"
-            className="flex shrink-0 items-center justify-self-start"
+            className="flex min-w-0 shrink-0 items-center justify-self-start"
           >
             <img
               src={omnielWordmarkDarkMetal}
               alt="OMNIEL"
-              className="h-9 w-auto object-contain drop-shadow-[0_2px_2px_rgba(26,24,20,0.28)] md:h-11"
+              width={800}
+              height={134}
+              className="h-6 w-auto object-contain sm:h-8 lg:h-10"
+              fetchPriority="high"
             />
           </Link>
 
@@ -87,18 +90,29 @@ export function SiteNav() {
             })}
           </nav>
 
-          <div className="flex items-center gap-3 justify-self-end">
+          <div className="flex items-center gap-2 justify-self-end">
+            <Link
+              to="/nova"
+              hash="waitlist"
+              aria-current={novaActive ? "page" : undefined}
+              className={cn(
+                "inline-flex items-center justify-center whitespace-nowrap rounded-full border-2 border-foreground bg-accent px-3 py-2 text-[0.64rem] font-semibold text-accent-foreground shadow-[2px_2px_0_0_var(--foreground)] transition-transform hover:-translate-y-0.5 sm:px-4 sm:text-[0.72rem] lg:hidden",
+                novaActive && "brightness-110",
+              )}
+            >
+              Waitlist
+            </Link>
+
             <Link
               to="/nova"
               hash="downloads"
               aria-current={novaActive ? "page" : undefined}
               className={cn(
-                "hidden items-center gap-1.5 rounded-full border border-hairline px-4 py-2 text-[0.78rem] font-semibold text-accent transition-colors hover:border-accent/50 hover:text-foreground lg:inline-flex",
-                novaActive && "text-foreground",
+                "hidden items-center justify-center whitespace-nowrap rounded-full border-2 border-foreground bg-accent px-4 py-2.5 text-[0.72rem] font-semibold text-accent-foreground shadow-[2px_2px_0_0_var(--foreground)] transition-transform hover:-translate-y-0.5 lg:inline-flex",
+                novaActive && "brightness-110",
               )}
             >
               Download NOVA
-              <span aria-hidden>↓</span>
             </Link>
 
             <button
@@ -146,21 +160,18 @@ export function SiteNav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.18 }}
-            className="fixed inset-0 z-40 overflow-y-auto bg-background px-5 pb-12 pt-28 lg:hidden"
+            className="fixed inset-0 z-40 overflow-y-auto bg-background px-5 pb-12 pt-24 lg:hidden"
           >
             <nav aria-label="Mobile" className="mx-auto max-w-md">
               <ul className="divide-y divide-hairline border-y border-hairline">
-                {navigation.map((item, index) => (
+                {links.map((item, index) => (
                   <li key={item.to}>
                     <Link
                       ref={index === 0 ? firstMenuLink : undefined}
                       to={item.to}
-                      className="flex items-center justify-between py-5 font-display text-3xl"
+                      className="flex items-center py-5 font-display text-3xl"
                     >
                       {item.label}
-                      <span aria-hidden className="text-muted-foreground">
-                        ↗
-                      </span>
                     </Link>
                   </li>
                 ))}
@@ -168,11 +179,10 @@ export function SiteNav() {
 
               <Link
                 to="/nova"
-                hash="downloads"
-                className="mt-8 flex items-center justify-between border-b border-hairline py-5 font-display text-3xl text-accent"
+                hash="waitlist"
+                className="mt-8 flex items-center border-b border-hairline py-5 font-display text-3xl text-accent"
               >
-                Download NOVA
-                <span aria-hidden>↓</span>
+                Join the waitlist
               </Link>
             </nav>
           </motion.div>

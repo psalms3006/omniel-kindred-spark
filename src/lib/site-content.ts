@@ -113,7 +113,7 @@ function buildPages(): SitePage[] {
 
   pages.push({
     path: "/",
-    title: "OMNIEL: Intelligence without borders",
+    title: "OMNIEL: Do more with less",
     text: join(
       positioning.headline,
       positioning.lede,

@@ -16,7 +16,6 @@ import { Route as NovaRouteImport } from './routes/nova'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as TechnologyRouteImport } from './routes/technology'
-import { Route as TermsRouteImport } from './routes/terms'
 import { Route as WaitlistRouteImport } from './routes/waitlist'
 import { Route as WaitlistConfirmRouteImport } from './routes/waitlist-confirm'
 import { Route as ApiEnquiryRouteImport } from './routes/api/enquiry'
@@ -60,11 +59,6 @@ const ResearchRoute = ResearchRouteImport.update({
 const TechnologyRoute = TechnologyRouteImport.update({
   id: '/technology',
   path: '/technology',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WaitlistRoute = WaitlistRouteImport.update({
@@ -121,7 +115,6 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/research': typeof ResearchRoute
   '/technology': typeof TechnologyRoute
-  '/terms': typeof TermsRoute
   '/waitlist': typeof WaitlistRoute
   '/waitlist-confirm': typeof WaitlistConfirmRoute
   '/api/enquiry': typeof ApiEnquiryRoute
@@ -140,7 +133,6 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/research': typeof ResearchRoute
   '/technology': typeof TechnologyRoute
-  '/terms': typeof TermsRoute
   '/waitlist': typeof WaitlistRoute
   '/waitlist-confirm': typeof WaitlistConfirmRoute
   '/api/enquiry': typeof ApiEnquiryRoute
@@ -160,7 +152,6 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/research': typeof ResearchRoute
   '/technology': typeof TechnologyRoute
-  '/terms': typeof TermsRoute
   '/waitlist': typeof WaitlistRoute
   '/waitlist-confirm': typeof WaitlistConfirmRoute
   '/api/enquiry': typeof ApiEnquiryRoute
@@ -181,7 +172,6 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/research'
     | '/technology'
-    | '/terms'
     | '/waitlist'
     | '/waitlist-confirm'
     | '/api/enquiry'
@@ -200,7 +190,6 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/research'
     | '/technology'
-    | '/terms'
     | '/waitlist'
     | '/waitlist-confirm'
     | '/api/enquiry'
@@ -219,7 +208,6 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/research'
     | '/technology'
-    | '/terms'
     | '/waitlist'
     | '/waitlist-confirm'
     | '/api/enquiry'
@@ -239,7 +227,6 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ResearchRoute: typeof ResearchRoute
   TechnologyRoute: typeof TechnologyRoute
-  TermsRoute: typeof TermsRoute
   WaitlistRoute: typeof WaitlistRoute
   WaitlistConfirmRoute: typeof WaitlistConfirmRoute
   ApiEnquiryRoute: typeof ApiEnquiryRoute
@@ -300,13 +287,6 @@ declare module '@tanstack/react-router' {
       path: '/technology'
       fullPath: '/technology'
       preLoaderRoute: typeof TechnologyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/waitlist': {
@@ -383,7 +363,6 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ResearchRoute: ResearchRoute,
   TechnologyRoute: TechnologyRoute,
-  TermsRoute: TermsRoute,
   WaitlistRoute: WaitlistRoute,
   WaitlistConfirmRoute: WaitlistConfirmRoute,
   ApiEnquiryRoute: ApiEnquiryRoute,
