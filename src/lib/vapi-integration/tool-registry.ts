@@ -54,7 +54,6 @@ export const TOOL_REGISTRY: readonly ToolDefinition[] = [
             "research",
             "technology",
             "privacy",
-            "terms",
           ],
         },
       },

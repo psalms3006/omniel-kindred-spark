@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { CapabilityRail } from "@/components/site/capability-rail";
 import { CreativeEditor } from "@/components/site/creative-editor";
 import { EverydayWork } from "@/components/site/everyday-work";
@@ -25,15 +25,11 @@ export const Route = createFileRoute("/")({
 
 function Hero() {
   return (
-    <section className="relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-32 md:pb-20 md:pt-36">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(182,74,42,0.07),transparent_58%)]"
-      />
-
+    <section className="relative overflow-hidden pt-[clamp(6.5rem,13svh,9rem)]">
       <Shell className="relative z-10">
-        <div className="mx-auto max-w-5xl text-center">
-          <h1 className="text-[clamp(3rem,9vw,8rem)] leading-[0.88] tracking-[-0.015em] [word-spacing:0.08em] md:[word-spacing:0.12em]">
+        <div className="max-w-4xl">
+          <Eyebrow>Everyday intelligence</Eyebrow>
+          <h1 className="mt-5 text-[clamp(3rem,9vw,8rem)] leading-[0.88] tracking-[-0.015em] text-left [word-spacing:0.08em] md:[word-spacing:0.12em]">
             <span className="reveal-line">
               <span className="block">Do less.</span>
             </span>
@@ -45,13 +41,40 @@ function Hero() {
           </h1>
 
           <Reveal delay={0.16}>
-            <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              OMNIEL is a technology company making products that fit real problems — not the other
-              way around.
+            <p className="mt-6 max-w-2xl text-[1.125rem] font-normal leading-relaxed text-foreground/80 md:text-lg">
+              NOVA plans it, books it and files it, then tells you when it&apos;s done. A
+              voice-first assistant for the work between the work.
             </p>
+          </Reveal>
+
+          <Reveal delay={0.22}>
+            <div className="mt-8">
+              <Link
+                to="/nova"
+                hash="waitlist"
+                className="neo inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground transition-transform hover:-translate-y-0.5 sm:w-auto"
+              >
+                Join the waitlist
+              </Link>
+            </div>
           </Reveal>
         </div>
       </Shell>
+
+      <div className="relative mt-12 md:mt-16">
+        <div className="mx-auto max-w-7xl px-5 md:px-10">
+          <div className="overflow-hidden rounded-t-[2rem] border border-b-0 border-hairline bg-card">
+            <ResponsivePhoto
+              name="students-with-omniel"
+              alt="Students working together."
+              sizes="100vw"
+              loading="eager"
+              fetchPriority="high"
+              className="aspect-[16/9] w-full object-cover md:aspect-[2.4/1]"
+            />
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
@@ -68,7 +91,7 @@ function Origin() {
             height={269}
             loading="lazy"
             decoding="async"
-            className="h-auto w-full drop-shadow-[0_10px_24px_rgba(26,24,20,0.14)]"
+            className="h-auto w-full"
           />
         </h2>
 
@@ -159,7 +182,7 @@ function Everyone() {
 
 function NovaSection() {
   return (
-    <Section id="nova" className="border-t border-hairline">
+    <Section id="nova" className="scroll-mt-24 border-t border-hairline">
       <ScrollExpand>
         <NovaStage />
       </ScrollExpand>

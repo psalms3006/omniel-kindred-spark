@@ -47,7 +47,7 @@ export function SiteFooter() {
                 alt="OMNIEL"
                 width={800}
                 height={134}
-                className="h-6 w-auto object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)] md:h-9"
+                className="h-6 w-auto object-contain md:h-9"
                 loading="lazy"
               />
             </Link>
@@ -149,9 +149,6 @@ export function SiteFooter() {
           <span className="flex gap-5">
             <Link to="/privacy" className="transition-colors hover:text-foreground">
               Privacy
-            </Link>
-            <Link to="/terms" className="transition-colors hover:text-foreground">
-              Terms
             </Link>
           </span>
         </div>

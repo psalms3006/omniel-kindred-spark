@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "@tanstack/react-router";
+import { Mic } from "lucide-react";
 import type { Participant, RemoteTrack, Room } from "livekit-client";
 import { cn } from "@/lib/utils";
 import { createActionDispatcher } from "@/lib/voice/actions";
@@ -157,7 +158,7 @@ export function LiveKitWidget() {
     state === "speaking" ? "OMNIEL is speaking" : state === "thinking" ? "Thinking…" : "Listening…";
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
       {/* The agent's voice plays from elements attached here. */}
       <div ref={audioHostRef} hidden />
 
@@ -195,11 +196,13 @@ export function LiveKitWidget() {
         onClick={isLive ? stop : start}
         disabled={isBusy}
         aria-label={isLive ? "End the call with OMNIEL" : "Talk to OMNIEL"}
+        title={isLive ? "End the call with OMNIEL" : "Talk to OMNIEL"}
         className={cn(
           // Sized for a thumb (44px minimum), and built from OMNIEL's own
           // tokens rather than a raw Tailwind palette, so it reads as part of
           // the site instead of a pasted-on third-party widget.
           "group flex h-14 items-center gap-3 rounded-full px-5 text-sm font-medium",
+          "max-sm:h-12 max-sm:w-12 max-sm:justify-center max-sm:px-0",
           "transition-[transform,background-color,border-color] duration-[var(--motion-base)]",
           "focus-visible:outline-2 focus-visible:outline-offset-4 disabled:opacity-60",
           "hover:-translate-y-0.5 active:translate-y-0",
@@ -208,7 +211,7 @@ export function LiveKitWidget() {
             : "border border-foreground/15 bg-card text-foreground shadow-[0_12px_30px_-16px_rgba(26,26,24,0.55)] hover:bg-background",
         )}
       >
-        <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden>
+        <span className="relative hidden h-2.5 w-2.5 shrink-0 sm:flex" aria-hidden>
           {/* One pulse, only while OMNIEL is actually speaking: motion that
               reports state rather than decorating. */}
           {state === "speaking" && (
@@ -221,7 +224,19 @@ export function LiveKitWidget() {
             )}
           />
         </span>
-        {isLive ? "End call" : state === "connecting" ? "Connecting…" : "Talk to OMNIEL"}
+        <span className="relative flex sm:hidden" aria-hidden>
+          <Mic className="h-4 w-4" />
+          <span
+            className={cn(
+              "absolute -right-1 -top-1 h-2 w-2 rounded-full",
+              state === "error" ? "bg-destructive" : isLive ? "bg-[var(--ion)]" : "bg-accent",
+              state === "speaking" && "animate-pulse",
+            )}
+          />
+        </span>
+        <span className="max-sm:hidden">
+          {isLive ? "End call" : state === "connecting" ? "Connecting…" : "Talk to OMNIEL"}
+        </span>
       </button>
     </div>
   );

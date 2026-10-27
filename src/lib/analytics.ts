@@ -3,7 +3,7 @@
  *
  * WHY CLOUDFLARE WEB ANALYTICS
  *
- * The privacy notice promises a site that does not track people. Cloudflare
+ * The privacy policy promises a site that does not track people. Cloudflare
  * Web Analytics is cookieless, sets no client-side state, and does not
  * fingerprint or follow visitors across sites, so it can be added without a
  * consent banner or a cookie notice. It also reports Core Web Vitals, which is

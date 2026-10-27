@@ -6,8 +6,8 @@ beforeEach(() => __clearSiteContentCache());
 
 describe("index coverage", () => {
   it("indexes every public page", () => {
-    // 8 fixed pages plus one per product.
-    expect(loadedPageCount()).toBe(8 + products.length);
+    // 7 fixed pages plus one per product.
+    expect(loadedPageCount()).toBe(7 + products.length);
   });
 });
 
