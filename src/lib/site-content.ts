@@ -10,6 +10,8 @@ import {
   technologyDirections,
 } from "./omniel";
 
+
+
 export type SitePage = { path: string; title: string; text: string };
 export type SiteSearchHit = { path: string; title: string; excerpt: string };
 
@@ -111,7 +113,7 @@ function buildPages(): SitePage[] {
 
   pages.push({
     path: "/",
-    title: "OMNIEL: Intelligence without borders",
+    title: "OMNIEL: Do more with less",
     text: join(
       positioning.headline,
       positioning.lede,
@@ -213,8 +215,14 @@ function buildPages(): SitePage[] {
 
   pages.push({
     path: "/privacy",
-    title: "OMNIEL privacy policy",
-    text: "The privacy policy covers what omniel.com.ng collects, how enquiries and the NOVA waitlist are stored, how the website handles voice sessions and cookieless analytics, and the providers that process data.",
+    title: "OMNIEL privacy notice",
+    text: "The privacy notice covers what the website collects, how enquiries are stored and emailed, the voice assistant's handling of audio and conversation summaries, the cookieless analytics in use, and who else receives data.",
+  });
+
+  pages.push({
+    path: "/terms",
+    title: "OMNIEL terms",
+    text: "The terms page covers the conditions of using the OMNIEL website.",
   });
 
   return pages;
@@ -327,4 +335,5 @@ export const SITE_CONTENT_ROUTES = [
   "/research",
   "/contact",
   "/privacy",
+  "/terms",
 ] as const;
