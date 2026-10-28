@@ -196,6 +196,29 @@ export const TOOL_REGISTRY: readonly ToolDefinition[] = [
       required: ["formId", "name", "email", "message", "confirmation"],
     },
   },
+  {
+    name: "join_waitlist",
+    description:
+      "Join the NOVA waitlist on the visitor's behalf. NOVA is OMNIEL's everyday intelligence desktop assistant, currently coming soon. ONLY call this after the visitor has explicitly confirmed they want to join — ask 'Would you like me to add you to the NOVA waitlist?' first and wait for a yes. The visitor will receive a confirmation email and must click it to hold their place.",
+    executionLocation: "server",
+    requiresUserConfirmation: true,
+    parameters: {
+      type: "object",
+      properties: {
+        name: { type: "string", description: "Visitor's name." },
+        email: { type: "string", description: "Visitor's email address." },
+        intendedUse: {
+          type: "string",
+          description: "Optional note on what the visitor would want to use NOVA for.",
+        },
+        confirmation: {
+          type: "boolean",
+          description: "Must be true — only set after the visitor has explicitly confirmed.",
+        },
+      },
+      required: ["name", "email", "confirmation"],
+    },
+  },
 ] as const;
 
 export const CLIENT_TOOL_NAMES = TOOL_REGISTRY.filter((t) => t.executionLocation === "client").map(
