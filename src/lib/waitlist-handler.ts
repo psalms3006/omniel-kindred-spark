@@ -301,23 +301,15 @@ function renderAdminSignupEmail(input: {
   };
 }
 
-/** POST body: { name, email, intendedUse? } */
-export async function handleWaitlistSignup(
-  request: Request,
+/** Core waitlist signup logic, shared by the website endpoint and the agent tool. */
+export type WaitlistSignupResult =
+  | { ok: true; status: "pending" | "confirmed"; email: string }
+  | { ok: false; error: string };
+
+export async function processWaitlistSignup(
+  data: WaitlistInput,
   deps: WaitlistDeps,
-): Promise<Response> {
-  const raw = await readJson(request);
-  if (raw === undefined) return jsonResponse({ ok: false, error: "Invalid JSON body." }, 400);
-
-  const parsed = waitlistSchema.safeParse(raw);
-  if (!parsed.success) {
-    return jsonResponse(
-      { ok: false, error: "Validation failed.", issues: parsed.error.flatten() },
-      400,
-    );
-  }
-  const data = parsed.data;
-
+): Promise<WaitlistSignupResult> {
   const { store, sendEmail, tokenSecret } = deps;
   if (!tokenSecret || !store || !sendEmail) {
     const missing: string[] = [];
@@ -325,7 +317,7 @@ export async function handleWaitlistSignup(
     if (!store) missing.push("RESEND_API_KEY");
     if (!sendEmail) missing.push("RESEND_FROM_EMAIL");
     console.error(`MISSING REQUIRED CONFIGURATION: ${missing.join(", ")}`);
-    return jsonResponse({ ok: false, error: "The waitlist is not configured yet." }, 503);
+    return { ok: false, error: "The waitlist is not configured yet." };
   }
 
   const now = deps.now?.() ?? Date.now();
@@ -339,14 +331,11 @@ export async function handleWaitlistSignup(
   const stored = await store.upsertPending(entry);
   if (!stored.ok) {
     console.error("Waitlist store failed", stored.error);
-    return jsonResponse(
-      { ok: false, error: "We couldn't save your signup. Please try again." },
-      502,
-    );
+    return { ok: false, error: "We couldn't save your signup. Please try again." };
   }
 
   // An already-confirmed signup is left alone — no second confirmation email,
-  // and the response tells the client so it can say "you're already on it".
+  // and the result tells the caller so it can say "you're already on it".
   if (stored.state !== "already-confirmed") {
     const token = await signWaitlistToken(entry.email, tokenSecret, now);
     const confirmUrl = new URL("/waitlist-confirm", deps.siteUrl);
@@ -361,14 +350,10 @@ export async function handleWaitlistSignup(
     });
     if (!sent.ok) {
       console.error("Waitlist confirmation email failed", sent.error);
-      return jsonResponse(
-        {
-          ok: false,
-          error:
-            "We saved your details but couldn't send the confirmation email. Please try again.",
-        },
-        502,
-      );
+      return {
+        ok: false,
+        error: "We saved your details but couldn't send the confirmation email. Please try again.",
+      };
     }
   }
 
@@ -384,8 +369,36 @@ export async function handleWaitlistSignup(
     if (!admin.ok) console.error("Waitlist admin notification failed", admin.error);
   }
 
+  return {
+    ok: true,
+    status: stored.state === "already-confirmed" ? "confirmed" : "pending",
+    email: entry.email,
+  };
+}
+
+/** POST body: { name, email, intendedUse? } */
+export async function handleWaitlistSignup(
+  request: Request,
+  deps: WaitlistDeps,
+): Promise<Response> {
+  const raw = await readJson(request);
+  if (raw === undefined) return jsonResponse({ ok: false, error: "Invalid JSON body." }, 400);
+
+  const parsed = waitlistSchema.safeParse(raw);
+  if (!parsed.success) {
+    return jsonResponse(
+      { ok: false, error: "Validation failed.", issues: parsed.error.flatten() },
+      400,
+    );
+  }
+
+  const result = await processWaitlistSignup(parsed.data, deps);
+  if (!result.ok) {
+    const status = result.error.includes("configured") ? 503 : 502;
+    return jsonResponse({ ok: false, error: result.error }, status);
+  }
   return jsonResponse(
-    { ok: true, status: stored.state === "already-confirmed" ? "confirmed" : "pending" },
+    { ok: true, status: result.status },
     200,
   );
 }

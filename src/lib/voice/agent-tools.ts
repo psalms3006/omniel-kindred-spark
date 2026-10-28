@@ -1,6 +1,8 @@
 import { processEnquiry, type EnquiryDeps } from "../enquiry-handler";
 import { enquirySchema } from "../enquiry-schema";
 import { loadedPageCount, readSitePage, searchSite } from "../site-content";
+import { processWaitlistSignup, type WaitlistDeps } from "../waitlist-handler";
+import { waitlistSchema } from "../waitlist-schema";
 
 /**
  * Server side of the voice agent's tools.
@@ -24,6 +26,8 @@ export type AgentToolDeps = {
   agentSecret?: string;
   /** Passed straight through to the enquiry pipeline. */
   enquiry: EnquiryDeps;
+  /** Waitlist pipeline deps (store, email sender, token secret, site URL). */
+  waitlist?: WaitlistDeps;
 };
 
 function json(body: Record<string, unknown>, status: number): Response {
@@ -97,6 +101,47 @@ export async function runSubmitEnquiry(
     : `The enquiry was not submitted: ${String(outcome.body["error"] ?? "unknown error")}. Tell the visitor it did not go through and offer the contact page instead.`;
 }
 
+/**
+ * Joins the NOVA waitlist on the visitor's behalf, using the same double
+ * opt-in pipeline as the website's waitlist form. The result tells the model
+ * exactly what happened: pending (confirmation email sent) or confirmed
+ * (already on the list). Nothing is ever claimed as succeeded unless the
+ * backend actually confirmed it.
+ */
+export async function runJoinWaitlist(
+  args: Record<string, unknown>,
+  deps: WaitlistDeps,
+): Promise<string> {
+  // Confirmation is a hard gate — the visitor must explicitly say yes before
+  // anything is submitted. It is not part of waitlistSchema because that
+  // schema is also used by the website form, which gets confirmation from the
+  // user clicking "Join the waitlist" in the browser.
+  if (args.confirmation !== true) {
+    const missing: string[] = [];
+    if (!args.name) missing.push("name");
+    if (!args.email || typeof args.email !== "string") missing.push("email");
+    missing.push("confirmation");
+    return `The waitlist signup was not submitted because these details are missing or invalid: ${missing.join(", ")}. Ask the visitor for them and try again.`;
+  }
+
+  const parsed = waitlistSchema.safeParse(args);
+  if (!parsed.success) {
+    const missing = Object.keys(parsed.error.flatten().fieldErrors).join(", ");
+    return `The waitlist signup was not submitted because these details are missing or invalid: ${missing}. Ask the visitor for them and try again.`;
+  }
+
+  const outcome = await processWaitlistSignup(parsed.data, deps);
+  if (!outcome.ok) {
+    return `The waitlist signup was not submitted: ${outcome.error}. Tell the visitor it did not go through and offer the waitlist page instead.`;
+  }
+
+  if (outcome.status === "confirmed") {
+    return `The visitor is already on the NOVA waitlist. Their place is confirmed — we'll email them when NOVA is ready.`;
+  }
+
+  return `The waitlist signup was submitted. A confirmation email has been sent to ${outcome.email}. Tell the visitor they need to open that email and click the confirmation link to hold their place — nothing happens until they confirm.`;
+}
+
 export async function handleAgentToolRequest(
   request: Request,
   deps: AgentToolDeps,
@@ -127,6 +172,16 @@ export async function handleAgentToolRequest(
       return json({ result: runSiteLookup(args) }, 200);
     case "submit_enquiry":
       return json({ result: await runSubmitEnquiry(args, deps.enquiry) }, 200);
+    case "join_waitlist": {
+      const wl = deps.waitlist;
+      if (!wl) {
+        return json(
+          { result: "The waitlist is not configured on the server. Tell the visitor to use the waitlist page on the website instead." },
+          200,
+        );
+      }
+      return json({ result: await runJoinWaitlist(args, wl) }, 200);
+    }
     default:
       return json({ error: `Unknown tool "${String(payload.tool)}".` }, 400);
   }
