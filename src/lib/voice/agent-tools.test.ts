@@ -67,4 +67,118 @@ describe("handleAgentToolRequest", () => {
     expect(body.result).toMatch(/confirmation/);
     expect(fetchImpl).not.toHaveBeenCalled();
   });
+
+  describe("join_waitlist", () => {
+    function waitlistDeps(overrides: Partial<{ sendEmail: (e: { to: string; subject: string; html: string; text: string }) => Promise<{ ok: boolean; error?: string }>; store: { upsertPending: () => Promise<{ ok: true; state: "created" | "already-pending" | "already-confirmed" }> } }> = {}): AgentToolDeps {
+      return {
+        agentSecret: SECRET,
+        enquiry: { toEmail: "team@omniel.test" },
+        waitlist: {
+          tokenSecret: "test-token-secret",
+          siteUrl: "https://omniel.test",
+          sendEmail: overrides.sendEmail ?? (async () => ({ ok: true })),
+          store: overrides.store ?? { upsertPending: async () => ({ ok: true, state: "created" as const }) },
+        },
+      };
+    }
+
+    it("rejects a waitlist signup with missing fields", async () => {
+      const res = await handleAgentToolRequest(
+        request({ tool: "join_waitlist", args: { name: "Ada", confirmation: true } }),
+        waitlistDeps(),
+      );
+      const body = (await res.json()) as { result: string };
+      expect(res.status).toBe(200);
+      expect(body.result).toMatch(/missing or invalid/);
+      expect(body.result).toMatch(/email/);
+    });
+
+    it("rejects a waitlist signup with an invalid email", async () => {
+      const res = await handleAgentToolRequest(
+        request({
+          tool: "join_waitlist",
+          args: { name: "Ada", email: "not-an-email", confirmation: true },
+        }),
+        waitlistDeps(),
+      );
+      const body = (await res.json()) as { result: string };
+      expect(res.status).toBe(200);
+      expect(body.result).toMatch(/missing or invalid/);
+    });
+
+    it("refuses a waitlist signup the visitor has not confirmed", async () => {
+      const res = await handleAgentToolRequest(
+        request({ tool: "join_waitlist", args: { name: "Ada", email: "ada@example.com" } }),
+        waitlistDeps(),
+      );
+      const body = (await res.json()) as { result: string };
+      expect(res.status).toBe(200);
+      expect(body.result).toMatch(/missing or invalid/);
+      expect(body.result).toMatch(/confirmation/);
+    });
+
+    it("submits a waitlist signup and reports pending", async () => {
+      const sendEmail = vi.fn().mockResolvedValue({ ok: true });
+      const upsertPending = vi.fn().mockResolvedValue({ ok: true, state: "created" as const });
+      const res = await handleAgentToolRequest(
+        request({
+          tool: "join_waitlist",
+          args: { name: "Ada", email: "ada@example.com", intendedUse: "daily planning", confirmation: true },
+        }),
+        waitlistDeps({ sendEmail, store: { upsertPending } }),
+      );
+      const body = (await res.json()) as { result: string };
+      expect(res.status).toBe(200);
+      expect(body.result).toMatch(/submitted/);
+      expect(body.result).toMatch(/confirmation email/);
+      expect(body.result).toMatch(/click/);
+      expect(sendEmail).toHaveBeenCalled();
+      expect(upsertPending).toHaveBeenCalledWith({
+        email: "ada@example.com",
+        name: "Ada",
+        intendedUse: "daily planning",
+        signedUpAt: expect.any(String),
+      });
+    });
+
+    it("reports an already-confirmed signup", async () => {
+      const upsertPending = vi.fn().mockResolvedValue({ ok: true, state: "already-confirmed" as const });
+      const res = await handleAgentToolRequest(
+        request({
+          tool: "join_waitlist",
+          args: { name: "Ada", email: "ada@example.com", confirmation: true },
+        }),
+        waitlistDeps({ store: { upsertPending } }),
+      );
+      const body = (await res.json()) as { result: string };
+      expect(res.status).toBe(200);
+      expect(body.result).toMatch(/already/);
+    });
+
+    it("reports a failure honestly when the backend fails", async () => {
+      const upsertPending = vi.fn().mockResolvedValue({ ok: false, error: "Resend error" });
+      const res = await handleAgentToolRequest(
+        request({
+          tool: "join_waitlist",
+          args: { name: "Ada", email: "ada@example.com", confirmation: true },
+        }),
+        waitlistDeps({ store: { upsertPending } }),
+      );
+      const body = (await res.json()) as { result: string };
+      expect(res.status).toBe(200);
+      expect(body.result).toMatch(/not submitted/);
+      expect(body.result).toMatch(/couldn't save/);
+    });
+
+    it("tells the model to use the website when waitlist is not configured", async () => {
+      const res = await handleAgentToolRequest(
+        request({ tool: "join_waitlist", args: { name: "Ada", email: "ada@example.com", confirmation: true } }),
+        { agentSecret: SECRET, enquiry: { toEmail: "team@omniel.test" } },
+      );
+      const body = (await res.json()) as { result: string };
+      expect(res.status).toBe(200);
+      expect(body.result).toMatch(/not configured/);
+      expect(body.result).toMatch(/website/);
+    });
+  });
 });
