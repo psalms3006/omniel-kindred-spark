@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { SignJWT } from "jose";
 import { getConfig } from "@/lib/automation/runtime-env";
 
@@ -12,7 +12,7 @@ import { getConfig } from "@/lib/automation/runtime-env";
  * request, so one visitor can never join another's conversation. The token
  * also carries a dispatch instruction (`roomConfig.agents`), which is what
  * makes LiveKit send the OMNIEL agent into the room as soon as the visitor
- * joins — there is no separate "start the agent" call.
+ * joins â€” there is no separate "start the agent" call.
  *
  * Fails closed with 503 when LiveKit is not configured, so the widget can say
  * the assistant is unavailable rather than hang.
@@ -47,9 +47,9 @@ export const Route = createFileRoute("/api/livekit/token")({
       POST: async ({ request }) => {
         if (!isSameOrigin(request)) return json({ error: "Forbidden." }, 403);
 
-        const apiKey = getConfig("LIVEKIT_API_KEY");
-        const apiSecret = getConfig("LIVEKIT_API_SECRET");
-        const serverUrl = getConfig("LIVEKIT_URL");
+        const apiKey = getConfig("LIVEKIT_API_KEY", request);
+        const apiSecret = getConfig("LIVEKIT_API_SECRET", request);
+        const serverUrl = getConfig("LIVEKIT_URL", request);
         if (!apiKey || !apiSecret || !serverUrl) {
           console.error(
             "MISSING REQUIRED CONFIGURATION: LIVEKIT_API_KEY / LIVEKIT_API_SECRET / LIVEKIT_URL",

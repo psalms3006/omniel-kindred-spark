@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { contactEmail } from "@/lib/omniel";
 import { getConfig, getEnquiriesDb } from "@/lib/automation/runtime-env";
 import { handleAgentToolRequest, type AgentToolDeps } from "@/lib/voice/agent-tools";
@@ -15,16 +15,16 @@ export const Route = createFileRoute("/api/agent/tools")({
     handlers: {
       POST: ({ request }) => {
         const deps: AgentToolDeps = {
-          enquiry: { toEmail: getConfig("OMNIEL_ENQUIRY_EMAIL") || contactEmail },
+          enquiry: { toEmail: getConfig("OMNIEL_ENQUIRY_EMAIL", request) || contactEmail },
         };
 
-        const agentSecret = getConfig("AGENT_SHARED_SECRET");
+        const agentSecret = getConfig("AGENT_SHARED_SECRET", request);
         if (agentSecret) deps.agentSecret = agentSecret;
-        const resendApiKey = getConfig("RESEND_API_KEY");
+        const resendApiKey = getConfig("RESEND_API_KEY", request);
         if (resendApiKey) deps.enquiry.resendApiKey = resendApiKey;
-        const fromEmail = getConfig("RESEND_FROM_EMAIL");
+        const fromEmail = getConfig("RESEND_FROM_EMAIL", request);
         if (fromEmail) deps.enquiry.fromEmail = fromEmail;
-        const db = getEnquiriesDb();
+        const db = getEnquiriesDb(request);
         if (db) deps.enquiry.db = db;
 
         return handleAgentToolRequest(request, deps);

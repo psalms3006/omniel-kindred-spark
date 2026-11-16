@@ -3,42 +3,65 @@ import type { D1Database } from "./store";
 /**
  * Access to Cloudflare Worker bindings from inside a route handler.
  *
- * String environment variables arrive in `process.env` (nodejs_compat
- * populates it), but object bindings such as D1 do not — they only exist on
- * the Worker's `env` argument. Nitro's Cloudflare module handler assigns that
- * to `globalThis.__env__` on every request, which is the documented way to
- * reach bindings from code that is not holding the fetch handler's arguments.
+ * Nitro attaches the Worker environment to the request as
+ * `request.runtime.cloudflare.env` and also publishes it as
+ * `globalThis.__env__` for code that does not hold the request. String
+ * environment variables may additionally arrive in `process.env` when
+ * `nodejs_compat` is enabled.
  *
- * Returns undefined off-platform (local `vite dev`, unit tests) so callers can
- * degrade deliberately instead of crashing.
+ * Reading the request-scoped copy first matters: it is the exact environment
+ * Cloudflare passed to this invocation, so a route can never see a stale
+ * module-level environment from another request or test.
  */
 
 type CloudflareEnv = Record<string, unknown> & {
   ENQUIRIES_DB?: D1Database;
 };
 
-export function getCloudflareEnv(): CloudflareEnv | undefined {
+type RequestWithRuntime = Request & {
+  runtime?: {
+    cloudflare?: {
+      env?: CloudflareEnv;
+    };
+  };
+};
+
+export function getCloudflareEnv(request?: Request): CloudflareEnv | undefined {
+  const requestEnv = (request as RequestWithRuntime | undefined)?.runtime?.cloudflare?.env;
+  if (requestEnv && typeof requestEnv === "object" && Object.keys(requestEnv).length > 0) {
+    return requestEnv;
+  }
+
   const env = (globalThis as { __env__?: CloudflareEnv }).__env__;
   return env && typeof env === "object" ? env : undefined;
 }
 
 /** The D1 binding, or undefined when running somewhere it does not exist. */
-export function getEnquiriesDb(): D1Database | undefined {
-  return getCloudflareEnv()?.ENQUIRIES_DB;
+export function getEnquiriesDb(request?: Request): D1Database | undefined {
+  return getCloudflareEnv(request)?.ENQUIRIES_DB ?? getCloudflareEnv()?.ENQUIRIES_DB;
+}
+
+function asNonEmptyString(value: unknown): string | undefined {
+  return typeof value === "string" && value !== "" ? value : undefined;
 }
 
 /**
- * Reads a string config value.
+ * Reads a string config value from the request-scoped Worker env, then the
+ * published Worker env, then `process.env` for local development and tests.
  *
- * Checks the Worker env first and falls back to `process.env`, so the same
- * code works under `wrangler dev`, under `vite dev` with a .env file, and in
- * production.
+ * Returns undefined rather than throwing so callers can report a deliberate
+ * configuration error instead of crashing the whole route.
  */
-export function getConfig(name: string): string | undefined {
-  const fromBinding = getCloudflareEnv()?.[name];
-  if (typeof fromBinding === "string" && fromBinding !== "") return fromBinding;
+export function getConfig(name: string, request?: Request): string | undefined {
+  const fromRequest = asNonEmptyString(getCloudflareEnv(request)?.[name]);
+  if (fromRequest) return fromRequest;
+
+  const env = (globalThis as { __env__?: CloudflareEnv }).__env__;
+  const fromGlobal = asNonEmptyString(env?.[name]);
+  if (fromGlobal) return fromGlobal;
+
   const fromProcess = typeof process !== "undefined" ? process.env?.[name] : undefined;
-  return fromProcess && fromProcess !== "" ? fromProcess : undefined;
+  return asNonEmptyString(fromProcess);
 }
 
 /** Best-effort visitor IP, used only to improve Turnstile scoring. */

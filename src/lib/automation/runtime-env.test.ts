@@ -16,6 +16,18 @@ describe("getConfig", () => {
     expect(getConfig("RESEND_API_KEY")).toBe("worker-key");
   });
 
+  it("reads the request-scoped Cloudflare env before the global binding", () => {
+    (globalThis as { __env__?: unknown }).__env__ = { RESEND_API_KEY: "global-key" };
+    const request = new Request("https://omniel.test/api/waitlist");
+    (
+      request as Request & {
+        runtime?: { cloudflare?: { env: Record<string, unknown> } };
+      }
+    ).runtime = { cloudflare: { env: { RESEND_API_KEY: "request-key" } } };
+
+    expect(getConfig("RESEND_API_KEY", request)).toBe("request-key");
+  });
+
   it("falls back to process.env for local development", () => {
     vi.stubEnv("RESEND_FROM_EMAIL", "OMNIEL <noreply@omniel.com.ng>");
 

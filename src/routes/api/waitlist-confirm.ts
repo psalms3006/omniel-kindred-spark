@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getConfig } from "@/lib/automation/runtime-env";
 import { contactEmail, siteUrl } from "@/lib/omniel";
+import { resolveWaitlistConfig } from "@/lib/waitlist-config";
 import { handleWaitlistConfirm } from "@/lib/waitlist-handler";
 import { createResendEmailSender, createResendWaitlistStore } from "@/lib/waitlist-resend";
 
@@ -16,23 +16,24 @@ export const Route = createFileRoute("/api/waitlist-confirm")({
     handlers: {
       POST: ({ request }) => {
         const deps: Parameters<typeof handleWaitlistConfirm>[1] = { siteUrl };
+        const config = resolveWaitlistConfig(request, true);
 
-        const tokenSecret = getConfig("WAITLIST_TOKEN_SECRET");
-        if (tokenSecret) deps.tokenSecret = tokenSecret;
+        if (config.tokenSecretSource === "derived") {
+          console.warn(
+            "WAITLIST_TOKEN_SECRET is not set; verifying the confirmation with a key derived from RESEND_API_KEY.",
+          );
+        }
 
-        const apiKey = getConfig("RESEND_API_KEY");
-        const fromEmail = getConfig("RESEND_FROM_EMAIL");
-        const segmentId = getConfig("RESEND_WAITLIST_SEGMENT_ID");
-        if (apiKey) {
-          deps.store = segmentId
-            ? createResendWaitlistStore({ apiKey, segmentId })
-            : createResendWaitlistStore({ apiKey });
-          if (fromEmail)
-            deps.sendEmail = createResendEmailSender({
-              apiKey,
-              from: fromEmail,
-              replyTo: contactEmail,
-            });
+        if (config.tokenSecret) deps.tokenSecret = config.tokenSecret;
+        if (config.apiKey) {
+          deps.store = config.segmentId
+            ? createResendWaitlistStore({ apiKey: config.apiKey, segmentId: config.segmentId })
+            : createResendWaitlistStore({ apiKey: config.apiKey });
+          deps.sendEmail = createResendEmailSender({
+            apiKey: config.apiKey,
+            from: config.fromEmail,
+            replyTo: contactEmail,
+          });
         }
 
         return handleWaitlistConfirm(request, deps);
