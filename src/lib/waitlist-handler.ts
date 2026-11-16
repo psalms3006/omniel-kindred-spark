@@ -317,7 +317,7 @@ export async function processWaitlistSignup(
     if (!store) missing.push("RESEND_API_KEY");
     if (!sendEmail) missing.push("RESEND_FROM_EMAIL");
     console.error(`MISSING REQUIRED CONFIGURATION: ${missing.join(", ")}`);
-    return { ok: false, error: "The waitlist is not configured yet." };
+    return jsonResponse({ ok: false, error: "The waitlist is not configured yet.", missing }, 503);
   }
 
   const now = deps.now?.() ?? Date.now();
@@ -423,7 +423,7 @@ export async function handleWaitlistConfirm(
     if (!tokenSecret) missing.push("WAITLIST_TOKEN_SECRET");
     if (!store) missing.push("RESEND_API_KEY");
     console.error(`MISSING REQUIRED CONFIGURATION: ${missing.join(", ")}`);
-    return jsonResponse({ ok: false, error: "The waitlist is not configured yet." }, 503);
+    return jsonResponse({ ok: false, error: "The waitlist is not configured yet.", missing }, 503);
   }
 
   const now = deps.now?.() ?? Date.now();

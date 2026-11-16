@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**Building intelligence without borders.**
+**Do more with less.**
 
 The official web platform and intelligence ecosystem showcase for [OMNIEL](https://omniel.com.ng) — an early-stage frontier AI and technology initiative being built from Nigeria for a global audience.
 
@@ -152,13 +152,13 @@ Configure your `.env` file based on `.env.example`:
 
 ### Server Variables (Never exposed to client)
 
-| Variable                     | Description                                                                  | Required                        |
-| ---------------------------- | ---------------------------------------------------------------------------- | ------------------------------- |
-| `RESEND_API_KEY`             | Resend API key for outbound enquiries and waitlist email                     | Required for email features     |
-| `RESEND_FROM_EMAIL`          | Verified sender address (e.g. `OMNIEL <noreply@omniel.com.ng>`)              | Required for email features     |
-| `OMNIEL_ENQUIRY_EMAIL`       | Destination mailbox for inbound enquiries (defaults to `info@omniel.com.ng`) | Optional                        |
-| `WAITLIST_TOKEN_SECRET`      | Secret used to sign NOVA waitlist confirmation links                         | Required for `/api/waitlist`    |
-| `RESEND_WAITLIST_SEGMENT_ID` | Resend Segment for confirmed NOVA waitlist contacts                          | Optional; needed for broadcasts |
+| Variable                     | Description                                                                  | Required                                      |
+| ---------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------- |
+| `RESEND_API_KEY`             | Resend API key for outbound enquiries and waitlist email                     | Required for email features                   |
+| `RESEND_FROM_EMAIL`          | Verified sender address (e.g. `OMNIEL <noreply@omniel.com.ng>`)              | Optional; defaults to `noreply@omniel.com.ng` |
+| `OMNIEL_ENQUIRY_EMAIL`       | Destination mailbox for inbound enquiries (defaults to `info@omniel.com.ng`) | Optional                                      |
+| `WAITLIST_TOKEN_SECRET`      | Dedicated secret used to sign NOVA waitlist confirmation links               | Recommended; derived fallback                 |
+| `RESEND_WAITLIST_SEGMENT_ID` | Resend Segment for confirmed NOVA waitlist contacts                          | Optional; needed for broadcasts               |
 
 ### Verifying Cloudflare Web Analytics
 
@@ -197,18 +197,47 @@ can appear in Traffic while Web Analytics stays empty if the beacon is missing.
 
 ### If the waitlist says it is not configured
 
-A `503` from `/api/waitlist` means the running Worker is not receiving one of
-`WAITLIST_TOKEN_SECRET`, `RESEND_API_KEY`, or `RESEND_FROM_EMAIL`. Add the values
-under **Cloudflare → Workers & Pages → the Worker that serves omniel.com.ng
-(`omniel-evolve`) → Settings → Variables and Secrets**, then create a new
-deployment. These must be runtime variables/secrets, not Build variables, and
-plain Worker secrets rather than Secrets Store bindings. Adding them to a
-different Worker, a Pages project, or only to Lovable will not reach production.
+A `503` from `/api/waitlist` means the running Worker cannot see the runtime
+configuration. Check the live Worker directly:
 
-Server routes read Worker bindings through `getConfig()` in
+```powershell
+curl.exe -s https://omniel.com.ng/api/waitlist
+```
+
+The read-only response looks like:
+
+```json
+{
+  "ok": true,
+  "configured": true,
+  "missing": [],
+  "signingKey": "dedicated",
+  "fromEmail": "configured"
+}
+```
+
+- `configured: false` means the `missing` array names the exact runtime
+  variable(s) to add. `RESEND_API_KEY` is the only hard requirement for the
+  email path.
+- `signingKey: "derived"` means `WAITLIST_TOKEN_SECRET` is absent and
+  confirmation links are being signed from a domain-separated derivation of
+  `RESEND_API_KEY`. The waitlist still works, but add a dedicated secret when
+  possible; changing the Resend key invalidates outstanding links.
+- `fromEmail: "default"` means `RESEND_FROM_EMAIL` is absent and the verified
+  `OMNIEL <noreply@omniel.com.ng>` fallback is in use.
+
+Add runtime values under **Cloudflare → Workers & Pages → the Worker that
+serves omniel.com.ng (`omniel-evolve`) → Settings → Variables and Secrets**,
+then create a new deployment. These must be runtime variables/secrets, not
+Build variables, and plain Worker secrets rather than Secrets Store bindings.
+Adding them to a different Worker, a Pages project, or only to Lovable will not
+reach production.
+
+Server routes read the request-scoped Cloudflare env first, then the published
+Worker env, then `process.env`, through `getConfig()` in
 `src/lib/automation/runtime-env.ts`. Do not read secrets with `import.meta.env`,
-and do not put them in `.env` for a Cloudflare deploy. The Worker logs print the
-exact missing variable name.
+and do not put them in `.env` for a Cloudflare deploy. A 503 response body also
+includes the missing variable names, and the Worker logs print the same list.
 
 ### NOVA waitlist storage and updates
 

@@ -195,7 +195,7 @@ export const navigation = [
 ] as const;
 
 export const positioning = {
-  headline: "Building intelligence without borders.",
+  headline: "Do more with less.",
   lede: "OMNIEL is an early-stage AI and technology ecosystem being built from Nigeria, with the ambition of becoming a global frontier AI and technology company.",
   belief:
     "OMNIEL was created around the belief that Africa shouldn't only participate in the technology of the future. It should help define it.",
